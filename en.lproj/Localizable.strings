@@ -1,0 +1,68 @@
+/* 
+   Localizable.strings
+   Groups
+
+   Created by Benjamin Mies on 26.03.10.
+   Copyright 2010 __MyCompanyName__. All rights reserved.
+ */
+
+
+"Groupmanager" = "Group+";
+"Groups" = "Groups";
+"GroupCount" = "%i group";
+"GroupsCount" = "%i groups";
+"Other" = "Other";
+"AddGroup" = "Add group";
+"RenameGroup" = "Rename group";
+"RenameGroupTitle" = "Rename";
+"ShareContacts" = "Send/Receive contacts";
+"CleanUp" = "Clean up contacts";
+"Preferences" = "Preferences";
+"About" = "About";
+"AddMember" = "Add group member";
+"SendMail" = "Send e-mail to group";
+"SendSMS" = "Send text message to group";
+"Member" = "group member";
+"Members" = "group members";
+"MembersTitle" = "Group members";
+"noName" = "No Name";
+"contactDetails" = "Contact details";
+"details" = "Info";
+"smsDetailHeader" = "Overview of the predefined receiver";
+"connectButton" = "Connect";
+"shareContactMessage" = "You must be connected to another device to send or receive contacts!";
+"shareContactButton" = "Send contact";
+"EnterGroupName" = "Enter group name:";
+"CleanUpTitle" = "Clean up";
+"DuplicatesByNameTitle" = "...by name";
+"DuplicatesByNumberTitle" = "...by number";
+"contactsWithoutNumberTitle" = "...without number";
+"contactsWithoutEmailTitle" = "...without E-Mail";
+"contactsWithoutFotoTitle" = "...without photo";
+"findDuplicatesByName" = "Find duplicates by name";
+"findDuplicatesByNumber" = "Find duplicates by number";
+"contactsWithoutNumber" = "Find contacts without number";
+"contactsWithoutEmail" = "Find contacts without e-mail";
+"contactsWithoutFoto" = "Find contacts without photo";
+"GroupDeleted" = "The selected group is not longer available.";
+
+"contactReceived" = "Contact received";
+"contactReceivedMessage" = "Received contact data '%@'. Would you like to save this contact?";
+"yes" = "Yes";
+"no" = "No";
+
+"preferencesMessage1" = "Please choose the label of the preselected phone number";
+"preferencesMessage2" = "If you don't choose a label, or the label does not exist for a contact, the first 'mobile' phone number is used instead";
+
+"aboutText" = 
+"os-cillation e.K.  
+CEO: Oliver Schweissgut
+Hohler Weg 75
+57072 Siegen
+Germany
+
+Tel.: +49 (0) 271 31368-0
+Fax: +49 (0) 271 31368-18
+http://www.os-cillation.de
+
+© 2010 by os-cillation e.K.";

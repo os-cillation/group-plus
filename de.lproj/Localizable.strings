@@ -1,0 +1,68 @@
+/* 
+   Localizable.strings
+   Groups
+
+   Created by Benjamin Mies on 26.03.10.
+   Copyright 2010 __MyCompanyName__. All rights reserved.
+ */
+
+
+"Groupmanager" = "Group+";
+"Groups" = "Gruppen";
+"GroupCount" = "%i Gruppe";
+"GroupsCount" = "%i Gruppen";
+"Other" = "Anderes";
+"AddGroup" = "Neue Gruppe";
+"RenameGroup" = "Gruppe umbenennen";
+"RenameGroupTitle" = "Umbenennen";
+"ShareContacts" = "Sende/Empfange Kontakte";
+"CleanUp" = "Kontakte aufräumen";
+"Preferences" = "Einstellungen";
+"About" = "Informationen";
+"AddMember" = "Gruppenmitglied hinzufügen";
+"SendMail" = "Sende E-Mail an Gruppe";
+"SendSMS" = "Sende SMS an Gruppe";
+"Member" = "Gruppenmitglied";
+"Members" = "Gruppenmitglieder";
+"MembersTitle" = "Gruppenmitglieder";
+"noName" = "Ohne Namen";
+"contactDetails" = "Kontaktdetails";
+"details" = "Info";
+"smsDetailHeader" = "Übersicht der vorbelegten Empfänger";
+"connectButton" = "Verbinden";
+"shareContactMessage" = "Sie müssen mit einem anderen Gerät verbunden sein, um Kontakte zu senden oder zu empfangen!";
+"shareContactButton" = "Sende Kontakt";
+"EnterGroupName" = "Gruppenname angeben:";
+"CleanUpTitle" = "Aufräumen";
+"DuplicatesByNameTitle" = "...über Name";
+"DuplicatesByNumberTitle" = "...über Nummer";
+"contactsWithoutNumberTitle" = "...ohne Nummer";
+"contactsWithoutEmailTitle" = "...ohne E-Mail";
+"contactsWithoutFotoTitle" = "...ohne Foto";
+"findDuplicatesByName" = "Finde Duplikate über Namen";
+"findDuplicatesByNumber" = "Finde Duplikate über Nummer";
+"contactsWithoutNumber" = "Finde Kontakte ohne Nummer";
+"contactsWithoutEmail" = "Finde Kontakte ohne E-Mail";
+"contactsWithoutFoto" = "Finde Kontakte ohne Foto";
+"GroupDeleted" = "Die ausgewählte Gruppe ist nicht mehr verfügbar.";
+
+"contactReceived" = "Kontakt empfangen";
+"contactReceivedMessage" = "Kontaktdaten '%@' empfangen. Wollen Sie den Kontakt speichern?";
+"yes" = "Ja";
+"no" = "Nein";
+
+"preferencesMessage1" = "Geben Sie bitte das Label der Rufnummer an, welche beim SMS-Versand vorausgewählt werden soll";
+"preferencesMessage2" = "Wenn Sie kein Label angeben, oder das Label bei einem Kontakt nicht vorhanden ist wird, wenn vorhanden, die erste 'Mobil' Rufnummer verwendet";
+
+"aboutText" = 
+"os-cillation e.K.  
+GF: Oliver Schweissgut
+Hohler Weg 75
+57072 Siegen
+Deutschland
+
+Tel.: +49 (0) 271 31368-0
+Fax: +49 (0) 271 31368-18
+http://www.os-cillation.de
+
+© 2010 by os-cillation e.K.";

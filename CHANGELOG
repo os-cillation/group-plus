@@ -1,0 +1,76 @@
+2010-06-01	Benjamin Mies	<bmi@os-cillation.de>
+	* Classes/Database.m:
+	  - Probleme mit Umlauten behoben.
+
+2010-06-01	Benjamin Mies	<bmi@os-cillation.de>
+	* Group.xcodeproj/benjamin.mode1v3,
+	  Group.xcodeproj/benjamin.pbxuser,
+	  Classes/Database.m:
+	  - Select Queries angepasst.
+
+2010-06-01	Benjamin Mies	<bmi@os-cillation.de>
+	* en.lproj/Localizable.strings,
+	  Group.xcodeproj/benjamin.mode1v3,
+	  Group.xcodeproj/benjamin.pbxuser,
+	  Classes/Database.m,
+	  Classes/RootViewController.m:
+	  - Kleinere Fehler behoben.
+
+
+2010-05-31	Benjamin Mies	<bmi@os-cillation.de>
+	* Group-Info.plist,
+	  DetailGroupViewTableController.m,
+	  Resources-iPad,
+	  Resources-iPad/MainWindow-iPad.xib,
+	  Group.xcodeproj/benjamin.mode1v3,
+	  Group.xcodeproj/project.pbxproj,
+	  Group.xcodeproj/benjamin.pbxuser,
+	  ShareContactsViewController-iPad.xib,
+	  Classes/Group.h,
+	  Classes/Group.m,
+	  Classes/Database.h,
+	  Classes/Database.m,
+	  Classes/CustomCell.h,
+	  Classes/CustomCell.m,
+	  Classes/GroupContact.h,
+	  Classes/GroupContact.m,
+	  Classes/GroupsAppDelegate.m,
+	  Classes/RootViewController.m,
+	  GroupAddViewController-iPad.xib,
+	  RootViewController.xib,
+	  AboutViewController-iPad.xib:
+	  - Views fuer iPad hinzugefuegt.
+	  - Fehler beim anlegen der DB behoben.
+	  - Ansicht der Gruppen angepasst.
+
+2010-05-27	Benjamin Mies	<bmi@os-cillation.de>
+	* Group-Info.plist,
+	  DetailGroupViewTableController.m,
+	  en.lproj/Localizable.strings,
+	  Group.xcodeproj/benjamin.mode1v3,
+	  Group.xcodeproj/project.pbxproj,
+	  Group.xcodeproj/benjamin.pbxuser,
+	  Classes/GroupAddViewController.xib,
+	  Classes/AboutViewController.xib,
+	  Classes/PersonViewController.h,
+	  Classes/GroupAddViewController.m,
+	  Classes/Database.m,
+	  Classes/AboutViewController.h,
+	  Classes/PersonViewController.m,
+	  Classes/AboutViewController.m,
+	  Classes/ShareContactsViewController.xib,
+	  Classes/ShareContactsViewController.h,
+	  Classes/CleanUpTableViewController.m,
+	  Classes/ShareContactsViewController.m,
+	  Classes/CleanUpDuplicatesNameController.m,
+	  Classes/RootViewController.h,
+	  Classes/CleanUpDuplicatesNumberController.m,
+	  Classes/RootViewController.m,
+	  DataController.h,
+	  group-icon-big.png,
+	  DataController.m,
+	  DetailGroupViewTableController.h,
+	  de.lproj/Localizable.strings:
+	  - Bugfix: Racecondition beim Filtern der Gruppenmitglieder.
+	  - Bugfix: Fehler beim Selektieren eines Gruppenmitglieds einer gefilterten Liste.
+	  - Performance optimiert.

@@ -1,0 +1,690 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		43E0C36A12ABC82B002707BB /* IPA */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 43E0C37C12ABC889002707BB /* Build configuration list for PBXAggregateTarget "IPA" */;
+			buildPhases = (
+				43E0C37212ABC858002707BB /* ShellScript */,
+			);
+			dependencies = (
+				43E0C37012ABC835002707BB /* PBXTargetDependency */,
+			);
+			name = IPA;
+			productName = IPA;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* GroupsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* GroupsAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
+		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		43253C4A11C2361A00D59D6A /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43253C4711C2361A00D59D6A /* MessageViewController.m */; };
+		43253C4B11C2361A00D59D6A /* SMSDetailViewTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43253C4911C2361A00D59D6A /* SMSDetailViewTableController.m */; };
+		432B5D4D11AD2E1F00798F51 /* PersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 432B5D4C11AD2E1F00798F51 /* PersonViewController.m */; };
+		432C9649118714FC00BDC5C8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 432C9647118714FC00BDC5C8 /* Default.png */; };
+		4372BB3411B3DF9800F68DF2 /* data.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 4372BB3311B3DF9800F68DF2 /* data.sqlite */; };
+		43784206113EC1C400198BE4 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43784205113EC1C400198BE4 /* DataController.m */; };
+		43784209113EC1DE00198BE4 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 43784208113EC1DE00198BE4 /* Group.m */; };
+		4378420E113EC1FD00198BE4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4378420D113EC1FD00198BE4 /* AddressBook.framework */; };
+		43784210113EC1FD00198BE4 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4378420F113EC1FD00198BE4 /* AddressBookUI.framework */; };
+		437842AB113ECAFB00198BE4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437842AA113ECAFB00198BE4 /* MessageUI.framework */; };
+		437842C4113ECDC400198BE4 /* DetailGroupViewTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 437842C2113ECDC400198BE4 /* DetailGroupViewTableController.m */; };
+		43784331113ED5C900198BE4 /* GroupAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4378432F113ED5C900198BE4 /* GroupAddViewController.m */; };
+		43784332113ED5C900198BE4 /* GroupAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43784330113ED5C900198BE4 /* GroupAddViewController.xib */; };
+		43784414113EE3B900198BE4 /* os.png in Resources */ = {isa = PBXBuildFile; fileRef = 43784413113EE3B900198BE4 /* os.png */; };
+		43B0C77F113FBD5D0007B48E /* ShareContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */; };
+		43B0C780113FBD5D0007B48E /* ShareContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */; };
+		43B0C7A4113FC17D0007B48E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B0C7A3113FC17D0007B48E /* GameKit.framework */; };
+		43B0C88A113FE64D0007B48E /* ABRecordSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0C889113FE64D0007B48E /* ABRecordSerializer.m */; };
+		43B225AE116214310058E1ED /* CleanUpContactsWithoutNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B225AC116214310058E1ED /* CleanUpContactsWithoutNumber.m */; };
+		43B225AF116214310058E1ED /* CleanUpContactsWithoutNumber.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B225AD116214310058E1ED /* CleanUpContactsWithoutNumber.xib */; };
+		43B2266B11622E250058E1ED /* DetailGroupViewTableController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B2266A11622E250058E1ED /* DetailGroupViewTableController.xib */; };
+		43B61616115CBCD800BA2C43 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B61614115CBCD800BA2C43 /* AboutViewController.m */; };
+		43B61617115CBCD800BA2C43 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B61615115CBCD800BA2C43 /* AboutViewController.xib */; };
+		43B616A2115CCFD000BA2C43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43B616A0115CCFD000BA2C43 /* Localizable.strings */; };
+		43B6179B115CF34900BA2C43 /* CleanUpTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B61799115CF34900BA2C43 /* CleanUpTableViewController.m */; };
+		43B6179C115CF34900BA2C43 /* CleanUpTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B6179A115CF34900BA2C43 /* CleanUpTableViewController.xib */; };
+		43B667D81160C95D00413238 /* CleanUpDuplicatesNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B667D61160C95D00413238 /* CleanUpDuplicatesNameController.m */; };
+		43B667D91160C95D00413238 /* CleanUpDuplicatesNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B667D71160C95D00413238 /* CleanUpDuplicatesNameController.xib */; };
+		43B667DF1160C96C00413238 /* CleanUpDuplicatesNumberController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */; };
+		43B667E01160C96C00413238 /* CleanUpDuplicatesNumberController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B667DE1160C96C00413238 /* CleanUpDuplicatesNumberController.xib */; };
+		43B8C3D7115A126C005C8B58 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B8C3D6115A126C005C8B58 /* Database.m */; };
+		43B8C3E8115A154C005C8B58 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */; };
+		43B8C565115A3148005C8B58 /* GroupContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B8C564115A3148005C8B58 /* GroupContact.m */; };
+		43BF82BC116B340F00167833 /* CleanUpContactsWithoutFoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */; };
+		43BF82BD116B340F00167833 /* CleanUpContactsWithoutFoto.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BF82BB116B340F00167833 /* CleanUpContactsWithoutFoto.xib */; };
+		43BF837C116B664800167833 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 43BF837B116B664800167833 /* icon2.png */; };
+		43BF83B9116B6A1D00167833 /* CleanUpContactsWithoutEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */; };
+		43BF83BA116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */; };
+		43C2E68E1192C3E6006003B0 /* group-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C2E68D1192C3E6006003B0 /* group-icon.png */; };
+		43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CF273811C767F8008C85AA /* PreferencesViewController.m */; };
+		43CF273B11C767F8008C85AA /* PreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43CF273911C767F8008C85AA /* PreferencesViewController.xib */; };
+		43DF437C11C241F900B57EAA /* groupplus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DF437B11C241F900B57EAA /* groupplus-icon.png */; };
+		43E5FDB411AFF115007CC23A /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FDB311AFF115007CC23A /* MainWindow-iPad.xib */; };
+		43E5FE1411AFF744007CC23A /* AboutViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE1311AFF744007CC23A /* AboutViewController-iPad.xib */; };
+		43E5FE2511AFF9C6007CC23A /* GroupAddViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE2411AFF9C6007CC23A /* GroupAddViewController-iPad.xib */; };
+		43E5FE3911AFFC54007CC23A /* ShareContactsViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE3811AFFC54007CC23A /* ShareContactsViewController-iPad.xib */; };
+		43FC48A111AE675300AE7629 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FC48A011AE675300AE7629 /* CustomCell.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		43E0C36F12ABC835002707BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
+			remoteInfo = GroupPlus;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* GroupsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* GroupsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* Group+.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Group+.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		28A0AAE50D9B0CCF005BE974 /* GroupPlus_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupPlus_Prefix.pch; sourceTree = "<group>"; };
+		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28C286DF0D94DF7D0034E888 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		43253C4611C2361A00D59D6A /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		43253C4711C2361A00D59D6A /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		43253C4811C2361A00D59D6A /* SMSDetailViewTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSDetailViewTableController.h; sourceTree = "<group>"; };
+		43253C4911C2361A00D59D6A /* SMSDetailViewTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSDetailViewTableController.m; sourceTree = "<group>"; };
+		432B5D4B11AD2E1F00798F51 /* PersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonViewController.h; sourceTree = "<group>"; };
+		432B5D4C11AD2E1F00798F51 /* PersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonViewController.m; sourceTree = "<group>"; };
+		432C9648118714FC00BDC5C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = de.lproj/Default.png; sourceTree = "<group>"; };
+		432C964A1187150800BDC5C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/Default.png; sourceTree = "<group>"; };
+		4372BB3311B3DF9800F68DF2 /* data.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = data.sqlite; sourceTree = "<group>"; };
+		43784204113EC1C400198BE4 /* DataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataController.h; path = ../DataController.h; sourceTree = "<group>"; };
+		43784205113EC1C400198BE4 /* DataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataController.m; path = ../DataController.m; sourceTree = "<group>"; };
+		43784207113EC1DE00198BE4 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
+		43784208113EC1DE00198BE4 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
+		4378420D113EC1FD00198BE4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		4378420F113EC1FD00198BE4 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		437842AA113ECAFB00198BE4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		437842C1113ECDC400198BE4 /* DetailGroupViewTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailGroupViewTableController.h; path = ../DetailGroupViewTableController.h; sourceTree = "<group>"; };
+		437842C2113ECDC400198BE4 /* DetailGroupViewTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailGroupViewTableController.m; path = ../DetailGroupViewTableController.m; sourceTree = "<group>"; };
+		4378432E113ED5C900198BE4 /* GroupAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupAddViewController.h; sourceTree = "<group>"; };
+		4378432F113ED5C900198BE4 /* GroupAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupAddViewController.m; sourceTree = "<group>"; };
+		43784330113ED5C900198BE4 /* GroupAddViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GroupAddViewController.xib; path = Classes/GroupAddViewController.xib; sourceTree = "<group>"; };
+		43784413113EE3B900198BE4 /* os.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = os.png; sourceTree = "<group>"; };
+		43B0C77C113FBD5D0007B48E /* ShareContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareContactsViewController.h; sourceTree = "<group>"; };
+		43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareContactsViewController.m; sourceTree = "<group>"; };
+		43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ShareContactsViewController.xib; path = Classes/ShareContactsViewController.xib; sourceTree = "<group>"; };
+		43B0C7A3113FC17D0007B48E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		43B0C888113FE64D0007B48E /* ABRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABRecordSerializer.h; sourceTree = "<group>"; };
+		43B0C889113FE64D0007B48E /* ABRecordSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABRecordSerializer.m; sourceTree = "<group>"; };
+		43B225AB116214310058E1ED /* CleanUpContactsWithoutNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CleanUpContactsWithoutNumber.h; path = ../CleanUpContactsWithoutNumber.h; sourceTree = "<group>"; };
+		43B225AC116214310058E1ED /* CleanUpContactsWithoutNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CleanUpContactsWithoutNumber.m; path = ../CleanUpContactsWithoutNumber.m; sourceTree = "<group>"; };
+		43B225AD116214310058E1ED /* CleanUpContactsWithoutNumber.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CleanUpContactsWithoutNumber.xib; sourceTree = "<group>"; };
+		43B2266A11622E250058E1ED /* DetailGroupViewTableController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailGroupViewTableController.xib; sourceTree = "<group>"; };
+		43B61613115CBCD800BA2C43 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		43B61614115CBCD800BA2C43 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		43B61615115CBCD800BA2C43 /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutViewController.xib; path = Classes/AboutViewController.xib; sourceTree = "<group>"; };
+		43B616A1115CCFD000BA2C43 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		43B616A5115CCFE700BA2C43 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		43B61798115CF34900BA2C43 /* CleanUpTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpTableViewController.h; sourceTree = "<group>"; };
+		43B61799115CF34900BA2C43 /* CleanUpTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpTableViewController.m; sourceTree = "<group>"; };
+		43B6179A115CF34900BA2C43 /* CleanUpTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpTableViewController.xib; path = Classes/CleanUpTableViewController.xib; sourceTree = "<group>"; };
+		43B667D51160C95D00413238 /* CleanUpDuplicatesNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpDuplicatesNameController.h; sourceTree = "<group>"; };
+		43B667D61160C95D00413238 /* CleanUpDuplicatesNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpDuplicatesNameController.m; sourceTree = "<group>"; };
+		43B667D71160C95D00413238 /* CleanUpDuplicatesNameController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpDuplicatesNameController.xib; path = Classes/CleanUpDuplicatesNameController.xib; sourceTree = "<group>"; };
+		43B667DC1160C96C00413238 /* CleanUpDuplicatesNumberController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpDuplicatesNumberController.h; sourceTree = "<group>"; };
+		43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpDuplicatesNumberController.m; sourceTree = "<group>"; };
+		43B667DE1160C96C00413238 /* CleanUpDuplicatesNumberController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpDuplicatesNumberController.xib; path = Classes/CleanUpDuplicatesNumberController.xib; sourceTree = "<group>"; };
+		43B8C3D5115A126C005C8B58 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		43B8C3D6115A126C005C8B58 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		43B8C563115A3148005C8B58 /* GroupContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupContact.h; sourceTree = "<group>"; };
+		43B8C564115A3148005C8B58 /* GroupContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupContact.m; sourceTree = "<group>"; };
+		43BF82B9116B340F00167833 /* CleanUpContactsWithoutFoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpContactsWithoutFoto.h; sourceTree = "<group>"; };
+		43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpContactsWithoutFoto.m; sourceTree = "<group>"; };
+		43BF82BB116B340F00167833 /* CleanUpContactsWithoutFoto.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpContactsWithoutFoto.xib; path = Classes/CleanUpContactsWithoutFoto.xib; sourceTree = "<group>"; };
+		43BF837B116B664800167833 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
+		43BF83B6116B6A1D00167833 /* CleanUpContactsWithoutEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpContactsWithoutEmail.h; sourceTree = "<group>"; };
+		43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpContactsWithoutEmail.m; sourceTree = "<group>"; };
+		43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpContactsWithoutEmail.xib; path = Classes/CleanUpContactsWithoutEmail.xib; sourceTree = "<group>"; };
+		43C2E68D1192C3E6006003B0 /* group-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "group-icon.png"; sourceTree = "<group>"; };
+		43CF273711C767F8008C85AA /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
+		43CF273811C767F8008C85AA /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
+		43CF273911C767F8008C85AA /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PreferencesViewController.xib; path = Classes/PreferencesViewController.xib; sourceTree = "<group>"; };
+		43DF437B11C241F900B57EAA /* groupplus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "groupplus-icon.png"; sourceTree = "<group>"; };
+		43E5FDB311AFF115007CC23A /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		43E5FE1311AFF744007CC23A /* AboutViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "AboutViewController-iPad.xib"; sourceTree = "<group>"; };
+		43E5FE2411AFF9C6007CC23A /* GroupAddViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "GroupAddViewController-iPad.xib"; sourceTree = "<group>"; };
+		43E5FE3811AFFC54007CC23A /* ShareContactsViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "ShareContactsViewController-iPad.xib"; sourceTree = "<group>"; };
+		43FC489F11AE675300AE7629 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		43FC48A011AE675300AE7629 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* GroupPlus-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GroupPlus-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
+				4378420E113EC1FD00198BE4 /* AddressBook.framework in Frameworks */,
+				43784210113EC1FD00198BE4 /* AddressBookUI.framework in Frameworks */,
+				437842AB113ECAFB00198BE4 /* MessageUI.framework in Frameworks */,
+				43B0C7A4113FC17D0007B48E /* GameKit.framework in Frameworks */,
+				43B8C3E8115A154C005C8B58 /* libsqlite3.0.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				43253C4611C2361A00D59D6A /* MessageViewController.h */,
+				43253C4711C2361A00D59D6A /* MessageViewController.m */,
+				43253C4811C2361A00D59D6A /* SMSDetailViewTableController.h */,
+				43253C4911C2361A00D59D6A /* SMSDetailViewTableController.m */,
+				43FC489F11AE675300AE7629 /* CustomCell.h */,
+				43FC48A011AE675300AE7629 /* CustomCell.m */,
+				43B225AB116214310058E1ED /* CleanUpContactsWithoutNumber.h */,
+				43B225AC116214310058E1ED /* CleanUpContactsWithoutNumber.m */,
+				43B667DC1160C96C00413238 /* CleanUpDuplicatesNumberController.h */,
+				43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */,
+				43B61613115CBCD800BA2C43 /* AboutViewController.h */,
+				43B61614115CBCD800BA2C43 /* AboutViewController.m */,
+				43B8C3D5115A126C005C8B58 /* Database.h */,
+				43B8C3D6115A126C005C8B58 /* Database.m */,
+				43B0C888113FE64D0007B48E /* ABRecordSerializer.h */,
+				43B0C889113FE64D0007B48E /* ABRecordSerializer.m */,
+				437842C1113ECDC400198BE4 /* DetailGroupViewTableController.h */,
+				437842C2113ECDC400198BE4 /* DetailGroupViewTableController.m */,
+				4378432E113ED5C900198BE4 /* GroupAddViewController.h */,
+				4378432F113ED5C900198BE4 /* GroupAddViewController.m */,
+				43784207113EC1DE00198BE4 /* Group.h */,
+				43784208113EC1DE00198BE4 /* Group.m */,
+				43784204113EC1C400198BE4 /* DataController.h */,
+				43784205113EC1C400198BE4 /* DataController.m */,
+				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
+				28C286E00D94DF7D0034E888 /* RootViewController.m */,
+				1D3623240D0F684500981E51 /* GroupsAppDelegate.h */,
+				1D3623250D0F684500981E51 /* GroupsAppDelegate.m */,
+				43B0C77C113FBD5D0007B48E /* ShareContactsViewController.h */,
+				43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */,
+				43B8C563115A3148005C8B58 /* GroupContact.h */,
+				43B8C564115A3148005C8B58 /* GroupContact.m */,
+				43B61798115CF34900BA2C43 /* CleanUpTableViewController.h */,
+				43B61799115CF34900BA2C43 /* CleanUpTableViewController.m */,
+				43B667D51160C95D00413238 /* CleanUpDuplicatesNameController.h */,
+				43B667D61160C95D00413238 /* CleanUpDuplicatesNameController.m */,
+				43BF82B9116B340F00167833 /* CleanUpContactsWithoutFoto.h */,
+				43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */,
+				43BF83B6116B6A1D00167833 /* CleanUpContactsWithoutEmail.h */,
+				43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */,
+				432B5D4B11AD2E1F00798F51 /* PersonViewController.h */,
+				432B5D4C11AD2E1F00798F51 /* PersonViewController.m */,
+				43CF273711C767F8008C85AA /* PreferencesViewController.h */,
+				43CF273811C767F8008C85AA /* PreferencesViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* Group+.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				43E5FDB211AFF114007CC23A /* Resources-iPad */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				4378420D113EC1FD00198BE4 /* AddressBook.framework */,
+				4378420F113EC1FD00198BE4 /* AddressBookUI.framework */,
+				437842AA113ECAFB00198BE4 /* MessageUI.framework */,
+				43B0C7A3113FC17D0007B48E /* GameKit.framework */,
+				43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				28A0AAE50D9B0CCF005BE974 /* GroupPlus_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43CF273911C767F8008C85AA /* PreferencesViewController.xib */,
+				43DF437B11C241F900B57EAA /* groupplus-icon.png */,
+				4372BB3311B3DF9800F68DF2 /* data.sqlite */,
+				43C2E68D1192C3E6006003B0 /* group-icon.png */,
+				432C9647118714FC00BDC5C8 /* Default.png */,
+				43BF82BB116B340F00167833 /* CleanUpContactsWithoutFoto.xib */,
+				43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */,
+				43BF837B116B664800167833 /* icon2.png */,
+				43B2266A11622E250058E1ED /* DetailGroupViewTableController.xib */,
+				43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */,
+				43B225AD116214310058E1ED /* CleanUpContactsWithoutNumber.xib */,
+				43784330113ED5C900198BE4 /* GroupAddViewController.xib */,
+				43B6179A115CF34900BA2C43 /* CleanUpTableViewController.xib */,
+				43B667D71160C95D00413238 /* CleanUpDuplicatesNameController.xib */,
+				43B667DE1160C96C00413238 /* CleanUpDuplicatesNumberController.xib */,
+				43B616A0115CCFD000BA2C43 /* Localizable.strings */,
+				43B61615115CBCD800BA2C43 /* AboutViewController.xib */,
+				43784413113EE3B900198BE4 /* os.png */,
+				28F335F01007B36200424DE2 /* RootViewController.xib */,
+				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* GroupPlus-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		43E5FDB211AFF114007CC23A /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				43E5FDB311AFF115007CC23A /* MainWindow-iPad.xib */,
+				43E5FE1311AFF744007CC23A /* AboutViewController-iPad.xib */,
+				43E5FE2411AFF9C6007CC23A /* GroupAddViewController-iPad.xib */,
+				43E5FE3811AFFC54007CC23A /* ShareContactsViewController-iPad.xib */,
+			);
+			name = "Resources-iPad";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* GroupPlus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "GroupPlus" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GroupPlus;
+			productName = Groups;
+			productReference = 1D6058910D05DD3D006BFB54 /* Group+.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "GroupPlus" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+				de,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* GroupPlus */,
+				43E0C36A12ABC82B002707BB /* IPA */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
+				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
+				43784332113ED5C900198BE4 /* GroupAddViewController.xib in Resources */,
+				43784414113EE3B900198BE4 /* os.png in Resources */,
+				43B0C780113FBD5D0007B48E /* ShareContactsViewController.xib in Resources */,
+				43B61617115CBCD800BA2C43 /* AboutViewController.xib in Resources */,
+				43B616A2115CCFD000BA2C43 /* Localizable.strings in Resources */,
+				43B6179C115CF34900BA2C43 /* CleanUpTableViewController.xib in Resources */,
+				43B667D91160C95D00413238 /* CleanUpDuplicatesNameController.xib in Resources */,
+				43B667E01160C96C00413238 /* CleanUpDuplicatesNumberController.xib in Resources */,
+				43B225AF116214310058E1ED /* CleanUpContactsWithoutNumber.xib in Resources */,
+				43B2266B11622E250058E1ED /* DetailGroupViewTableController.xib in Resources */,
+				43BF82BD116B340F00167833 /* CleanUpContactsWithoutFoto.xib in Resources */,
+				43BF837C116B664800167833 /* icon2.png in Resources */,
+				43BF83BA116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib in Resources */,
+				432C9649118714FC00BDC5C8 /* Default.png in Resources */,
+				43C2E68E1192C3E6006003B0 /* group-icon.png in Resources */,
+				43E5FDB411AFF115007CC23A /* MainWindow-iPad.xib in Resources */,
+				43E5FE1411AFF744007CC23A /* AboutViewController-iPad.xib in Resources */,
+				43E5FE2511AFF9C6007CC23A /* GroupAddViewController-iPad.xib in Resources */,
+				43E5FE3911AFFC54007CC23A /* ShareContactsViewController-iPad.xib in Resources */,
+				4372BB3411B3DF9800F68DF2 /* data.sqlite in Resources */,
+				43DF437C11C241F900B57EAA /* groupplus-icon.png in Resources */,
+				43CF273B11C767F8008C85AA /* PreferencesViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		43E0C37212ABC858002707BB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "payload_dir=\"$CONFIGURATION_BUILD_DIR/Payload\"\napp_bundle_dir=\"$CONFIGURATION_BUILD_DIR/Group+.app\"\n\n/bin/rm -rf \"$payload_dir\"\n/bin/mkdir \"$payload_dir\"\n/bin/cp -R \"$app_bundle_dir\" \"$payload_dir\"\n/bin/cp iTunesArtwork.jpg \"$CONFIGURATION_BUILD_DIR/iTunesArtwork\"\ncd \"$CONFIGURATION_BUILD_DIR\"\n\n/usr/bin/zip -r \"${PROJECT_NAME}.ipa\" Payload iTunesArtwork\nrm -rf \"$payload_dir\" iTunesArtwork";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* GroupsAppDelegate.m in Sources */,
+				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
+				43784206113EC1C400198BE4 /* DataController.m in Sources */,
+				43784209113EC1DE00198BE4 /* Group.m in Sources */,
+				437842C4113ECDC400198BE4 /* DetailGroupViewTableController.m in Sources */,
+				43784331113ED5C900198BE4 /* GroupAddViewController.m in Sources */,
+				43B0C77F113FBD5D0007B48E /* ShareContactsViewController.m in Sources */,
+				43B0C88A113FE64D0007B48E /* ABRecordSerializer.m in Sources */,
+				43B8C3D7115A126C005C8B58 /* Database.m in Sources */,
+				43B8C565115A3148005C8B58 /* GroupContact.m in Sources */,
+				43B61616115CBCD800BA2C43 /* AboutViewController.m in Sources */,
+				43B6179B115CF34900BA2C43 /* CleanUpTableViewController.m in Sources */,
+				43B667D81160C95D00413238 /* CleanUpDuplicatesNameController.m in Sources */,
+				43B667DF1160C96C00413238 /* CleanUpDuplicatesNumberController.m in Sources */,
+				43B225AE116214310058E1ED /* CleanUpContactsWithoutNumber.m in Sources */,
+				43BF82BC116B340F00167833 /* CleanUpContactsWithoutFoto.m in Sources */,
+				43BF83B9116B6A1D00167833 /* CleanUpContactsWithoutEmail.m in Sources */,
+				432B5D4D11AD2E1F00798F51 /* PersonViewController.m in Sources */,
+				43FC48A111AE675300AE7629 /* CustomCell.m in Sources */,
+				43253C4A11C2361A00D59D6A /* MessageViewController.m in Sources */,
+				43253C4B11C2361A00D59D6A /* SMSDetailViewTableController.m in Sources */,
+				43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		43E0C37012ABC835002707BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* GroupPlus */;
+			targetProxy = 43E0C36F12ABC835002707BB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		432C9647118714FC00BDC5C8 /* Default.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432C9648118714FC00BDC5C8 /* de */,
+				432C964A1187150800BDC5C8 /* en */,
+			);
+			name = Default.png;
+			sourceTree = "<group>";
+		};
+		43B616A0115CCFD000BA2C43 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43B616A1115CCFD000BA2C43 /* de */,
+				43B616A5115CCFE700BA2C43 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
+				INFOPLIST_FILE = "GroupPlus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PRODUCT_NAME = "Group+";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				WARNING_CFLAGS = "-Wno-deprecated-declarations";
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
+				INFOPLIST_FILE = "GroupPlus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PRODUCT_NAME = "Group+";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				WARNING_CFLAGS = "-Wno-deprecated-declarations";
+			};
+			name = Release;
+		};
+		43AACBBB11B00F01008B8CCC /* Release 4.0 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+			};
+			name = "Release 4.0";
+		};
+		43AACBBC11B00F01008B8CCC /* Release 4.0 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
+				INFOPLIST_FILE = "GroupPlus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PRODUCT_NAME = "Group+";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				WARNING_CFLAGS = "-Wno-deprecated-declarations";
+			};
+			name = "Release 4.0";
+		};
+		43B0716E1198227E00CD50CA /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: os-cillation e.K.";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "7546DC9A-CF7B-4D02-93CC-4A64076A63BB";
+				SDKROOT = iphoneos;
+			};
+			name = Distribution;
+		};
+		43B0716F1198227E00CD50CA /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: os-cillation e.K.";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
+				INFOPLIST_FILE = "GroupPlus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PRODUCT_NAME = GroupPlus;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7546DC9A-CF7B-4D02-93CC-4A64076A63BB";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				WARNING_CFLAGS = "-Wno-deprecated-declarations";
+			};
+			name = Distribution;
+		};
+		43E0C36B12ABC82C002707BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = IPA;
+			};
+			name = Debug;
+		};
+		43E0C36C12ABC82C002707BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = IPA;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		43E0C36D12ABC82C002707BB /* Release 4.0 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = IPA;
+			};
+			name = "Release 4.0";
+		};
+		43E0C36E12ABC82C002707BB /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = IPA;
+			};
+			name = Distribution;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "GroupPlus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+				43AACBBC11B00F01008B8CCC /* Release 4.0 */,
+				43B0716F1198227E00CD50CA /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43E0C37C12ABC889002707BB /* Build configuration list for PBXAggregateTarget "IPA" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43E0C36B12ABC82C002707BB /* Debug */,
+				43E0C36C12ABC82C002707BB /* Release */,
+				43E0C36D12ABC82C002707BB /* Release 4.0 */,
+				43E0C36E12ABC82C002707BB /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "GroupPlus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+				43AACBBB11B00F01008B8CCC /* Release 4.0 */,
+				43B0716E1198227E00CD50CA /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

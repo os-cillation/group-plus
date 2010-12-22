@@ -1,0 +1,87 @@
+//
+//  PreferencesViewController.m
+//  GroupPlus
+//
+//  Created by Benjamin Mies on 15.06.10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
+
+#import "PreferencesViewController.h"
+#import <AddressBook/AddressBook.h>
+
+
+@implementation PreferencesViewController
+
+@synthesize labelText, message1, message2;
+
+/*
+ // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+        // Custom initialization
+    }
+    return self;
+}
+*/
+
+- (void)handleCancel {
+	[self.parentViewController dismissModalViewControllerAnimated:YES];
+}
+
+- (void)handleSave {
+	[[NSUserDefaults standardUserDefaults] setObject:labelText.text forKey:@"phoneLabel"];
+	[self.parentViewController dismissModalViewControllerAnimated:YES];
+}
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	self.title = NSLocalizedString(@"Preferences", @"");
+	
+	labelText.text = (NSString *)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneLabel"];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] 
+								   initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+								   target:self
+								   action:@selector(handleCancel)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+	[cancelButton release];
+	
+	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] 
+									 initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+									 target:self
+									 action:@selector(handleSave)];
+    self.navigationItem.rightBarButtonItem = saveButton;
+	[saveButton release];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self updateText];
+}
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+- (void)updateText {
+	message1.text = NSLocalizedString(@"preferencesMessage1", @"");
+	message2.text = NSLocalizedString(@"preferencesMessage2", @"");
+}
+
+
+@end
