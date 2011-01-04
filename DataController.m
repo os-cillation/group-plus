@@ -32,7 +32,9 @@
 	ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID (ab, [group getId]);
 	if (groupRef != nil && groupRef != NULL) {
 		ABAddressBookRemoveRecord(ab, groupRef, nil);
-		ABAddressBookSave(ab, nil);
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+			ABAddressBookSave(ab, nil);
+		}
 	}
 	[Database deleteGroup:[group getId]];
 }

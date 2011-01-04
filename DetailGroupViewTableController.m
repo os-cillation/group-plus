@@ -304,11 +304,15 @@
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef groupRef =  ABAddressBookGetGroupWithRecordID (ab, [group getId]);
-	ABAddressBookAddRecord(ab, person, nil);
-	ABAddressBookSave(ab, nil);
-	ABGroupRemoveMember(groupRef, person, nil);
-	ABGroupAddMember (groupRef, person, nil);
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+		
+		ABRecordRef groupRef =  ABAddressBookGetGroupWithRecordID (ab, [group getId]);
+		ABAddressBookAddRecord(ab, person, nil);
+		ABAddressBookSave(ab, nil);
+		ABGroupRemoveMember(groupRef, person, nil);
+		ABGroupAddMember (groupRef, person, nil);
+	}
+	
 	ABRecordID contactId = ABRecordGetRecordID(person);
 	NSString *fullName;
 	NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
@@ -343,13 +347,15 @@
 
 	[Database addGroupContact:[group getId] withContactId:contactId withName:fullName withNumber:phoneNumber];
 	
-	ABAddressBookSave(ab, nil);
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+		ABAddressBookSave(ab, nil);
+	}
 	[self.delegate detailViewControllerReload:self];
 	groupContacts = [Database getGroupContacts:[group getId] withFilter:searchBar.text];
 	[self.tableView reloadData];
 	
 	[self dismissModalViewControllerAnimated:YES];
-
+	CFRelease(ab);
 	return NO;
 }
 
@@ -613,19 +619,22 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-//		ABAddressBookRef ab = ABAddressBookCreate();
-//		ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID (ab, [group getId]);
+		ABAddressBookRef ab = ABAddressBookCreate();
+		ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID (ab, [group getId]);
 		GroupContact *groupContact = [groupContacts objectAtIndex:indexPath.row];
-//		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [groupContact getId]);
-//		ABGroupRemoveMember(groupRef, person, nil);
-//		ABAddressBookSave(ab, nil);
+		
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+			ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [groupContact getId]);
+			ABGroupRemoveMember(groupRef, person, nil);
+			ABAddressBookSave(ab, nil);
+		}
 		
 		[Database deleteGroupContact:[group getId] withContactId:[groupContact getId]];
 		[groupContacts release];
 		groupContacts = [Database getGroupContacts:[group getId] withFilter:searchBar.text];
 		[self.delegate detailViewControllerReload:self];
 		[self.tableView reloadData];
-//		CFRelease(ab);
+		CFRelease(ab);
     }   
 }
 

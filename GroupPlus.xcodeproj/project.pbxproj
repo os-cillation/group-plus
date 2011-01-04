@@ -93,7 +93,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* GroupsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* GroupsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* Group+.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Group+.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* GroupPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* GroupPlus_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupPlus_Prefix.pch; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Group+.app */,
+				1D6058910D05DD3D006BFB54 /* GroupPlus.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -345,7 +345,7 @@
 			);
 			name = GroupPlus;
 			productName = Groups;
-			productReference = 1D6058910D05DD3D006BFB54 /* Group+.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* GroupPlus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -421,7 +421,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "payload_dir=\"$CONFIGURATION_BUILD_DIR/Payload\"\napp_bundle_dir=\"$CONFIGURATION_BUILD_DIR/Group+.app\"\n\n/bin/rm -rf \"$payload_dir\"\n/bin/mkdir \"$payload_dir\"\n/bin/cp -R \"$app_bundle_dir\" \"$payload_dir\"\n/bin/cp iTunesArtwork.jpg \"$CONFIGURATION_BUILD_DIR/iTunesArtwork\"\ncd \"$CONFIGURATION_BUILD_DIR\"\n\n/usr/bin/zip -r \"${PROJECT_NAME}.ipa\" Payload iTunesArtwork\nrm -rf \"$payload_dir\" iTunesArtwork";
+			shellScript = "payload_dir=\"$CONFIGURATION_BUILD_DIR/Payload\"\napp_bundle_dir=\"$CONFIGURATION_BUILD_DIR/${PROJECT_NAME}.app\"\n\n/bin/rm -rf \"$payload_dir\"\n/bin/mkdir \"$payload_dir\"\n/bin/cp -R \"$app_bundle_dir\" \"$payload_dir\"\n/bin/cp iTunesArtwork.jpg \"$CONFIGURATION_BUILD_DIR/iTunesArtwork\"\ncd \"$CONFIGURATION_BUILD_DIR\"\n\n/usr/bin/zip -r \"${PROJECT_NAME}.ipa\" Payload iTunesArtwork\nrm -rf \"$payload_dir\" iTunesArtwork";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -517,7 +517,7 @@
 				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
 				INFOPLIST_FILE = "GroupPlus-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PRODUCT_NAME = "Group+";
+				PRODUCT_NAME = GroupPlus;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wno-deprecated-declarations";
@@ -573,14 +573,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: os-cillation e.K.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
 				INFOPLIST_FILE = "GroupPlus-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = GroupPlus;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7546DC9A-CF7B-4D02-93CC-4A64076A63BB";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WARNING_CFLAGS = "-Wno-deprecated-declarations";

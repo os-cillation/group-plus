@@ -8,28 +8,24 @@
 
 #import "PreferencesViewController.h"
 #import <AddressBook/AddressBook.h>
+#import "Database.h"
 
 
 @implementation PreferencesViewController
 
 @synthesize labelText, message1, message2;
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
 - (void)handleCancel {
 	[self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)handleSave {
+	[[NSUserDefaults standardUserDefaults] setBool:switchUseAddressbook.on forKey:@"UseAddressbook"];
 	[[NSUserDefaults standardUserDefaults] setObject:labelText.text forKey:@"phoneLabel"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	[Database prepareGroupInfo];
+	[Database prepareContactInfo];
 	[self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
@@ -37,6 +33,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"Preferences", @"");
+	
+	switchUseAddressbook.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"];
 	
 	labelText.text = (NSString *)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneLabel"];
 	
@@ -79,6 +77,7 @@
 }
 
 - (void)updateText {
+	labelUseAddressbook.text = NSLocalizedString(@"useAddressbookLabel", @"");
 	message1.text = NSLocalizedString(@"preferencesMessage1", @"");
 	message2.text = NSLocalizedString(@"preferencesMessage2", @"");
 }

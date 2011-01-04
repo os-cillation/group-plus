@@ -45,28 +45,7 @@
 
 
 - (void)addGroup {
-	GroupAddViewController *controller;
-	/*
-	#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController-iPad" bundle:nil];
-	#else
-		// The device is an iPhone or iPod touch.
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
-	#endif
-	*/
-	/*
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController-iPad" bundle:nil];
-	}
-	else {
-		// The device is an iPhone or iPod touch.
-	 */
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
-	 /*
-	}
-	*/
+	GroupAddViewController *controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
 	
 	controller.delegate = self;
 	
@@ -102,24 +81,7 @@
 }
 
 - (void)showPreferences {
-	PreferencesViewController *controller;
-	/*
-	 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
-	 // The device is an iPad running iPhone 3.2 or later.
-	 controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController-iPad" bundle:nil];
-	 #else
-	 // The device is an iPhone or iPod touch.
-	 controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-	 #endif
-	 */
-	/*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController-iPad" bundle:nil];
-	}
-	else {*/
-		// The device is an iPhone or iPod touch.
-		controller = [[PreferencesViewController alloc] initWithNibName:@"PreferencesViewController" bundle:nil];
-	//}
+	PreferencesViewController *controller = [[PreferencesViewController alloc] initWithNibName:@"PreferencesViewController" bundle:nil];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 	
@@ -131,25 +93,7 @@
 }
 
 - (void)showInfo {
-	AboutViewController *controller;
-	/*
-	 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController-iPad" bundle:nil];
-	#else
-		// The device is an iPhone or iPod touch.
-		controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-	#endif
-	*/
-	/*
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController-iPad" bundle:nil];
-	}
-	else {*/
-		// The device is an iPhone or iPod touch.
-		controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-	//}
+	AboutViewController *controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 	
@@ -161,25 +105,7 @@
 }
 
 - (void)shareContacts {
-	ShareContactsViewController *controller;
-	/*
-	 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[ShareContactsViewController alloc] initWithNibName:@"ShareContactsViewController-iPad" bundle:nil];
-	#else
-		// The device is an iPhone or iPod touch.
-		controller = [[ShareContactsViewController alloc] initWithNibName:@"ShareContactsViewController" bundle:nil];
-	#endif
-	 */
-	/*
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[ShareContactsViewController alloc] initWithNibName:@"ShareContactsViewController-iPad" bundle:nil];
-	}
-	else {*/
-		// The device is an iPhone or iPod touch.
-		controller = [[ShareContactsViewController alloc] initWithNibName:@"ShareContactsViewController" bundle:nil];
-	//}
+	ShareContactsViewController *controller = [[ShareContactsViewController alloc] initWithNibName:@"ShareContactsViewController" bundle:nil];
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	[self presentModalViewController:controller animated:YES];

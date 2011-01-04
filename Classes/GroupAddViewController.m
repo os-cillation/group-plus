@@ -53,7 +53,9 @@
 			
 			//[Database deleteGroup:[group getId]];
 		}
-		ABAddressBookSave(ab, nil);
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+			ABAddressBookSave(ab, nil);
+		}
 		
 		ABRecordID groupId = ABRecordGetRecordID(groupRef);
 // 		int groupId = 0;

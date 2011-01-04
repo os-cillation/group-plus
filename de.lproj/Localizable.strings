@@ -51,6 +51,7 @@
 "yes" = "Ja";
 "no" = "Nein";
 
+"useAddressbookLabel" = "Gruppen aus Adressbuch verwenden:";
 "preferencesMessage1" = "Geben Sie bitte das Label der Rufnummer an, welche beim SMS-Versand vorausgewählt werden soll";
 "preferencesMessage2" = "Wenn Sie kein Label angeben, oder das Label bei einem Kontakt nicht vorhanden ist wird, wenn vorhanden, die erste 'Mobil' Rufnummer verwendet";
 

@@ -36,6 +36,8 @@
 		//NSAssert1(0, @"Failed to create writeable database file with message'%@'.", [error localizedDescription]);
 		NSLog(@"Failed to create writeable database");
 	}
+	
+	
 }
 
 + (sqlite3 *) getNewDBConnection {
@@ -51,7 +53,10 @@
 		//NSLog(@"Error while openening database...");
 	}
 	connection = newDBConnection;
-	//[self prepareContactInfo];
+	
+	sqlite3_exec(connection, "ALTER TABLE groups ADD COLUMN abGroup TINYINT(1);", NULL, NULL, NULL);
+	sqlite3_exec(connection, "ALTER TABLE groupContacts ADD COLUMN abGroup TINYINT(1);", NULL, NULL, NULL);
+
 	return newDBConnection;
 }
 
@@ -62,26 +67,17 @@
 		
 		[self performSelectorOnMainThread:@selector(prepareGroupInfo) withObject:nil waitUntilDone:YES];
 		[self performSelectorOnMainThread:@selector(prepareContactInfo) withObject:nil waitUntilDone:YES];
-		[NSThread detachNewThreadSelector:@selector(prepareAllData) toTarget:self withObject:nil];
+		[NSThread detachNewThreadSelector:@selector(prepareDuplicateInfo) toTarget:self withObject:nil];
 	}
 	return connection;
 }
 
 + (void)refreshData {
 	[self performSelectorOnMainThread:@selector(prepareGroupInfo) withObject:nil waitUntilDone:YES];
-//	[NSThread detachNewThreadSelector:@selector(prepareGroupInfo) toTarget:self withObject:nil];
 	[NSThread detachNewThreadSelector:@selector(prepareContactInfo) toTarget:self withObject:nil];
 	[NSThread detachNewThreadSelector:@selector(prepareDuplicateInfo) toTarget:self withObject:nil];
-	
-	//[NSThread detachNewThreadSelector:@selector(prepareAllData) toTarget:self withObject:nil];
-	//[self performSelectorOnMainThread:@selector(prepareContactInfo) withObject:nil waitUntilDone:YES];
-	//[self performSelectorOnMainThread:@selector(prepareAllData) withObject:nil waitUntilDone:YES];
-	[[GroupsAppDelegate sharedAppDelegate] handleRefreshFinished];
-}
 
-+ (void)prepareAllData {
-	//[self prepareContactInfo];
-	[self prepareDuplicateInfo];
+	[[GroupsAppDelegate sharedAppDelegate] handleRefreshFinished];
 }
 
 + (void)prepareGroupInfo{
@@ -92,7 +88,7 @@
 	const char *sql;
 	
 	statement = nil;
-	sql  = "CREATE TABLE IF NOT EXISTS groups(id INTEGER PRIMARY KEY, name TEXT);";
+	sql  = "CREATE TABLE IF NOT EXISTS groups(id INTEGER PRIMARY KEY, name TEXT, abGroup TINYINT(1));";
 	
 	if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
 		//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
@@ -102,41 +98,42 @@
 	sqlite3_finalize(statement);
 	
 	statement = nil;
-	/*
-	sql  = "DELETE FROM groups;";
-	
-	if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
-		//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
-		NSLog(@"%s",sql);
-	}
-	sqlite3_step(statement);
-	sqlite3_finalize(statement);
-	
-	
-	ABAddressBookRef ab = ABAddressBookCreate();
-	CFArrayRef groups = ABAddressBookCopyArrayOfAllGroups(ab);
-	
-	for (CFIndex i = CFArrayGetCount(groups)-1; i >= 0; i--) {
-		ABRecordRef group = (ABRecordRef) CFArrayGetValueAtIndex(groups, i);
-		NSString *name = (NSString*) ABRecordCopyValue(group, kABGroupNameProperty);
-		ABRecordID groupId = ABRecordGetRecordID(group);
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
 
-		NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT INTO groups (id, name) VALUES (%i, ?);", groupId];
-		
-		statement = nil;
-		sql  = [sqlString cString];
+		sql  = "DELETE FROM groups WHERE abGroup=1 OR abGroup isNULL;";
 		
 		if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
 			//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
 			NSLog(@"%s",sql);
 		}
-		sqlite3_bind_text(statement, 1, [name UTF8String], -1, SQLITE_TRANSIENT);
 		sqlite3_step(statement);
 		sqlite3_finalize(statement);
-		[sqlString release];		
+		
+		
+		ABAddressBookRef ab = ABAddressBookCreate();
+		CFArrayRef groups = ABAddressBookCopyArrayOfAllGroups(ab);
+		
+		for (CFIndex i = CFArrayGetCount(groups)-1; i >= 0; i--) {
+			ABRecordRef group = (ABRecordRef) CFArrayGetValueAtIndex(groups, i);
+			NSString *name = (NSString*) ABRecordCopyValue(group, kABGroupNameProperty);
+			ABRecordID groupId = ABRecordGetRecordID(group);
+
+			NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT INTO groups (id, name, abGroup) VALUES (%i, ?, 1);", groupId];
+			
+			statement = nil;
+			sql  = [sqlString cString];
+			
+			if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
+				//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
+				NSLog(@"%s",sql);
+			}
+			sqlite3_bind_text(statement, 1, [name UTF8String], -1, SQLITE_TRANSIENT);
+			sqlite3_step(statement);
+			sqlite3_finalize(statement);
+			[sqlString release];		
+		}
+		CFRelease(ab);
 	}
-	CFRelease(ab);
-	 */
 	[pool release];
 }
 
@@ -148,7 +145,7 @@
 	const char *sql;
 
 	statement = nil;
-	sql  = "CREATE TABLE IF NOT EXISTS groupContacts(groupId INTEGER, id INTEGER, name TEXT, number TEXT, PRIMARY KEY(groupId, id));";
+	sql  = "CREATE TABLE IF NOT EXISTS groupContacts(groupId INTEGER, id INTEGER, name TEXT, number TEXT, abGroup TINYINT(1), PRIMARY KEY(groupId, id, abGroup));";
 	
 	if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
 		//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
@@ -159,83 +156,82 @@
 	
 	
 	
-	[pool release];
-	return;
-	statement = nil;
-	sql  = "DELETE FROM groupContacts;";
-	
-	if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
-		//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
-		NSLog(@"%s",sql);
-	}
-	sqlite3_step(statement);
-	sqlite3_finalize(statement);
-	
-	
-	ABAddressBookRef ab = ABAddressBookCreate();
-	CFArrayRef groups = ABAddressBookCopyArrayOfAllGroups(ab);
-	
-	for (CFIndex i = CFArrayGetCount(groups)-1; i >= 0; i--) {
-		ABRecordRef group = (ABRecordRef) CFArrayGetValueAtIndex(groups, i);
-		ABRecordID groupId = ABRecordGetRecordID(group);		
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+		statement = nil;
+		sql  = "DELETE FROM groupContacts WHERE abGroup=1;";
 		
-		CFArrayRef contacts = ABGroupCopyArrayOfAllMembers(group);
-		if (contacts == NULL || contacts == nil) continue;
+		if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
+			//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
+			NSLog(@"%s",sql);
+		}
+		sqlite3_step(statement);
+		sqlite3_finalize(statement);
 		
-		for (CFIndex j = CFArrayGetCount(contacts)-1; j >= 0; j--) {
 		
-			ABRecordRef	person = (ABRecordRef) CFArrayGetValueAtIndex(contacts, j);
-			ABRecordID personId = ABRecordGetRecordID(person);
+		ABAddressBookRef ab = ABAddressBookCreate();
+		CFArrayRef groups = ABAddressBookCopyArrayOfAllGroups(ab);
 		
-			NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-			NSString* lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-
-			NSString *fullName = [NSString alloc];
-			if ((firstName == NULL) && (lastName == NULL)) {
-				fullName = (NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
-			}	
-			else if ((firstName == NULL) || (lastName == NULL)) {
-				if (firstName == NULL) {
-					fullName = lastName;
-				}
-				if (lastName == NULL) {
-					fullName = firstName;
-				}
-			}
-			else {
-				fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
-			}
+		for (CFIndex i = CFArrayGetCount(groups)-1; i >= 0; i--) {
+			ABRecordRef group = (ABRecordRef) CFArrayGetValueAtIndex(groups, i);
+			ABRecordID groupId = ABRecordGetRecordID(group);		
 			
-			NSString *phoneNumber = [NSString alloc];
-			phoneNumber = @"";
-			ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
-			CFIndex	count = ABMultiValueGetCount(phoneProperty);
-			for (CFIndex i=0; i < count; i++) {
-				NSString *label = (NSString*)ABMultiValueCopyLabelAtIndex(phoneProperty, i);
+			CFArrayRef contacts = ABGroupCopyArrayOfAllMembers(group);
+			if (contacts == NULL || contacts == nil) continue;
+			
+			for (CFIndex j = CFArrayGetCount(contacts)-1; j >= 0; j--) {
+			
+				ABRecordRef	person = (ABRecordRef) CFArrayGetValueAtIndex(contacts, j);
+				ABRecordID personId = ABRecordGetRecordID(person);
+			
+				NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+				NSString* lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+
+				NSString *fullName = [NSString alloc];
+				if ((firstName == NULL) && (lastName == NULL)) {
+					fullName = (NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
+				}	
+				else if ((firstName == NULL) || (lastName == NULL)) {
+					if (firstName == NULL) {
+						fullName = lastName;
+					}
+					if (lastName == NULL) {
+						fullName = firstName;
+					}
+				}
+				else {
+					fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
+				}
 				
-				if(([label isEqualToString:(NSString*)kABPersonPhoneMobileLabel]) /*|| ([label isEqualToString:kABPersonPhoneIPhoneLabel])*/) {
-					phoneNumber = (NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i);
-					break;
+				NSString *phoneNumber = [NSString alloc];
+				phoneNumber = @"";
+				ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
+				CFIndex	count = ABMultiValueGetCount(phoneProperty);
+				for (CFIndex i=0; i < count; i++) {
+					NSString *label = (NSString*)ABMultiValueCopyLabelAtIndex(phoneProperty, i);
+					
+					if(([label isEqualToString:(NSString*)kABPersonPhoneMobileLabel]) /*|| ([label isEqualToString:kABPersonPhoneIPhoneLabel])*/) {
+						phoneNumber = (NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i);
+						break;
+					}
 				}
-			}
-		
-			statement = nil;
-
-			NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groupContacts(groupId, id, name, number) VALUES (%i, %i, ?, ?);",groupId, personId];
-
-			sql  = [sqlString cString];
 			
-			if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
-				//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
-				NSLog(@"%s",sql);
+				statement = nil;
+
+				NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groupContacts(groupId, id, name, number, abGroup) VALUES (%i, %i, ?, ?,1);",groupId, personId];
+
+				sql  = [sqlString cString];
+				
+				if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
+					//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
+					NSLog(@"%s",sql);
+				}
+				sqlite3_bind_text(statement, 1, [fullName UTF8String], -1, SQLITE_TRANSIENT);
+				sqlite3_bind_text(statement, 2, [phoneNumber UTF8String], -1, SQLITE_TRANSIENT);
+				sqlite3_step(statement);
+				sqlite3_finalize(statement);
 			}
-			sqlite3_bind_text(statement, 1, [fullName UTF8String], -1, SQLITE_TRANSIENT);
-			sqlite3_bind_text(statement, 2, [phoneNumber UTF8String], -1, SQLITE_TRANSIENT);
-			sqlite3_step(statement);
-			sqlite3_finalize(statement);
 		}
 	}
-
 	[pool release];
 }
 
@@ -243,13 +239,19 @@
 	NSMutableArray *data = [[NSMutableArray alloc] init];
 	sqlite3 *db = [Database getConnection];
 	sqlite3_stmt *statement = nil;
-	const char *sql = "SELECT * FROM groups ORDER BY name COLLATE NOCASE;"; ;
+	const char *sql = "SELECT * FROM groups WHERE abGroup=0 ORDER BY name COLLATE NOCASE;";
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+		sql = "SELECT * FROM groups WHERE abGroup=1 ORDER BY name COLLATE NOCASE;";
+	}
+	
 	
 	if (filter != nil && [filter length] > 0) {
-		NSString *sqlString = [[NSString alloc] initWithFormat:@"SELECT * FROM groups WHERE name LIKE ? ORDER BY name COLLATE NOCASE;"];
+		NSString *sqlString = [[NSString alloc] initWithFormat:@"SELECT * FROM groups WHERE abGroup=0 name LIKE ? ORDER BY name COLLATE NOCASE;"];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+			sqlString = [[NSString alloc] initWithFormat:@"SELECT * FROM groups WHERE abGroup=1 name LIKE ? ORDER BY name COLLATE NOCASE;"];
+		}
 		sql = [sqlString cString];
 	}
-
 	if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
 		//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));
 		NSLog(@"%s",sql);
@@ -265,20 +267,24 @@
 			if (groupName != NULL) {
 				group.name = [NSString stringWithUTF8String:groupName];
 			}
+			
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
 
-/*			ABAddressBookRef ab = ABAddressBookCreate();
-			ABRecordRef groupRef =  ABAddressBookGetGroupWithRecordID (ab, [group getId]);
-			group.count = 0;
-			if (groupRef != NULL && groupRef != nil) {
-				CFArrayRef member = ABGroupCopyArrayOfAllMembers (groupRef);
-				if (member !=nil && member != NULL) {				
-					group.count = CFArrayGetCount(member);
+				ABAddressBookRef ab = ABAddressBookCreate();
+				ABRecordRef groupRef =  ABAddressBookGetGroupWithRecordID (ab, [group getId]);
+				group.count = 0;
+				if (groupRef != NULL && groupRef != nil) {
+					CFArrayRef member = ABGroupCopyArrayOfAllMembers (groupRef);
+					if (member !=nil && member != NULL) {				
+						group.count = CFArrayGetCount(member);
+					}
 				}
+
+			}
+			else {
+				group.count = [Database getGroupContactsCount:[group getId]];
 			}
 
-*/
-
-			group.count = [Database getGroupContactsCount:[group getId]];
 			[data addObject:group];
 			[group release];
 		}
@@ -293,7 +299,10 @@
 	sqlite3_stmt *statement = nil;
 	
 	if (groupId > 0) {
-		NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groups (id, name) VALUES (%i, ?);", groupId];
+		NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groups (id, name, abGroup) VALUES (%i, ?, 0);", groupId];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+			sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groups (id, name, abGroup) VALUES (%i, ?, 1);", groupId];
+		}
 		
 		const char *sql = [sqlString cString];
 		
@@ -308,8 +317,10 @@
 		return groupId;
 	}
 	else {
-		NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groups (name) VALUES (?);"];
-		
+		NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groups (name, abGroup) VALUES (?,0);"];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+			sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groups (name, abGroup) VALUES (?,1);"];
+		}
 		const char *sql = [sqlString cString];
 		
 		if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
@@ -402,6 +413,9 @@
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			GroupContact *contact = [GroupContact alloc];
 			NSString *contactId = [NSString stringWithFormat:@"%s", (char*)sqlite3_column_text(statement, 1)];
+			
+			ABAddressBookRef ab = ABAddressBookCreate();
+			ABRecordRef personRef = ABAddressBookGetPersonWithRecordID(ab, [contactId intValue]);
 			[contact setId:[contactId intValue]];
 
 			contact.number = [NSString stringWithFormat:@"%s", (char*)sqlite3_column_text(statement, 3)];
@@ -410,8 +424,13 @@
 			if (name != NULL) {
 				contact.name = [NSString stringWithUTF8String:name];
 			}
+			if (personRef) {
+				[data addObject:contact];
+			}
+			else {
+				[Database deleteGroupContact:groupId withContactId:[contactId intValue]];
+			}
 
-			[data addObject:contact];
 			[contact release];
 		}
 	}
@@ -424,7 +443,7 @@
 	sqlite3 *db = connection;
 	sqlite3_stmt *statement = nil;
 	
-	NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT INTO groupContacts (groupId,id, name, number) VALUES (%i, %i, ?, ?);", groupId, contactId];
+	NSString *sqlString = [[NSString alloc] initWithFormat:@"INSERT OR REPLACE INTO groupContacts (groupId,id, name, number, abGroup) VALUES (%i, %i, ?, ?, %i);", groupId, contactId, ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) ? 1 : 0];
 	
 	const char *sql = [sqlString cString];
 	
@@ -532,6 +551,9 @@
 		else {
 			fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
 		}
+		if (!fullName) {
+			continue;
+		}
 		
 		ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
 		CFIndex	count = ABMultiValueGetCount(phoneProperty);
@@ -540,13 +562,8 @@
 		int emailCount = 0;
 		
 		statement = nil;
-		/*if (ABPersonHasImageData(person)) {
-			sqlString = [[NSString alloc] initWithFormat:@"INSERT OR IGNORE INTO contactDuplicateName(id, name, numberCount, foto, email) VALUES (%i, ?, %i, 1, %i);",personId, count, emailCount];
-		}
-		else {*/
-			sqlString = [[NSString alloc] initWithFormat:@"INSERT OR IGNORE INTO contactDuplicateName(id, name, numberCount, foto, email) VALUES (%i, ?, %i, 0, %i);",personId, count, emailCount];
-		//}
 
+		sqlString = [[NSString alloc] initWithFormat:@"INSERT OR IGNORE INTO contactDuplicateName(id, name, numberCount, foto, email) VALUES (%i, ?, %i, 0, %i);",personId, count, emailCount];
 		
 		sql  = [sqlString cString];
 		

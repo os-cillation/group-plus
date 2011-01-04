@@ -18,7 +18,6 @@ sqlite3 *connection;
 
 + (void)createEditableCopyOfDatabaseIfNeeded;
 + (sqlite3 *)getConnection;
-+ (void)prepareContactInfo;
 + (NSMutableArray *)getGroups:(NSString *)filter;
 + (int)addGroup:(ABRecordID)groupId withName:(NSString *)name;
 + (void)deleteGroup:(ABRecordID) groupId;
@@ -28,7 +27,8 @@ sqlite3 *connection;
 + (void)deleteGroupContact:(ABRecordID) groupId withContactId:(ABRecordID) contactId;
 
 + (void)refreshData;
-+ (void)prepareAllData;
++ (void)prepareGroupInfo;
++ (void)prepareContactInfo;
 + (void)prepareDuplicateInfo;
 + (NSMutableArray *)getDuplicateNameData;
 + (NSMutableArray *)getDuplicateNumberData;

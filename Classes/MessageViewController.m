@@ -25,6 +25,19 @@
 									  target:self
 									  action:@selector(viewDetails)];
     item.rightBarButtonItem = detailsButton;
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] 
+									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+									  target:self
+									  action:@selector(handleCancel)];
+    item.leftBarButtonItem = cancelButton;
+	
+	[detailsButton release];
+	[cancelButton release];
+}
+
+- (void)handleCancel {
+	[self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)viewDetails {

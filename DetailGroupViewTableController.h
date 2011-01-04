@@ -19,7 +19,6 @@
 
 @interface DetailGroupViewTableController : UITableViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, ABPeoplePickerNavigationControllerDelegate, ABPersonViewControllerDelegate, GroupAddViewControllerDelegate, UISearchBarDelegate> {
 	id <DetailGroupViewTableControllerDelegate> delegate;
-	UINavigationController *navController;
 	NSMutableArray *groupContacts;
 	Group *group;
 	IBOutlet UISearchBar *searchBar;
@@ -30,7 +29,6 @@
 }
 
 @property (nonatomic, assign) id <DetailGroupViewTableControllerDelegate> delegate;
-@property (nonatomic, retain) UINavigationController *navController;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property(nonatomic, retain) Group *group;
 

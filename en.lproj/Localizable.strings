@@ -51,6 +51,7 @@
 "yes" = "Yes";
 "no" = "No";
 
+"useAddressbookLabel" = "Use groups from Addressbook:";
 "preferencesMessage1" = "Please choose the label of the preselected phone number";
 "preferencesMessage2" = "If you don't choose a label, or the label does not exist for a contact, the first 'mobile' phone number is used instead";
 
