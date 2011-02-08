@@ -65,29 +65,8 @@
 }
 
 - (void)handleRename {
-	GroupAddViewController *controller;
-	/*
-	#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController-iPad" bundle:nil];
-	#else
-		// The device is an iPhone or iPod touch.
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
-	#endif
-	*/
-/*	
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		// The device is an iPad running iPhone 3.2 or later.
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController-iPad" bundle:nil];
-	}
-	else {
-		// The device is an iPhone or iPod touch.
- */
-		controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
- /*
-	}
- 
- */
+	GroupAddViewController *controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
+
 	controller.delegate = self;
 	controller.group = self.group;
 	
@@ -310,7 +289,16 @@
 		ABAddressBookAddRecord(ab, person, nil);
 		ABAddressBookSave(ab, nil);
 		ABGroupRemoveMember(groupRef, person, nil);
-		ABGroupAddMember (groupRef, person, nil);
+		if (!ABGroupAddMember (groupRef, person, nil)) {
+			UIAlertView *alert = [[UIAlertView alloc]
+								  initWithTitle:NSLocalizedString(@"Error", @"")
+								  message:NSLocalizedString(@"MemberNotAddedMessage", @"") 
+								  delegate:nil
+								  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+								  otherButtonTitles:nil];
+			[alert show];
+			[alert release];
+		}
 	}
 	
 	ABRecordID contactId = ABRecordGetRecordID(person);

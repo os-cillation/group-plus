@@ -11,7 +11,9 @@
 
 
 @interface PreferencesViewController : UIViewController {
+	IBOutlet UIScrollView *scrollView;
 	IBOutlet UILabel *labelUseAddressbook;
+	IBOutlet UILabel *labelUseAddressbook2;
 	IBOutlet UISwitch *switchUseAddressbook;
 	IBOutlet UITextField *labelText;
 	IBOutlet UITextView *message1;

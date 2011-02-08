@@ -92,17 +92,12 @@
 	
 	personViewController.personViewDelegate = self;
 	personViewController.displayedPerson = person;
-	personViewController.allowsEditing = YES;
+	personViewController.allowsEditing = NO;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personViewController];
-	personViewController.navigationItem.title = @"Kontaktdetails";
-	UIBarButtonItem *cancelButton =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-																				   target:self action:@selector(cancelContact:)];
-	personViewController.navigationItem.leftBarButtonItem = cancelButton;
 	
 	[self presentModalViewController:navController animated:YES];
 	
-	[cancelButton release];
 	[personViewController release];
 	[navController release];
 }

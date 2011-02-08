@@ -32,6 +32,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	scrollView.contentSize = CGSizeMake(320, 600);
 	self.title = NSLocalizedString(@"Preferences", @"");
 	
 	switchUseAddressbook.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"];
@@ -78,9 +79,18 @@
 
 - (void)updateText {
 	labelUseAddressbook.text = NSLocalizedString(@"useAddressbookLabel", @"");
+	labelUseAddressbook2.text = NSLocalizedString(@"useAddressbookMessage", @"");
 	message1.text = NSLocalizedString(@"preferencesMessage1", @"");
 	message2.text = NSLocalizedString(@"preferencesMessage2", @"");
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+	[scrollView scrollRectToVisible:textField.frame animated:YES];
+    return YES;
+}
 
 @end

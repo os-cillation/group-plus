@@ -1,3 +1,21 @@
+2011-02-08	Benjamin Mies	<bmi@os-cillation.de>
+	* Classes/PreferencesViewController.xib,
+	  Classes/PreferencesViewController.h,
+	  Classes/AboutViewController.xib,
+	  Classes/PreferencesViewController.m,
+	  Classes/Database.m,
+	  Classes/CleanUpDuplicatesNameController.m,
+	  Classes/CleanUpDuplicatesNumberController.m,
+	  DetailGroupViewTableController.m,
+	  GroupPlus-Info.plist,
+	  en.lproj/Localizable.strings,
+	  GroupPlus.xcodeproj/benjamin.mode1v3,
+	  GroupPlus.xcodeproj/project.pbxproj,
+	  GroupPlus.xcodeproj/benjamin.pbxuser,
+	  de.lproj/Localizable.strings:
+	  - Anpassungen an neue Xcode Version.
+	  - Kleinere Anpassungen.
+
 2010-06-01	Benjamin Mies	<bmi@os-cillation.de>
 	* Classes/Database.m:
 	  - Probleme mit Umlauten behoben.

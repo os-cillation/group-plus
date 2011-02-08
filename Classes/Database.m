@@ -56,6 +56,9 @@
 	
 	sqlite3_exec(connection, "ALTER TABLE groups ADD COLUMN abGroup TINYINT(1);", NULL, NULL, NULL);
 	sqlite3_exec(connection, "ALTER TABLE groupContacts ADD COLUMN abGroup TINYINT(1);", NULL, NULL, NULL);
+	
+	sqlite3_exec(connection, "UPDATE groups SET abGroup = 0 WHERE abGroup isNull;", NULL, NULL, NULL);
+	sqlite3_exec(connection, "UPDATE groupContacts SET abGroup = 0 WHERE abGroup isNull;", NULL, NULL, NULL);
 
 	return newDBConnection;
 }
@@ -100,7 +103,7 @@
 	statement = nil;
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
 
-		sql  = "DELETE FROM groups WHERE abGroup=1 OR abGroup isNULL;";
+		sql  = "DELETE FROM groups WHERE abGroup=1;";
 		
 		if (sqlite3_prepare_v2(db, sql, -1, &statement, NULL) != SQLITE_OK) {
 			//NSAssert1(0, @"Error preparing statement...", sqlite3_errmsg(db));

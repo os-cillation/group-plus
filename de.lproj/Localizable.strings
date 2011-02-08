@@ -52,8 +52,12 @@
 "no" = "Nein";
 
 "useAddressbookLabel" = "Gruppen aus Adressbuch verwenden:";
+"useAddressbookMessage" = "Bei Verwendung der Gruppen aus dem Adressbuch können Fehler auftreten (z.B. bei Verwendung von iOS 4.2)";
 "preferencesMessage1" = "Geben Sie bitte das Label der Rufnummer an, welche beim SMS-Versand vorausgewählt werden soll";
 "preferencesMessage2" = "Wenn Sie kein Label angeben, oder das Label bei einem Kontakt nicht vorhanden ist wird, wenn vorhanden, die erste 'Mobil' Rufnummer verwendet";
+
+"Error" = "Fehler";
+"MemberNotAddedMessage" = "Es ist ein Fehler beim Hinzufügen des Kontakts aufgetreten. Bitte deaktivieren Sie 'Adressbuchgruppen verwenden' in den Einstellungen.";
 
 "aboutText" = 
 "os-cillation e.K.  
@@ -66,4 +70,4 @@ Tel.: +49 (0) 271 31368-0
 Fax: +49 (0) 271 31368-18
 http://www.os-cillation.de
 
-© 2010 by os-cillation e.K.";
+© 2011 by os-cillation e.K.";

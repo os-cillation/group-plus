@@ -51,9 +51,13 @@
 "yes" = "Yes";
 "no" = "No";
 
-"useAddressbookLabel" = "Use groups from Addressbook:";
+"useAddressbookLabel" = "Use groups from addressbook:";
+"useAddressbookMessage" = "Use of groups from addressbook could cause errors (for example using iOS 4.2)";
 "preferencesMessage1" = "Please choose the label of the preselected phone number";
 "preferencesMessage2" = "If you don't choose a label, or the label does not exist for a contact, the first 'mobile' phone number is used instead";
+
+"Error" = "Error";
+"MemberNotAddedMessage" = "An error occurred while adding the member. Please deactivate 'use addressbook groups' in preferences.";
 
 "aboutText" = 
 "os-cillation e.K.  
@@ -66,4 +70,4 @@ Tel.: +49 (0) 271 31368-0
 Fax: +49 (0) 271 31368-18
 http://www.os-cillation.de
 
-© 2010 by os-cillation e.K.";
+© 2011 by os-cillation e.K.";
