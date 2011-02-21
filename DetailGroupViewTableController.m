@@ -126,6 +126,18 @@
 }
 
 - (void)handleSendSMS {
+	if (![MessageViewController canSendText]) {
+		UIAlertView *alertView = [[UIAlertView alloc]
+								  initWithTitle:NSLocalizedString(@"Error",@"")
+								  message:NSLocalizedString(@"ErrorNoSMS",@"")
+								  delegate:self 
+								  cancelButtonTitle:NSLocalizedString(@"OK",@"")
+								  otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+		[self.tableView reloadData];		
+		return;
+	}
 	NSMutableArray *contacts = groupContacts;
 
 	
@@ -407,7 +419,7 @@
 	}
 	switch (section) {
 		case 0:
-			if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (![MessageViewController canSendText])) {
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				// The device is an iPad running iPhone 3.2 or later.
 				return 3;
 			}
@@ -435,6 +447,7 @@
 		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
     }
+	cell.backgroundColor = [UIColor whiteColor];
 	cell.textLabel.textColor = [UIColor blackColor];
 	NSString *cellText = [NSString alloc];
 
@@ -453,8 +466,9 @@
 						cellText = NSLocalizedString(@"SendMail", @"");
 						break;
 					case 3:
-						if ([MessageViewController canSendText]) {
-							cellText = NSLocalizedString(@"SendSMS", @"");
+						cellText = NSLocalizedString(@"SendSMS", @"");
+						if (![MessageViewController canSendText]) {
+							cell.backgroundColor = [UIColor lightGrayColor];
 						}
 						break;
 					default:
@@ -561,9 +575,7 @@
 					[self handleSendMail];
 					break;
 				case 3:
-					if ([MessageViewController canSendText]) {
-						[self handleSendSMS];
-					}
+					[self handleSendSMS];
 					break;
 				default:
 					break;

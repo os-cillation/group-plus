@@ -15,7 +15,8 @@
 "AddGroup" = "Neue Gruppe";
 "RenameGroup" = "Gruppe umbenennen";
 "RenameGroupTitle" = "Umbenennen";
-"ShareContacts" = "Sende/Empfange Kontakte";
+"ShareContacts" = "Sende/Empfange Kontakte (BT)";
+"SendContactSMS" = "Sende Kontakt via Textnachricht";
 "CleanUp" = "Kontakte aufräumen";
 "Preferences" = "Einstellungen";
 "About" = "Informationen";
@@ -50,6 +51,7 @@
 "contactReceivedMessage" = "Kontaktdaten '%@' empfangen. Wollen Sie den Kontakt speichern?";
 "yes" = "Ja";
 "no" = "Nein";
+"OK" = "OK";
 
 "useAddressbookLabel" = "Gruppen aus Adressbuch verwenden:";
 "useAddressbookMessage" = "Bei Verwendung der Gruppen aus dem Adressbuch können Fehler auftreten (z.B. bei Verwendung von iOS 4.2)";
@@ -58,6 +60,7 @@
 
 "Error" = "Fehler";
 "MemberNotAddedMessage" = "Es ist ein Fehler beim Hinzufügen des Kontakts aufgetreten. Bitte deaktivieren Sie 'Adressbuchgruppen verwenden' in den Einstellungen.";
+"ErrorNoSMS" = "Das Senden von Textnachrichten wird auf diesem Gerät nicht unterstützt.";
 
 "aboutText" = 
 "os-cillation e.K.  

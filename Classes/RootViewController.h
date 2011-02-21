@@ -11,6 +11,7 @@
 #import "DetailGroupViewTableController.h"
 #import "AboutViewController.h"
 #import "ShareContactsViewController.h"
+#import "SendContactViewController.h"
 
 @class DataController;
 

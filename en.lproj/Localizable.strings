@@ -15,7 +15,8 @@
 "AddGroup" = "Add group";
 "RenameGroup" = "Rename group";
 "RenameGroupTitle" = "Rename";
-"ShareContacts" = "Send/Receive contacts";
+"ShareContacts" = "Send/Receive contacts (BT)";
+"SendContactSMS" = "Send contact via textmessage";
 "CleanUp" = "Clean up contacts";
 "Preferences" = "Preferences";
 "About" = "About";
@@ -50,6 +51,7 @@
 "contactReceivedMessage" = "Received contact data '%@'. Would you like to save this contact?";
 "yes" = "Yes";
 "no" = "No";
+"OK" = "OK";
 
 "useAddressbookLabel" = "Use groups from addressbook:";
 "useAddressbookMessage" = "Use of groups from addressbook could cause errors (for example using iOS 4.2)";
@@ -58,6 +60,7 @@
 
 "Error" = "Error";
 "MemberNotAddedMessage" = "An error occurred while adding the member. Please deactivate 'use addressbook groups' in preferences.";
+"ErrorNoSMS" = "Sending of textmessages is not supported on this device.";
 
 "aboutText" = 
 "os-cillation e.K.  

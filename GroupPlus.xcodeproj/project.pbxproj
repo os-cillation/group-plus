@@ -44,6 +44,8 @@
 		43784331113ED5C900198BE4 /* GroupAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4378432F113ED5C900198BE4 /* GroupAddViewController.m */; };
 		43784332113ED5C900198BE4 /* GroupAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43784330113ED5C900198BE4 /* GroupAddViewController.xib */; };
 		43784414113EE3B900198BE4 /* os.png in Resources */ = {isa = PBXBuildFile; fileRef = 43784413113EE3B900198BE4 /* os.png */; };
+		43A5040F13129F1B00FE24D8 /* SendContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A5040D13129F1B00FE24D8 /* SendContactViewController.m */; };
+		43A5041013129F1B00FE24D8 /* SendContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A5040E13129F1B00FE24D8 /* SendContactViewController.xib */; };
 		43B0C77F113FBD5D0007B48E /* ShareContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */; };
 		43B0C780113FBD5D0007B48E /* ShareContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */; };
 		43B0C7A4113FC17D0007B48E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B0C7A3113FC17D0007B48E /* GameKit.framework */; };
@@ -124,6 +126,9 @@
 		4378432F113ED5C900198BE4 /* GroupAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupAddViewController.m; sourceTree = "<group>"; };
 		43784330113ED5C900198BE4 /* GroupAddViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GroupAddViewController.xib; path = Classes/GroupAddViewController.xib; sourceTree = "<group>"; };
 		43784413113EE3B900198BE4 /* os.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = os.png; sourceTree = "<group>"; };
+		43A5040C13129F1B00FE24D8 /* SendContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendContactViewController.h; sourceTree = "<group>"; };
+		43A5040D13129F1B00FE24D8 /* SendContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendContactViewController.m; sourceTree = "<group>"; };
+		43A5040E13129F1B00FE24D8 /* SendContactViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendContactViewController.xib; sourceTree = "<group>"; };
 		43B0C77C113FBD5D0007B48E /* ShareContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareContactsViewController.h; sourceTree = "<group>"; };
 		43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareContactsViewController.m; sourceTree = "<group>"; };
 		43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ShareContactsViewController.xib; path = Classes/ShareContactsViewController.xib; sourceTree = "<group>"; };
@@ -240,6 +245,9 @@
 				432B5D4C11AD2E1F00798F51 /* PersonViewController.m */,
 				43CF273711C767F8008C85AA /* PreferencesViewController.h */,
 				43CF273811C767F8008C85AA /* PreferencesViewController.m */,
+				43A5040C13129F1B00FE24D8 /* SendContactViewController.h */,
+				43A5040D13129F1B00FE24D8 /* SendContactViewController.m */,
+				43A5040E13129F1B00FE24D8 /* SendContactViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -404,6 +412,7 @@
 				4372BB3411B3DF9800F68DF2 /* data.sqlite in Resources */,
 				43DF437C11C241F900B57EAA /* groupplus-icon.png in Resources */,
 				43CF273B11C767F8008C85AA /* PreferencesViewController.xib in Resources */,
+				43A5041013129F1B00FE24D8 /* SendContactViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +462,7 @@
 				43253C4A11C2361A00D59D6A /* MessageViewController.m in Sources */,
 				43253C4B11C2361A00D59D6A /* SMSDetailViewTableController.m in Sources */,
 				43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */,
+				43A5040F13129F1B00FE24D8 /* SendContactViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

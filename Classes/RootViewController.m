@@ -12,6 +12,7 @@
 #import "CleanUpTableViewController.h"
 #import "Database.h"
 #import "GroupsAppDelegate.h"
+#import <MessageUI/MFMessageComposeViewController.h>
 
 @implementation RootViewController
 
@@ -113,6 +114,27 @@
 	[controller release];
 }
 
+- (void)sendContactSMS {
+	if ([MFMessageComposeViewController canSendText]) {
+		SendContactViewController *controller = [[SendContactViewController alloc] initWithNibName:@"SendContactViewController" bundle:nil];
+		controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+		[self presentModalViewController:controller animated:YES];
+
+		[controller release];
+	}
+	else {
+		UIAlertView *alertView = [[UIAlertView alloc]
+			initWithTitle:NSLocalizedString(@"Error",@"")
+			message:NSLocalizedString(@"ErrorNoSMS",@"")
+			delegate:self 
+			cancelButtonTitle:NSLocalizedString(@"OK",@"")
+			otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+		[self.tableView reloadData];
+	}
+}
+
 - (void) detailViewControllerDidFinish:(DetailGroupViewTableController *)controller {
 	[[self navigationController] popViewControllerAnimated:YES];
 }
@@ -184,7 +206,7 @@
 		case 0:
 			return [dataController countOfList:searchBar.text];
 		case 1:
-			return 5;
+			return 6;
 		default:
 			break;
 	}
@@ -230,6 +252,7 @@
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			cell.backgroundColor = [UIColor whiteColor];
 
 			switch (indexPath.row) {
 				case 0:
@@ -241,14 +264,21 @@
 					cell.detailTextLabel.text = @"";
 					break;
 				case 2:
-					cell.textLabel.text = NSLocalizedString(@"CleanUp", @"");
+					cell.textLabel.text = NSLocalizedString(@"SendContactSMS", @"");
+					if (![MFMessageComposeViewController canSendText]) {
+						cell.backgroundColor = [UIColor lightGrayColor];
+					}
 					cell.detailTextLabel.text = @"";
 					break;
 				case 3:
-					cell.textLabel.text = NSLocalizedString(@"Preferences", @"");
+					cell.textLabel.text = NSLocalizedString(@"CleanUp", @"");
 					cell.detailTextLabel.text = @"";
 					break;
 				case 4:
+					cell.textLabel.text = NSLocalizedString(@"Preferences", @"");
+					cell.detailTextLabel.text = @"";
+					break;
+				case 5:
 					cell.textLabel.text = NSLocalizedString(@"About", @"");
 					cell.detailTextLabel.text = @"";
 					break;
@@ -330,12 +360,15 @@
 					[self shareContacts];
 					break;
 				case 2:
-					[self cleanUp];
+					[self sendContactSMS];
 					break;
 				case 3:
-					[self showPreferences];
+					[self cleanUp];
 					break;
 				case 4:
+					[self showPreferences];
+					break;
+				case 5:
 					[self showInfo];
 					break;
 				default:
@@ -380,7 +413,6 @@
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
 }
-
 
 @end
 

@@ -1,3 +1,17 @@
+2011-02-21	Benjamin Mies	<bmi@os-cillation.de>
+	* Classes/SendContactViewController.xib,
+	  Classes/SendContactViewController.h,
+	  Classes/SendContactViewController.m,
+	  Classes/RootViewController.h,
+	  Classes/RootViewController.m,
+	  DetailGroupViewTableController.m,
+	  en.lproj/Localizable.strings,
+	  GroupPlus.xcodeproj/benjamin.mode1v3,
+	  GroupPlus.xcodeproj/project.pbxproj,
+	  GroupPlus.xcodeproj/benjamin.pbxuser,
+	  de.lproj/Localizable.strings:
+	  - Versenden von Kontaktdaten via SMS umgesetzt.
+
 2011-02-08	Benjamin Mies	<bmi@os-cillation.de>
 	* Classes/PreferencesViewController.xib,
 	  Classes/PreferencesViewController.h,
