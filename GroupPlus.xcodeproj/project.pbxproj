@@ -46,6 +46,8 @@
 		43784414113EE3B900198BE4 /* os.png in Resources */ = {isa = PBXBuildFile; fileRef = 43784413113EE3B900198BE4 /* os.png */; };
 		43A5040F13129F1B00FE24D8 /* SendContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A5040D13129F1B00FE24D8 /* SendContactViewController.m */; };
 		43A5041013129F1B00FE24D8 /* SendContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A5040E13129F1B00FE24D8 /* SendContactViewController.xib */; };
+		43AD686B1313EA8700871B47 /* groupmessage-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43AD68691313EA8700871B47 /* groupmessage-icon.png */; };
+		43AD686F1313EADB00871B47 /* lentmanager-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43AD686E1313EADB00871B47 /* lentmanager-icon.png */; };
 		43B0C77F113FBD5D0007B48E /* ShareContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */; };
 		43B0C780113FBD5D0007B48E /* ShareContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */; };
 		43B0C7A4113FC17D0007B48E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B0C7A3113FC17D0007B48E /* GameKit.framework */; };
@@ -70,7 +72,6 @@
 		43BF837C116B664800167833 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 43BF837B116B664800167833 /* icon2.png */; };
 		43BF83B9116B6A1D00167833 /* CleanUpContactsWithoutEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */; };
 		43BF83BA116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */; };
-		43C2E68E1192C3E6006003B0 /* group-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C2E68D1192C3E6006003B0 /* group-icon.png */; };
 		43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CF273811C767F8008C85AA /* PreferencesViewController.m */; };
 		43CF273B11C767F8008C85AA /* PreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43CF273911C767F8008C85AA /* PreferencesViewController.xib */; };
 		43DF437C11C241F900B57EAA /* groupplus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DF437B11C241F900B57EAA /* groupplus-icon.png */; };
@@ -129,6 +130,8 @@
 		43A5040C13129F1B00FE24D8 /* SendContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendContactViewController.h; sourceTree = "<group>"; };
 		43A5040D13129F1B00FE24D8 /* SendContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendContactViewController.m; sourceTree = "<group>"; };
 		43A5040E13129F1B00FE24D8 /* SendContactViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendContactViewController.xib; sourceTree = "<group>"; };
+		43AD68691313EA8700871B47 /* groupmessage-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "groupmessage-icon.png"; sourceTree = "<group>"; };
+		43AD686E1313EADB00871B47 /* lentmanager-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lentmanager-icon.png"; sourceTree = "<group>"; };
 		43B0C77C113FBD5D0007B48E /* ShareContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareContactsViewController.h; sourceTree = "<group>"; };
 		43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareContactsViewController.m; sourceTree = "<group>"; };
 		43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ShareContactsViewController.xib; path = Classes/ShareContactsViewController.xib; sourceTree = "<group>"; };
@@ -165,7 +168,6 @@
 		43BF83B6116B6A1D00167833 /* CleanUpContactsWithoutEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpContactsWithoutEmail.h; sourceTree = "<group>"; };
 		43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpContactsWithoutEmail.m; sourceTree = "<group>"; };
 		43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpContactsWithoutEmail.xib; path = Classes/CleanUpContactsWithoutEmail.xib; sourceTree = "<group>"; };
-		43C2E68D1192C3E6006003B0 /* group-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "group-icon.png"; sourceTree = "<group>"; };
 		43CF273711C767F8008C85AA /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
 		43CF273811C767F8008C85AA /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
 		43CF273911C767F8008C85AA /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PreferencesViewController.xib; path = Classes/PreferencesViewController.xib; sourceTree = "<group>"; };
@@ -269,11 +271,6 @@
 				43E5FDB211AFF114007CC23A /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				4378420D113EC1FD00198BE4 /* AddressBook.framework */,
-				4378420F113EC1FD00198BE4 /* AddressBookUI.framework */,
-				437842AA113ECAFB00198BE4 /* MessageUI.framework */,
-				43B0C7A3113FC17D0007B48E /* GameKit.framework */,
-				43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -290,10 +287,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				43AD686E1313EADB00871B47 /* lentmanager-icon.png */,
+				43AD68691313EA8700871B47 /* groupmessage-icon.png */,
 				43CF273911C767F8008C85AA /* PreferencesViewController.xib */,
 				43DF437B11C241F900B57EAA /* groupplus-icon.png */,
 				4372BB3311B3DF9800F68DF2 /* data.sqlite */,
-				43C2E68D1192C3E6006003B0 /* group-icon.png */,
 				432C9647118714FC00BDC5C8 /* Default.png */,
 				43BF82BB116B340F00167833 /* CleanUpContactsWithoutFoto.xib */,
 				43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */,
@@ -318,6 +316,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4378420D113EC1FD00198BE4 /* AddressBook.framework */,
+				4378420F113EC1FD00198BE4 /* AddressBookUI.framework */,
+				437842AA113ECAFB00198BE4 /* MessageUI.framework */,
+				43B0C7A3113FC17D0007B48E /* GameKit.framework */,
+				43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
@@ -404,7 +407,6 @@
 				43BF837C116B664800167833 /* icon2.png in Resources */,
 				43BF83BA116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib in Resources */,
 				432C9649118714FC00BDC5C8 /* Default.png in Resources */,
-				43C2E68E1192C3E6006003B0 /* group-icon.png in Resources */,
 				43E5FDB411AFF115007CC23A /* MainWindow-iPad.xib in Resources */,
 				43E5FE1411AFF744007CC23A /* AboutViewController-iPad.xib in Resources */,
 				43E5FE2511AFF9C6007CC23A /* GroupAddViewController-iPad.xib in Resources */,
@@ -413,6 +415,8 @@
 				43DF437C11C241F900B57EAA /* groupplus-icon.png in Resources */,
 				43CF273B11C767F8008C85AA /* PreferencesViewController.xib in Resources */,
 				43A5041013129F1B00FE24D8 /* SendContactViewController.xib in Resources */,
+				43AD686B1313EA8700871B47 /* groupmessage-icon.png in Resources */,
+				43AD686F1313EADB00871B47 /* lentmanager-icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

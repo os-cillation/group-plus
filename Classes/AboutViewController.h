@@ -10,12 +10,15 @@
 @interface AboutViewController : UIViewController  {
 	IBOutlet UIScrollView *scrollView;
 	IBOutlet UITextView *textView;
+	IBOutlet UILabel *labelProducts;
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UITextView *textView;
 
 - (IBAction)done;
+- (IBAction)openGroupMessage;
+- (IBAction)openLentManager;
 
 @end
 

@@ -62,6 +62,7 @@
 "MemberNotAddedMessage" = "An error occurred while adding the member. Please deactivate 'use addressbook groups' in preferences.";
 "ErrorNoSMS" = "Sending of textmessages is not supported on this device.";
 
+"otherProducts" = "Other products:";
 "aboutText" = 
 "os-cillation e.K.  
 CEO: Oliver Schweissgut
@@ -69,8 +70,8 @@ Hohler Weg 75
 57072 Siegen
 Germany
 
-Tel.: +49 (0) 271 31368-0
-Fax: +49 (0) 271 31368-18
+Tel.: +49 271 31368-0
+Fax: +49 271 31368-18
 http://www.os-cillation.de
 
 © 2011 by os-cillation e.K.";

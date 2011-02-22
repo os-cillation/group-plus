@@ -23,6 +23,13 @@
 	[self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
+- (IBAction)openGroupMessage {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=377177900&amp;amp;amp;amp;mt=8"]];
+}
+
+- (IBAction)openLentManager {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=370136323&amp;amp;amp;amp;mt=8"]];
+}
 
 #pragma mark -
 #pragma mark === View configuration ===
@@ -37,7 +44,7 @@
 }
 
 - (void)viewDidLoad {
-	self.scrollView.contentSize = CGSizeMake(320, 800);
+	self.scrollView.contentSize = CGSizeMake(320, 700);
 	self.title = NSLocalizedString(@"About", @"");
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] 
@@ -49,6 +56,7 @@
 	[super viewDidLoad];
 	
 	textView.text = NSLocalizedString(@"aboutText", @"");
+	labelProducts.text = NSLocalizedString(@"otherProducts", @"");
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
