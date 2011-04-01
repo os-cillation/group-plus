@@ -69,8 +69,8 @@
 }
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
-	
-	if (self = [super initWithNibName:nibName bundle:nibBundle]) {
+	self = [super initWithNibName:nibName bundle:nibBundle];
+	if (self) {
 		self.wantsFullScreenLayout = YES;
 	}
 	return self;
@@ -108,7 +108,7 @@
 	[saveButton release];
 	
 	[textField becomeFirstResponder];
-	if (group != nil) {
+	if (group) {
 		self.textField.text = group.name;
 	}
 }
@@ -119,10 +119,10 @@
 
 
 - (void)dealloc {
-	[super dealloc];
 	[textField release];
 	[label release];
 	[group release];
+	[super dealloc];
 }
 
 

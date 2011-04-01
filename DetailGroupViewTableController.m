@@ -639,6 +639,9 @@
 }
 
 - (void)dealloc {
+    [groupContacts release];
+    [group release];
+    [searchBar release];
 	[backButton release];
 	[editButton release];
 	[doneButton release];

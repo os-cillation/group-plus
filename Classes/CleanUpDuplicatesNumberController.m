@@ -170,6 +170,7 @@
 }
 
 - (void)dealloc {
+    [data release];
     [super dealloc];
 }
 

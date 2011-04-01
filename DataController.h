@@ -10,7 +10,6 @@
 
 
 @interface DataController : NSObject {
-    NSMutableArray *list;
 }
 
 - (NSArray *)getGroups:(NSString *)filter;

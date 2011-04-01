@@ -13,7 +13,6 @@
 
 
 @interface SendContactViewController : ABPeoplePickerNavigationController <ABPeoplePickerNavigationControllerDelegate, MFMessageComposeViewControllerDelegate> {
-	ABPeoplePickerNavigationController *picker;
 	MFMessageComposeViewController *messageController;
 }
 

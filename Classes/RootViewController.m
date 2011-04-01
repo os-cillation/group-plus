@@ -18,11 +18,6 @@
 
 @synthesize dataController, searchBar;
 
-- (void) initDataController {
-	DataController *controller = [[DataController alloc] init];
-    self.dataController = controller;
-}
-
 - (void)searchBarCancelButtonClicked:(UISearchBar *)pSearchBar {
 	pSearchBar.text = @"";
     [groups release];
@@ -147,7 +142,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self initDataController];
+    self.dataController = [[DataController alloc] init];
 	
 	self.title = NSLocalizedString (@"Groupmanager", @"");
 	
@@ -391,7 +386,9 @@
 }
 
 - (void)dealloc {
-	//[dataController release];
+	[dataController release];
+    [groups release];
+    [searchBar release];
     [super dealloc];
 }
 

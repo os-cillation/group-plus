@@ -28,23 +28,18 @@
 }
 
 - (void)deleteGroup:(Group *)group {
-	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID (ab, [group getId]);
-	if (groupRef != nil && groupRef != NULL) {
-		ABAddressBookRemoveRecord(ab, groupRef, nil);
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-			ABAddressBookSave(ab, nil);
-		}
-	}
-	[Database deleteGroup:[group getId]];
-}
-
-// Custom set accessor to ensure the new list is mutable
-- (void)setList:(NSMutableArray *)newList {
-    if (list != newList) {
-        [list release];
-        list = [newList mutableCopy];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+        ABAddressBookRef book = ABAddressBookCreate();
+        if (book) {
+            ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID(book, [group getId]);
+            if (groupRef) {
+                ABAddressBookRemoveRecord(book, groupRef, nil);
+                ABAddressBookSave(book, nil);
+            }
+            CFRelease(book);
+        }
     }
+	[Database deleteGroup:[group getId]];
 }
 
 // Accessor methods for list
@@ -59,7 +54,6 @@
 
 
 - (void)dealloc {
-    [list release];
     [super dealloc];
 }
 

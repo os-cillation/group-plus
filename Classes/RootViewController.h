@@ -24,7 +24,6 @@
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 
 
-- (void)initDataController;
 - (void)refreshData;
 - (void)showPreferences;
 - (void)showInfo;

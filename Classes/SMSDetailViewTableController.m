@@ -146,6 +146,8 @@
 
 
 - (void)dealloc {
+    [members release];
+    [group release];
 	[doneButton release];
     [super dealloc];
 }

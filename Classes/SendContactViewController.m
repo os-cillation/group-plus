@@ -16,8 +16,10 @@
 
 	self.peoplePickerDelegate = self;
 	messageController = [[MFMessageComposeViewController alloc] init];
-	messageController.messageComposeDelegate = self;
-	messageController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    if (messageController) {
+        messageController.messageComposeDelegate = self;
+        messageController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    }
 }
 
 //people picker delegate protocol
@@ -102,9 +104,12 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [messageController release];
+    messageController = nil;
 }
 
 - (void)dealloc {
+    [messageController release];
     [super dealloc];
 }
 
