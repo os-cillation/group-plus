@@ -14,7 +14,8 @@
 @synthesize primaryLabel,secondaryLabel,myImageView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
         // Initialization code
 		primaryLabel = [[UILabel alloc]init];
 		primaryLabel.textAlignment = UITextAlignmentLeft;
@@ -31,7 +32,8 @@
 }
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
+    self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
+    if (self) {
         // Initialization code
 		primaryLabel = [[UILabel alloc]init];
 		primaryLabel.textAlignment = UITextAlignmentLeft;
@@ -74,6 +76,9 @@
 
 
 - (void)dealloc {
+    [primaryLabel release];
+    [secondaryLabel release];
+    [myImageView release];
     [super dealloc];
 }
 

@@ -74,23 +74,27 @@
         case GKPeerStateConnected:
             NSLog(@"connected");
             break;
+            
         case GKPeerStateDisconnected:
             NSLog(@"disconnected");
             [self.currentSession release];
             currentSession = nil;
-            
 			[connect setHidden:NO];
 			[sendContact setHidden:YES];
+            break;
+            
+        default:
             break;
     }
 }
 
 - (void) mySendDataToPeers:(NSData *) data
 {
-    if (currentSession) 
+    if (currentSession) {
         [self.currentSession sendDataToAllPeers:data 
 								   withDataMode:GKSendDataReliable 
 										  error:nil];    
+    }
 }
 
 - (void) receiveData:(NSData *)data 
@@ -212,10 +216,8 @@
 }
 
 - (void)sendContactData:(ABRecordRef)person {
-	// Serializes the contact
-	NSData *contactData = [[ABRecordSerializer personToData:person] retain];
-	
-	[self mySendDataToPeers:contactData]; 
+    // send the serialized contact
+	[self mySendDataToPeers:[ABRecordSerializer personToData:person]]; 
 }
 
 - (void)didReceiveMemoryWarning {

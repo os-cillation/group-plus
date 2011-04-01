@@ -32,38 +32,48 @@
 // Return YES if you want default action to be performed.
 // Return NO to do nothing (the delegate is responsible for dismissing the peoplePicker).
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
-	NSString *fullName;
-	NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-	NSString* lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-	if ((firstName == NULL) && (lastName == NULL)) {
-		fullName = (NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
-	}	
-	else if ((firstName == NULL) || (lastName == NULL)) {
-		if (firstName == NULL) {
-			fullName = lastName;
-		}
-		if (lastName == NULL) {
-			fullName = firstName;
-		}
-	}
-	else {
-		fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
-	}
-	NSString *message = [NSString stringWithFormat:@"%@",fullName];
+    // determine the person's full name
+    NSString *personName = nil;
+    NSString *personFirstName = [(NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty) autorelease];
+    NSString *personLastName = [(NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty) autorelease];
+    if (personFirstName && personLastName) {
+        if (ABPersonGetCompositeNameFormat() == kABPersonCompositeNameFormatFirstNameFirst) {
+            personName = [NSString stringWithFormat:@"%@ %@", personFirstName, personLastName];
+        }
+        else {
+            personName = [NSString stringWithFormat:@"%@ %@", personLastName, personFirstName];
+        }
+    }
+    else if (personFirstName) {
+        personName = personFirstName;
+    }
+    else if (personLastName) {
+        personName = personLastName;
+    }
+    else {
+        personName = [(NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty) autorelease];
+    }
+	NSString *message = [NSString stringWithFormat:@"%@", personName];
 	
-	NSString *phoneNumber = [NSString alloc];
-	phoneNumber = @"";
-	ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
-	CFIndex	count = ABMultiValueGetCount(phoneProperty);
-	for (CFIndex i=0; i < count; i++) {
-		message = [message stringByAppendingFormat:@"\n%@: %@",(NSString*)ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(phoneProperty, i)), (NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i)];
-	}
+	ABMultiValueRef phones = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonPhoneProperty);
+    if (phones) {
+        for (CFIndex i=0; i < ABMultiValueGetCount(phones); ++i) {
+            NSString *label = [(NSString *)ABMultiValueCopyLabelAtIndex(phones, i) autorelease];
+            NSString *value = [(NSString *)ABMultiValueCopyValueAtIndex(phones, i) autorelease];
+            message = [message stringByAppendingFormat:@"\n%@: %@", [(NSString *)ABAddressBookCopyLocalizedLabel((CFStringRef)label) autorelease], value];
+        }
+        CFRelease(phones);
+    }
 	
-	ABMultiValueRef mailProperty = ABRecordCopyValue(person, kABPersonEmailProperty);
-	count = ABMultiValueGetCount(mailProperty);
-	for (CFIndex i=0; i < count; i++) {
-		message = [message stringByAppendingFormat:@"\n%@: %@",(NSString*)ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(mailProperty, i)), (NSString*)ABMultiValueCopyValueAtIndex(mailProperty, i)];
-	}
+	ABMultiValueRef emails = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonEmailProperty);
+    if (emails) {
+        for (CFIndex i=0; i < ABMultiValueGetCount(emails); ++i) {
+            NSString *label = [(NSString *)ABMultiValueCopyLabelAtIndex(emails, i) autorelease];
+            NSString *value = [(NSString *)ABMultiValueCopyValueAtIndex(emails, i) autorelease];
+            message = [message stringByAppendingFormat:@"\n%@: %@", [(NSString *)ABAddressBookCopyLocalizedLabel((CFStringRef)label) autorelease], value];
+        }
+        CFRelease(emails);
+    }
 	
 	messageController.body = message;
 	[self presentModalViewController:messageController animated:NO];
