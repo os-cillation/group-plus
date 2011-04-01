@@ -23,6 +23,8 @@
 
 - (void)dealloc {
 	[name release];
+    [number release];
+    [image release];
 	[super dealloc];
 }
 
