@@ -13,13 +13,13 @@
 @class Group;
 
 @interface SMSDetailViewTableController : UITableViewController {
-	NSMutableArray *members;
+	NSArray *members;
 	Group *group;
 	UIBarButtonItem *doneButton;
 }
 
 @property(nonatomic, retain) Group *group;
-@property(nonatomic, retain) NSMutableArray *members;
+@property(nonatomic, retain) NSArray *members;
 
 
 @end

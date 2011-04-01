@@ -19,14 +19,16 @@
 }
 
 - (void)searchBar:(UISearchBar *)pSearchBar textDidChange:(NSString *)searchText {
-    data = [Database getWithoutFotoData:pSearchBar.text];
+    [data release];
+    data = [[Database getWithoutFotoData:pSearchBar.text] retain];
 	[self.tableView reloadData];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"contactsWithoutFotoTitle", @"");
-    data = [Database getWithoutFotoData:searchBar.text];
+    [data release];
+    data = [[Database getWithoutFotoData:searchBar.text] retain];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,7 +122,8 @@
 		ABAddressBookRemoveRecord(ab, person, nil);
 		ABAddressBookSave(ab, nil);
 		[Database deleteCleanUpContact:[contact getId]];
-		data = [Database getWithoutNumberData];
+        [data release];
+		data = [[Database getWithoutNumberData] retain];
 		[self.tableView reloadData];
     }   
 }

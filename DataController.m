@@ -16,14 +16,14 @@
 @implementation DataController
 
 - (id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
 		[Database getConnection];
     }
-	
     return self;
 }
 
-- (NSMutableArray *)getGroups:(NSString *)filter {
+- (NSArray *)getGroups:(NSString *)filter {
 	return [Database getGroups:filter];
 }
 

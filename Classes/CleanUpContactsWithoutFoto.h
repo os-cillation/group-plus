@@ -11,7 +11,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 
 @interface CleanUpContactsWithoutFoto : UITableViewController <ABPersonViewControllerDelegate>{
-	NSMutableArray *data;
+	NSArray *data;
 	IBOutlet UISearchBar *searchBar;
 }
 

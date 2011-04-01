@@ -19,7 +19,8 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)pSearchBar {
 	pSearchBar.text = @"";
-	groupContacts = [Database getGroupContacts:[group getId] withFilter:pSearchBar.text];
+    [groupContacts release];
+	groupContacts = [[Database getGroupContacts:[group getId] withFilter:pSearchBar.text] retain];
 	[self.tableView reloadData];
 	[pSearchBar resignFirstResponder];
 	
@@ -27,7 +28,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 	[groupContacts release];
-	groupContacts = [Database getGroupContacts:[group getId] withFilter:searchText];
+	groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchText] retain];
 	[self.tableView reloadData];
 	
 }
@@ -92,7 +93,7 @@
 	NSEnumerator *e = [groupContacts objectEnumerator];
 	GroupContact *contact;
 
-	while (contact = [e nextObject]) {
+	while ((contact = [e nextObject])) {
 		
 		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
 		ABMultiValueRef multi = ABRecordCopyValue(person, kABPersonEmailProperty);
@@ -138,7 +139,7 @@
 		[self.tableView reloadData];		
 		return;
 	}
-	NSMutableArray *contacts = groupContacts;
+	NSArray *contacts = groupContacts;
 
 	
 	MessageViewController *controller = [[MessageViewController alloc] init];
@@ -211,38 +212,35 @@
 
 -(void)launchMailAppOnDevice {
 	NSString *recipients = @"mailto:";
-	NSMutableArray *contacts = groupContacts;
+	NSArray *contacts = groupContacts;
 	
-	ABAddressBookRef ab = ABAddressBookCreate();
-
-	GroupContact *contact = [GroupContact alloc];
-
-	for (int i = 0; i < [contacts count]; i++) {
-		contact = [contacts objectAtIndex:i];
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		ABMultiValueRef multi = ABRecordCopyValue(person, kABPersonEmailProperty);
-		CFIndex	count = ABMultiValueGetCount(multi);
-		if (multi == NULL || multi == nil || count == 0) {
-			continue;
-		}
-		NSString *address = (NSString*)ABMultiValueCopyValueAtIndex(multi, 0);
-
-		if ([address length] > 0) {
-			
-			if (i == 0){
-				recipients = [recipients stringByAppendingString:address];
-				
-			}
-			else {
-				recipients = [recipients stringByAppendingString:@","];
-				recipients = [recipients stringByAppendingString:address];
-			}
-			
-		}
-	}  
-	
-	[contact release];
-	CFRelease(ab);
+	ABAddressBookRef book = ABAddressBookCreate();
+    if (book) {
+        for (int i = 0; i < [contacts count]; i++) {
+            GroupContact *contact = [contacts objectAtIndex:i];
+            ABRecordRef person = ABAddressBookGetPersonWithRecordID(book, [contact getId]);
+            if (person) {
+                ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
+                if (emails) {
+                    if (ABMultiValueGetCount(emails) > 0) {
+                        NSString *address = [(NSString *)ABMultiValueCopyValueAtIndex(emails, 0) autorelease];
+                        if (address && [address length]) {
+                            if (i == 0){
+                                recipients = [recipients stringByAppendingString:address];
+                            }
+                            else {
+                                recipients = [recipients stringByAppendingString:@","];
+                                recipients = [recipients stringByAppendingString:address];
+                            }
+                        }
+                    }
+                    CFRelease(emails);
+                }
+            }
+        }  
+        
+        CFRelease(book);
+    }
 	
 	NSString *body = @"";
 	NSString *email = [NSString stringWithFormat:@"%@%@", recipients, body];
@@ -251,7 +249,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	groupContacts = [Database getGroupContacts:[group getId] withFilter:searchBar.text];
+    [groupContacts release];
+	groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchBar.text] retain];
 	
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
@@ -351,7 +350,8 @@
 		ABAddressBookSave(ab, nil);
 	}
 	[self.delegate detailViewControllerReload:self];
-	groupContacts = [Database getGroupContacts:[group getId] withFilter:searchBar.text];
+    [groupContacts release];
+	groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchBar.text] retain];
 	[self.tableView reloadData];
 	
 	[self dismissModalViewControllerAnimated:YES];
@@ -631,7 +631,7 @@
 		
 		[Database deleteGroupContact:[group getId] withContactId:[groupContact getId]];
 		[groupContacts release];
-		groupContacts = [Database getGroupContacts:[group getId] withFilter:searchBar.text];
+		groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchBar.text] retain];
 		[self.delegate detailViewControllerReload:self];
 		[self.tableView reloadData];
 		CFRelease(ab);

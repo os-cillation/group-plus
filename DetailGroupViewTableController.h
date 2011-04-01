@@ -19,7 +19,7 @@
 
 @interface DetailGroupViewTableController : UITableViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, ABPeoplePickerNavigationControllerDelegate, ABPersonViewControllerDelegate, GroupAddViewControllerDelegate, UISearchBarDelegate> {
 	id <DetailGroupViewTableControllerDelegate> delegate;
-	NSMutableArray *groupContacts;
+	NSArray *groupContacts;
 	Group *group;
 	IBOutlet UISearchBar *searchBar;
 	UIBarButtonItem *backButton;

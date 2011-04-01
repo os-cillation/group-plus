@@ -35,7 +35,6 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	//members = [Database getGroupContacts:[group getId] withFilter:nil];
 	doneButton = [[UIBarButtonItem alloc] 
 				  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 				  target:self

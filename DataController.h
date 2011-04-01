@@ -13,7 +13,7 @@
     NSMutableArray *list;
 }
 
-- (NSMutableArray *)getGroups:(NSString *)filter;
+- (NSArray *)getGroups:(NSString *)filter;
 - (unsigned)countOfList:(NSString *)filter;
 - (Group *)objectInListAtIndex:(unsigned)theIndex withFilter:(NSString *)filter;
 - (void)deleteGroup:(Group *)group;

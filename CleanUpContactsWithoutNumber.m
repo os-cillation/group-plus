@@ -16,7 +16,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"contactsWithoutNumberTitle", @"");
-    data = [Database getWithoutNumberData];
+    [data release];
+    data = [[Database getWithoutNumberData] retain];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,7 +111,8 @@
 		ABAddressBookRemoveRecord(ab, person, nil);
 		ABAddressBookSave(ab, nil);
 		[Database deleteCleanUpContact:[contact getId]];
-		data = [Database getWithoutNumberData];
+        [data release];
+		data = [[Database getWithoutNumberData] retain];
 		[self.tableView reloadData];
     }   
 }

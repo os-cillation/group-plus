@@ -13,10 +13,10 @@
 
 @interface MessageViewController : MFMessageComposeViewController <UIActionSheetDelegate> {
 	Group *group;
-	NSMutableArray *members;
+	NSArray *members;
 }
 
 @property (nonatomic, retain) Group *group;
-@property (nonatomic, retain) NSMutableArray *members;
+@property (nonatomic, retain) NSArray *members;
 
 @end

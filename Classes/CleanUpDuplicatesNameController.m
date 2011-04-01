@@ -26,7 +26,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"DuplicatesByNameTitle", @"");
-    data = [Database getDuplicateNameData];
+    [data release];
+    data = [[Database getDuplicateNameData] retain];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -125,7 +126,8 @@
 		ABAddressBookRemoveRecord(ab, person, nil);
 		ABAddressBookSave(ab, nil);
 		[Database deleteCleanUpContact:[contact getId]];
-		data = [Database getDuplicateNameData];
+        [data release];
+		data = [[Database getDuplicateNameData] retain];
 		[self.tableView reloadData];
     }   
 }

@@ -17,7 +17,7 @@
 
 @interface RootViewController : UITableViewController <GroupAddViewControllerDelegate, DetailGroupViewTableControllerDelegate, UISearchBarDelegate> {
 	DataController *dataController;
-	NSMutableArray *groups;
+	NSArray *groups;
 	IBOutlet UISearchBar *searchBar;
 }
 

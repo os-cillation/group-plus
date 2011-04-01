@@ -10,18 +10,16 @@
 #import <AddressBook/AddressBook.h>
 #import <sqlite3.h>
 
-sqlite3 *connection;
-
 @interface Database : NSObject {
 
 }
 
 + (void)createEditableCopyOfDatabaseIfNeeded;
 + (sqlite3 *)getConnection;
-+ (NSMutableArray *)getGroups:(NSString *)filter;
++ (NSArray *)getGroups:(NSString *)filter;
 + (int)addGroup:(ABRecordID)groupId withName:(NSString *)name;
 + (void)deleteGroup:(ABRecordID) groupId;
-+ (NSMutableArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter;
++ (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter;
 + (int)getGroupContactsCount:(ABRecordID)groupId;
 + (void)addGroupContact:(ABRecordID) groupId withContactId:(ABRecordID) contactId withName:(NSString *)name withNumber:(NSString *)number;
 + (void)deleteGroupContact:(ABRecordID) groupId withContactId:(ABRecordID) contactId;
@@ -30,11 +28,11 @@ sqlite3 *connection;
 + (void)prepareGroupInfo;
 + (void)prepareContactInfo;
 + (void)prepareDuplicateInfo;
-+ (NSMutableArray *)getDuplicateNameData;
-+ (NSMutableArray *)getDuplicateNumberData;
-+ (NSMutableArray *)getWithoutNumberData;
-+ (NSMutableArray *)getWithoutEmailData:(NSString *)filter;
-+ (NSMutableArray *)getWithoutFotoData:(NSString *)filter;
++ (NSArray *)getDuplicateNameData;
++ (NSArray *)getDuplicateNumberData;
++ (NSArray *)getWithoutNumberData;
++ (NSArray *)getWithoutEmailData:(NSString *)filter;
++ (NSArray *)getWithoutFotoData:(NSString *)filter;
 + (void)deleteCleanUpContact:(int)contactId;
 
 @end

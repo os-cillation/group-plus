@@ -25,13 +25,15 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)pSearchBar {
 	pSearchBar.text = @"";
-	groups = [dataController getGroups:pSearchBar.text];
+    [groups release];
+	groups = [[dataController getGroups:pSearchBar.text] retain];
 	[searchBar resignFirstResponder];
 	[self.tableView reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)pSearchBar textDidChange:(NSString *)searchText {
-	groups = [dataController getGroups:searchText];
+    [groups release];
+	groups = [[dataController getGroups:searchText] retain];
 	[self.tableView reloadData];
 }
 
@@ -190,7 +192,8 @@
 	GroupsAppDelegate *delegate = [GroupsAppDelegate sharedAppDelegate];
 	delegate.groupViewController = nil;
     [super viewWillAppear:animated];
-	groups = [dataController getGroups:searchBar.text];
+    [groups release];
+	groups = [[dataController getGroups:searchBar.text] retain];
 	[self refreshData];
 }
 
@@ -329,25 +332,6 @@
 		case 0:
 		{
 			Group *groupAtIndex = [groups objectAtIndex:indexPath.row];
-/*
-			ABAddressBookRef ab = ABAddressBookCreate();
-			ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID(ab, [groupAtIndex getId]);
-			if (groupRef == nil || groupRef == NULL) {
-				[Database deleteGroup:[groupAtIndex getId]];
-				groups = [dataController getGroups:searchBar.text];
-				[self refreshData];
-				[self.tableView reloadData];
-				UIAlertView *alert = [[UIAlertView alloc]
-									  initWithTitle:NSLocalizedString(@"Info", @"")
-									  message:NSLocalizedString(@"GroupDeleted", @"") 
-									  delegate:nil
-									  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-									  otherButtonTitles:nil];
-				[alert show];
-				[alert release];
-				return;
-			}
-*/
 			[self viewGroupDetails:groupAtIndex];
 			break;
 		}
@@ -399,7 +383,8 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 		Group *groupAtIndex = [dataController objectInListAtIndex:indexPath.row withFilter:searchBar.text];
 		[dataController deleteGroup:groupAtIndex];
-		groups = [dataController getGroups:searchBar.text];
+        [groups release];
+		groups = [[dataController getGroups:searchBar.text] retain];
 		[self refreshData];
 		[self.tableView reloadData];
     }   

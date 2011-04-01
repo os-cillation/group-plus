@@ -12,7 +12,7 @@
 
 
 @interface CleanUpContactsWithoutNumber : UITableViewController <ABPersonViewControllerDelegate>{
-	NSMutableArray *data;
+	NSArray *data;
 }
 
 @end
