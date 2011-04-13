@@ -7,7 +7,7 @@
 //
 
 #import "GroupAddViewController.h"
-#import "Database.h"
+#import "DataController.h"
 #import <AddressBook/AddressBook.h>
 
 
@@ -29,43 +29,15 @@
 	if ([nameString length] == 0){
 		[self.delegate addGroupViewControllerDidFinish:self];
 		return;
-		
 	}
 	else {
-		ABAddressBookRef ab = ABAddressBookCreate();
-		
-		ABRecordRef groupRef;
-		if (group == nil) {
-			groupRef = ABGroupCreate();
-			ABRecordSetValue(groupRef, kABGroupNameProperty, nameString, nil);
-			ABAddressBookAddRecord(ab, groupRef, nil);
-		}
-		else {
-			groupRef = ABAddressBookGetGroupWithRecordID(ab, [group getId]);
-			if (groupRef == nil || groupRef == NULL) {
-				groupRef = ABGroupCreate();
-				ABRecordSetValue(groupRef, kABGroupNameProperty, nameString, nil);
-				ABAddressBookAddRecord(ab, groupRef, nil);
-			}
-			else {
-				ABRecordSetValue(groupRef, kABGroupNameProperty, nameString, nil);
-			}
-			
-			//[Database deleteGroup:[group getId]];
-		}
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-			ABAddressBookSave(ab, nil);
-		}
-		
-		ABRecordID groupId = ABRecordGetRecordID(groupRef);
-// 		int groupId = 0;
-		if (group != nil) {
-			groupId = [group getId];
-		}
-		[Database addGroup:groupId withName:nameString];
-		
-		[self.delegate addGroupViewControllerDidFinish:self];
-	}
+        if (group == nil) {
+            [[[DataController alloc] init] addGroup:nameString];
+        } else {
+            [[[DataController alloc] init] renameGroup: group withName: nameString];
+        }
+        [self.delegate addGroupViewControllerDidFinish:self];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {

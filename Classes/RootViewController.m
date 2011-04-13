@@ -10,7 +10,6 @@
 #import "DataController.h"
 #import "PreferencesViewController.h"
 #import "CleanUpTableViewController.h"
-#import "Database.h"
 #import "GroupsAppDelegate.h"
 #import <MessageUI/MFMessageComposeViewController.h>
 
@@ -33,6 +32,8 @@
 }
 
 - (void) refreshData {
+    [groups release];
+    groups = [[dataController getGroups:searchBar.text] retain];
 	[self.tableView reloadData];
 }
 
@@ -187,8 +188,6 @@
 	GroupsAppDelegate *delegate = [GroupsAppDelegate sharedAppDelegate];
 	delegate.groupViewController = nil;
     [super viewWillAppear:animated];
-    [groups release];
-	groups = [[dataController getGroups:searchBar.text] retain];
 	[self refreshData];
 }
 
@@ -378,8 +377,6 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 		Group *groupAtIndex = [dataController objectInListAtIndex:indexPath.row withFilter:searchBar.text];
 		[dataController deleteGroup:groupAtIndex];
-        [groups release];
-		groups = [[dataController getGroups:searchBar.text] retain];
 		[self refreshData];
 		[self.tableView reloadData];
     }   

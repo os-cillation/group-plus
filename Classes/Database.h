@@ -17,10 +17,12 @@
 + (void)createEditableCopyOfDatabaseIfNeeded;
 + (sqlite3 *)getConnection;
 + (NSArray *)getGroups:(NSString *)filter;
-+ (int)addGroup:(ABRecordID)groupId withName:(NSString *)name;
++ (int)addGroup:(NSString *)name;
 + (void)deleteGroup:(ABRecordID) groupId;
++ (void)renameGroup:(ABRecordID) groupId withName:(NSString *) name;
 + (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter;
 + (int)getGroupContactsCount:(ABRecordID)groupId;
++ (void)addGroupContact:(ABRecordID)groupId withPerson:(ABRecordRef)person;
 + (void)addGroupContact:(ABRecordID) groupId withContactId:(ABRecordID) contactId withName:(NSString *)name withNumber:(NSString *)number;
 + (void)deleteGroupContact:(ABRecordID) groupId withContactId:(ABRecordID) contactId;
 

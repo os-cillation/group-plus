@@ -9,7 +9,7 @@
 #import "DetailGroupViewTableController.h"
 #import "Group.h"
 #import "GroupContact.h"
-#import "Database.h"
+#import "DataController.h"
 #import "PersonViewController.h"
 
 
@@ -20,7 +20,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)pSearchBar {
 	pSearchBar.text = @"";
     [groupContacts release];
-	groupContacts = [[Database getGroupContacts:[group getId] withFilter:pSearchBar.text] retain];
+	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:pSearchBar.text] retain];
 	[self.tableView reloadData];
 	[pSearchBar resignFirstResponder];
 	
@@ -28,7 +28,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 	[groupContacts release];
-	groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchText] retain];
+	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchText] retain];
 	[self.tableView reloadData];
 	
 }
@@ -250,7 +250,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [groupContacts release];
-	groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchBar.text] retain];
+	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchBar.text] retain];;
 	
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
@@ -292,70 +292,24 @@
 // Return YES if you want default action to be performed.
 // Return NO to do nothing (the delegate is responsible for dismissing the peoplePicker).
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    
+    if (![[[DataController alloc] init] addGroupContact:group withPerson:person]) {
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:NSLocalizedString(@"Error", @"")
+                              message:NSLocalizedString(@"MemberNotAddedMessage", @"") 
+                              delegate:nil
+                              cancelButtonTitle:NSLocalizedString(@"OK", @"")
+                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
 	
-	ABAddressBookRef ab = ABAddressBookCreate();
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-		
-		ABRecordRef groupRef =  ABAddressBookGetGroupWithRecordID (ab, [group getId]);
-		ABAddressBookAddRecord(ab, person, nil);
-		ABAddressBookSave(ab, nil);
-		ABGroupRemoveMember(groupRef, person, nil);
-		if (!ABGroupAddMember (groupRef, person, nil)) {
-			UIAlertView *alert = [[UIAlertView alloc]
-								  initWithTitle:NSLocalizedString(@"Error", @"")
-								  message:NSLocalizedString(@"MemberNotAddedMessage", @"") 
-								  delegate:nil
-								  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-								  otherButtonTitles:nil];
-			[alert show];
-			[alert release];
-		}
-	}
-	
-	ABRecordID contactId = ABRecordGetRecordID(person);
-	NSString *fullName;
-	NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-	NSString* lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-	if ((firstName == NULL) && (lastName == NULL)) {
-		fullName = (NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
-	}	
-	else if ((firstName == NULL) || (lastName == NULL)) {
-		if (firstName == NULL) {
-			fullName = lastName;
-		}
-		if (lastName == NULL) {
-			fullName = firstName;
-		}
-	}
-	else {
-		fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
-	}
-	
-	NSString *phoneNumber = [NSString alloc];
-	phoneNumber = @"";
-	ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
-	CFIndex	count = ABMultiValueGetCount(phoneProperty);
-	for (CFIndex i=0; i < count; i++) {
-		NSString *label = (NSString*)ABMultiValueCopyLabelAtIndex(phoneProperty, i);
-		
-		if(([label isEqualToString:(NSString*)kABPersonPhoneMobileLabel]) /*|| ([label isEqualToString:kABPersonPhoneIPhoneLabel])*/) {
-			phoneNumber = (NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i);
-			break;
-		}
-	}
-
-	[Database addGroupContact:[group getId] withContactId:contactId withName:fullName withNumber:phoneNumber];
-	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-		ABAddressBookSave(ab, nil);
-	}
 	[self.delegate detailViewControllerReload:self];
     [groupContacts release];
-	groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchBar.text] retain];
+	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchBar.text] retain];
 	[self.tableView reloadData];
 	
 	[self dismissModalViewControllerAnimated:YES];
-	CFRelease(ab);
 	return NO;
 }
 
@@ -619,22 +573,14 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		ABAddressBookRef ab = ABAddressBookCreate();
-		ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID (ab, [group getId]);
+	
 		GroupContact *groupContact = [groupContacts objectAtIndex:indexPath.row];
-		
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-			ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [groupContact getId]);
-			ABGroupRemoveMember(groupRef, person, nil);
-			ABAddressBookSave(ab, nil);
-		}
-		
-		[Database deleteGroupContact:[group getId] withContactId:[groupContact getId]];
+        
+        [[[DataController alloc] init] deleteGroupContact:group withPersonId:[groupContact getId]];
 		[groupContacts release];
-		groupContacts = [[Database getGroupContacts:[group getId] withFilter:searchBar.text] retain];
+		groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchBar.text] retain];
 		[self.delegate detailViewControllerReload:self];
 		[self.tableView reloadData];
-		CFRelease(ab);
     }   
 }
 

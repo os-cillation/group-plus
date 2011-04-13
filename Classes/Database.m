@@ -218,24 +218,7 @@ static sqlite3 *connection = NULL; // TODO
 		while (sqlite3_step(statement) == SQLITE_ROW) {
             int64_t groupId = sqlite3_column_int64(statement, 0);
 			const char *groupName = (const char *)sqlite3_column_text(statement, 1);
-            int64_t groupCount = 0;
-			
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-				ABAddressBookRef book = ABAddressBookCreate();
-                if (book) {
-                    ABRecordRef group =  ABAddressBookGetGroupWithRecordID(book, groupId);
-                    if (group) {
-                        NSArray *persons = [(NSArray *)ABGroupCopyArrayOfAllMembers(group) autorelease];
-                        if (persons) {
-                            groupCount = [persons count];
-                        }
-                    }
-                    CFRelease(book);
-				}
-			}
-			else {
-                groupCount = [Database getGroupContactsCount:groupId];
-			}
+            int64_t groupCount = [Database getGroupContactsCount:groupId];
 
             Group *group = [[Group alloc] init];
             [group setId:groupId];
@@ -252,33 +235,21 @@ static sqlite3 *connection = NULL; // TODO
 	return [groups autorelease];
 }
 
-+ (int)addGroup:(ABRecordID)groupId withName:(NSString *)name {
-	sqlite3 *db = connection;
++ (int)addGroup:(NSString *)name {
+	sqlite3 *db = [Database getConnection];
 	sqlite3_stmt *statement;
-    
-	if (groupId > 0) {
-        if (sqlite3_prepare_v2(db, "INSERT OR REPLACE INTO groups (id, name, abGroup) VALUES (?, ?, ?)", -1, &statement, NULL) == SQLITE_OK) {
-            sqlite3_bind_int64(statement, 1, groupId);
-            sqlite3_bind_text(statement, 2, [name UTF8String], -1, SQLITE_STATIC);
-            sqlite3_bind_int(statement, 3, [[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"] ? 1 : 0);
-            sqlite3_step(statement);
-            sqlite3_finalize(statement);
-        }
-	}
-	else {
-        if (sqlite3_prepare_v2(db, "INSERT INTO groups (name, abGroup) VALUES (?, ?)", -1, &statement, NULL) == SQLITE_OK) {
-            sqlite3_bind_text(statement, 1, [name UTF8String], -1, SQLITE_STATIC);
-            sqlite3_bind_int(statement, 2, [[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"] ? 1 : 0);
-            sqlite3_step(statement);
-            groupId = sqlite3_last_insert_rowid(db);
-        }
-	}
-
+    ABRecordID groupId;
+    if (sqlite3_prepare_v2(db, "INSERT INTO groups (name, abGroup) VALUES (?, ?)", -1, &statement, NULL) == SQLITE_OK) {
+        sqlite3_bind_text(statement, 1, [name UTF8String], -1, SQLITE_STATIC);
+        sqlite3_bind_int(statement, 2, [[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"] ? 1 : 0);
+        sqlite3_step(statement);
+        groupId = sqlite3_last_insert_rowid(db);
+    }
     return groupId;
 }
 
 + (void)deleteGroup:(ABRecordID)groupId {
-	sqlite3 *db = connection;
+	sqlite3 *db = [Database getConnection];
 	sqlite3_stmt *statement;
     
     if (sqlite3_prepare_v2(db, "DELETE FROM groups WHERE id=?", -1, &statement, NULL) == SQLITE_OK) {
@@ -294,11 +265,23 @@ static sqlite3 *connection = NULL; // TODO
     }
 }
 
++(void) renameGroup:(ABRecordID)groupId withName:(NSString *)name {
+    sqlite3 *db = [Database getConnection];
+	sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(db, "UPDATE groups SET name=? WHERE id=?", -1, &statement, NULL) == SQLITE_OK) {
+        sqlite3_bind_text(statement, 1, [name UTF8String], -1, SQLITE_STATIC);
+        sqlite3_bind_int64(statement, 2, groupId);
+        sqlite3_step(statement);
+        sqlite3_finalize(statement);
+    }
+}
+
 + (int)getGroupContactsCount:(ABRecordID)groupId {
 	sqlite3 *db = [Database getConnection];
 	sqlite3_stmt *statement;
     int count = 0;
     if (sqlite3_prepare_v2(db, "SELECT count(*) FROM groupContacts WHERE groupId=?", -1, &statement, NULL) == SQLITE_OK) {
+        sqlite3_bind_int64(statement, 1, groupId);
 		while (sqlite3_step(statement) == SQLITE_ROW) {
             count = sqlite3_column_int(statement, 0);
         }
@@ -350,6 +333,42 @@ static sqlite3 *connection = NULL; // TODO
 	}
 	
 	return [contacts autorelease];
+}
+
++ (void) addGroupContact:(ABRecordID)groupId withPerson:(ABRecordRef)person {
+    ABRecordID contactId = ABRecordGetRecordID(person);
+    NSString *fullName;
+    NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+    NSString* lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+    if ((firstName == NULL) && (lastName == NULL)) {
+        fullName = (NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
+    }	
+    else if ((firstName == NULL) || (lastName == NULL)) {
+        if (firstName == NULL) {
+            fullName = lastName;
+        }
+        if (lastName == NULL) {
+            fullName = firstName;
+        }
+    }
+    else {
+        fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
+    }
+    
+    NSString *phoneNumber = [NSString alloc];
+    phoneNumber = @"";
+    ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
+    CFIndex	count = ABMultiValueGetCount(phoneProperty);
+    for (CFIndex i=0; i < count; i++) {
+        NSString *label = (NSString*)ABMultiValueCopyLabelAtIndex(phoneProperty, i);
+        
+        if(([label isEqualToString:(NSString*)kABPersonPhoneMobileLabel]) /*|| ([label isEqualToString:kABPersonPhoneIPhoneLabel])*/) {
+            phoneNumber = (NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i);
+            break;
+        }
+    }
+    
+    [Database addGroupContact:groupId withContactId:contactId withName:fullName withNumber:phoneNumber];
 }
 
 + (void)addGroupContact:(ABRecordID)groupId withContactId:(ABRecordID)contactId withName:(NSString *)name withNumber:(NSString *)number {

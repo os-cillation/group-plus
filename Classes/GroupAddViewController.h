@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "Group.h";
+#import "Group.h"
 
 @protocol GroupAddViewControllerDelegate;
 
