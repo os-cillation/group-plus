@@ -15,22 +15,30 @@
 
 @protocol DetailGroupViewTableControllerDelegate;
 
+@class DataController;
 @class Group;
 
 @interface DetailGroupViewTableController : UITableViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, ABPeoplePickerNavigationControllerDelegate, ABPersonViewControllerDelegate, GroupAddViewControllerDelegate, UISearchBarDelegate> {
-	id <DetailGroupViewTableControllerDelegate> delegate;
-	NSArray *groupContacts;
-	Group *group;
-	IBOutlet UISearchBar *searchBar;
-	UIBarButtonItem *backButton;
-	UIBarButtonItem *editButton;
-	UIBarButtonItem *doneButton;
-	UIBarButtonItem *addButton;
+	id <DetailGroupViewTableControllerDelegate> _delegate;
+    DataController *_dataController;
+	NSArray *_groupContacts;
+	Group *_group;
+	IBOutlet UISearchBar *_searchBar;
+	UIBarButtonItem *_backButton;
+	UIBarButtonItem *_editButton;
+	UIBarButtonItem *_doneButton;
+	UIBarButtonItem *_addButton;
 }
 
+@property (nonatomic, retain) DataController *dataController;
 @property (nonatomic, assign) id <DetailGroupViewTableControllerDelegate> delegate;
+@property (nonatomic, retain) Group *group;
+@property (nonatomic, retain) NSArray *groupContacts;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-@property(nonatomic, retain) Group *group;
+@property (nonatomic, retain) UIBarButtonItem *backButton;
+@property (nonatomic, retain) UIBarButtonItem *editButton;
+@property (nonatomic, retain) UIBarButtonItem *doneButton;
+@property (nonatomic, retain) UIBarButtonItem *addButton;
 
 - (void)showDetails:(int)personId;
 - (void)handleSendMail;

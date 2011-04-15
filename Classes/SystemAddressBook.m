@@ -11,6 +11,12 @@
 #import "GroupContact.h"
 
 
+static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDictionaryRef info, void *context)
+{
+    ABAddressBookRevert(addressBook);
+}
+
+
 @implementation SystemAddressBook
 
 - (id)init
@@ -22,20 +28,20 @@
             [self release];
             return nil;
         }
-        ABAddressBookRegisterExternalChangeCallback(_addressBook, (ABExternalChangeCallback)&ABAddressBookRevert, NULL);
+        ABAddressBookRegisterExternalChangeCallback(_addressBook, &SystemAddressBookChangeCallback, self);
     }
     return self;
 }
 
 - (void)dealloc
 {
-    ABAddressBookUnregisterExternalChangeCallback(_addressBook, (ABExternalChangeCallback)&ABAddressBookRevert, NULL);
+    ABAddressBookUnregisterExternalChangeCallback(_addressBook, &SystemAddressBookChangeCallback, self);
     CFRelease(_addressBook);
     [super dealloc];
 }
 
 - (NSArray *)getGroups:(NSString *)filter {
-    NSMutableArray *groups = [[NSMutableArray alloc] init];
+    NSMutableArray *groups = [NSMutableArray array];
     
     NSArray *abGroups = [(NSArray *)ABAddressBookCopyArrayOfAllGroups(_addressBook) autorelease];
     for (CFIndex i = 0; i < [abGroups count]; ++i) {
@@ -46,11 +52,10 @@
         if (filter && [filter length]) {
             textRange = [[groupName lowercaseString] rangeOfString:[filter lowercaseString]];
         }
-        if (textRange.location!=NSNotFound) {
+        if (textRange.location != NSNotFound) {
             ABRecordID groupId = ABRecordGetRecordID(abGroup);
             NSArray *persons = [(NSArray *)ABGroupCopyArrayOfAllMembers(abGroup) autorelease];
             int groupCount = [persons count];
-            
             
             Group *group = [[Group alloc] init];
             [group setId:groupId];
@@ -61,65 +66,71 @@
         }
         
     }
-    return [groups autorelease];
+    [groups sortUsingSelector:@selector(compareByName:)];
+    return groups;
 }
  
-- (int)addGroup:(NSString *)nameString {
-    ABRecordID groupId = -1;
+- (int)addGroup:(NSString *)name error:(NSError **)outError {
     ABRecordRef group = ABGroupCreate();
-    if (group) {
-        ABRecordSetValue(group, kABGroupNameProperty, nameString, NULL);
-        ABAddressBookAddRecord(_addressBook, group, NULL);
-        ABAddressBookSave(_addressBook, NULL);
-        groupId = ABRecordGetRecordID(group);
-        CFRelease(group);
+    if (!group) {
+        if (outError)
+            *outError = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOMEM userInfo:nil];
+        return -1;
     }
+    if (!ABRecordSetValue(group, kABGroupNameProperty, name, (CFErrorRef *)outError) || !ABAddressBookAddRecord(_addressBook, group, (CFErrorRef *)outError)) {
+        CFRelease(group);
+        return -1;
+    }
+    if (!ABAddressBookSave(_addressBook, (CFErrorRef *)outError)) {
+        ABAddressBookRevert(_addressBook);
+        CFRelease(group);
+        return -1;
+    }
+    
+    ABRecordID groupId = ABRecordGetRecordID(group);
+    CFRelease(group);
+    
     return groupId;
 }
 
-- (void)deleteGroup:(ABRecordID)groupId {
+- (BOOL)deleteGroup:(ABRecordID)groupId error:(NSError **)outError {
     ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
-    if (group) {
-        ABAddressBookRemoveRecord(_addressBook, group, NULL);
-        ABAddressBookSave(_addressBook, NULL);
+    if (group && ABAddressBookRemoveRecord(_addressBook, group, NULL)) {
+        if (!ABAddressBookSave(_addressBook, (CFErrorRef *)outError)) {
+            ABAddressBookRevert(_addressBook);
+            return FALSE;
+        }
     }
+    return TRUE;
 }
 
-- (void)renameGroup:(ABRecordID)groupId withName:(NSString *)name {
+- (BOOL)renameGroup:(ABRecordID)groupId withName:(NSString *)name error:(NSError **)outError {
     ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
-    if (group) {
-        ABRecordSetValue(group, kABGroupNameProperty, name, NULL);
-        ABAddressBookSave(_addressBook, NULL);
+    if (!group) {
+        if (outError)
+            *outError = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:nil];
+        return FALSE;
     }
+    if (!ABRecordSetValue(group, kABGroupNameProperty, name, (CFErrorRef *)outError)) {
+        return FALSE;
+    }
+    if (!ABAddressBookSave(_addressBook, (CFErrorRef *)outError)) {
+        ABAddressBookRevert(_addressBook);
+        return FALSE;
+    }
+    return TRUE;
 }
 
 - (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter {
-    NSMutableArray *contacts = [[NSMutableArray alloc] init];
-    ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
-    if (groupRef) {
-        NSArray *persons = [(NSArray *)ABGroupCopyArrayOfAllMembers(groupRef) autorelease];
-        
+    NSMutableArray *contacts = [NSMutableArray array];
+    ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
+    if (group) {
+        NSArray *persons = [(NSArray *)ABGroupCopyArrayOfAllMembersWithSortOrdering(group, kABPersonSortByLastName) autorelease];
         for (CFIndex i = 0; i < [persons count]; ++i) {
             ABRecordRef person = (ABRecordRef) [persons objectAtIndex:i];
             if (person) {
                 ABRecordID contactId = ABRecordGetRecordID(person);
-                NSString *fullName;
-                NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-                NSString* lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-                if ((firstName == NULL) && (lastName == NULL)) {
-                    fullName = (NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
-                }	
-                else if ((firstName == NULL) || (lastName == NULL)) {
-                    if (firstName == NULL) {
-                        fullName = lastName;
-                    }
-                    if (lastName == NULL) {
-                        fullName = firstName;
-                    }
-                }
-                else {
-                    fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
-                }
+                NSString *fullName = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
                 
                 NSString *phoneNumber = [NSString alloc];
                 phoneNumber = @"";
@@ -138,7 +149,7 @@
                 if (filter && [filter length]) {
                     textRange = [[fullName lowercaseString] rangeOfString:[filter lowercaseString]];
                 }
-                if (textRange.location!=NSNotFound) {
+                if (textRange.location != NSNotFound) {
                     GroupContact *contact = [[GroupContact alloc] init];
                     [contact setId:contactId];
                     [contact setName:fullName];
@@ -150,38 +161,63 @@
         }
     }
     
-    return [contacts autorelease];
+    return contacts;
 }
 
-- (Boolean)addGroupContact:(ABRecordID) groupId withPerson:(ABRecordRef)person
+- (BOOL)addGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError
 {
-    Boolean worked = false;
-    ABRecordRef group =  ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
-    if (group) {
-        worked = ABAddressBookAddRecord(_addressBook, person, NULL);
-        if (worked) {
-            ABGroupRemoveMember(group, person, NULL);
-            worked = ABGroupAddMember (group, person, NULL);
-            if (worked) {
-                worked = ABAddressBookSave(_addressBook, NULL);
-            }
-        }
+    ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
+    if (!group) {
+        if (outError)
+            *outError = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:nil];
+        return FALSE;
     }
-    if (!worked) {
+    
+    ABRecordRef person = ABAddressBookGetPersonWithRecordID(_addressBook, personId);
+    if (!person) {
+        if (outError)
+            *outError = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:nil];
+        return FALSE;
+    }
+    
+    if (!ABGroupAddMember(group, person, (CFErrorRef *)outError)) {
+        return FALSE;
+    }
+    
+    if (!ABAddressBookSave(_addressBook, (CFErrorRef *)outError)) {
         ABAddressBookRevert(_addressBook);
+        return FALSE;
     }
-    return worked;
+
+    return TRUE;
 }
 
-- (void)deleteGroupContact:(ABRecordID)groupId withContactId:(ABRecordID)contactId {
-    ABRecordRef person = ABAddressBookGetPersonWithRecordID(_addressBook, contactId);
-    if (person) {
-        ABRecordRef group = ABAddressBookGetGroupWithRecordID (_addressBook, groupId);
-        if (group) {
-            if (ABGroupRemoveMember(group, person, NULL))
-                ABAddressBookSave(_addressBook, NULL);
-        }
+- (BOOL)deleteGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError
+{
+    ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
+    if (!group) {
+        if (outError)
+            *outError = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:nil];
+        return FALSE;
     }
+    
+    ABRecordRef person = ABAddressBookGetPersonWithRecordID(_addressBook, personId);
+    if (!person) {
+        if (outError)
+            *outError = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:nil];
+        return FALSE;
+    }
+    
+    if (!ABGroupRemoveMember(group, person, (CFErrorRef *)outError)) {
+        return FALSE;
+    }
+    
+    if (!ABAddressBookSave(_addressBook, (CFErrorRef *)outError)) {
+        ABAddressBookRevert(_addressBook);
+        return FALSE;
+    }
+    
+    return TRUE;
 }
 
 @end

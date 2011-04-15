@@ -141,26 +141,7 @@ static sqlite3 *connection = NULL; // TODO
                 ABRecordID personId = ABRecordGetRecordID(person);
                 
                 // determine the person's full name
-                NSString *personName = nil;
-                NSString *personFirstName = [(NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty) autorelease];
-                NSString *personLastName = [(NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty) autorelease];
-                if (personFirstName && personLastName) {
-                    if (ABPersonGetCompositeNameFormat() == kABPersonCompositeNameFormatFirstNameFirst) {
-                        personName = [NSString stringWithFormat:@"%@ %@", personFirstName, personLastName];
-                    }
-                    else {
-                        personName = [NSString stringWithFormat:@"%@ %@", personLastName, personFirstName];
-                    }
-                }
-                else if (personFirstName) {
-                    personName = personFirstName;
-                }
-                else if (personLastName) {
-                    personName = personLastName;
-                }
-                else {
-                    personName = [(NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty) autorelease];
-                }
+                NSString *personName = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
                 
                 // determine the person's mobile phone number
                 NSString *personPhone = nil;
@@ -203,7 +184,7 @@ static sqlite3 *connection = NULL; // TODO
 }
 
 + (NSArray *)getGroups:(NSString *)filter {
-	NSMutableArray *groups = [[NSMutableArray alloc] init];
+	NSMutableArray *groups = [NSMutableArray array];
 	sqlite3 *db = [Database getConnection];
 	sqlite3_stmt *statement;
     
@@ -232,7 +213,7 @@ static sqlite3 *connection = NULL; // TODO
         sqlite3_finalize(statement);
 	}
 	
-	return [groups autorelease];
+	return groups;
 }
 
 + (int)addGroup:(NSString *)name {
@@ -337,38 +318,20 @@ static sqlite3 *connection = NULL; // TODO
 
 + (void) addGroupContact:(ABRecordID)groupId withPerson:(ABRecordRef)person {
     ABRecordID contactId = ABRecordGetRecordID(person);
-    NSString *fullName;
-    NSString* firstName = (NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-    NSString* lastName = (NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-    if ((firstName == NULL) && (lastName == NULL)) {
-        fullName = (NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
-    }	
-    else if ((firstName == NULL) || (lastName == NULL)) {
-        if (firstName == NULL) {
-            fullName = lastName;
-        }
-        if (lastName == NULL) {
-            fullName = firstName;
-        }
-    }
-    else {
-        fullName = [[NSString alloc] initWithFormat:@"%@ %@", firstName, lastName];
-    }
-    
-    NSString *phoneNumber = [NSString alloc];
-    phoneNumber = @"";
+    NSString *fullName = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
+    NSString *phoneNumber = @"";
     ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
     CFIndex	count = ABMultiValueGetCount(phoneProperty);
     for (CFIndex i=0; i < count; i++) {
-        NSString *label = (NSString*)ABMultiValueCopyLabelAtIndex(phoneProperty, i);
+        NSString *label = [(NSString*)ABMultiValueCopyLabelAtIndex(phoneProperty, i) autorelease];
         
         if(([label isEqualToString:(NSString*)kABPersonPhoneMobileLabel]) /*|| ([label isEqualToString:kABPersonPhoneIPhoneLabel])*/) {
-            phoneNumber = (NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i);
+            phoneNumber = [(NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i) autorelease];
             break;
         }
     }
-    
     [Database addGroupContact:groupId withContactId:contactId withName:fullName withNumber:phoneNumber];
+    CFRelease(phoneProperty);
 }
 
 + (void)addGroupContact:(ABRecordID)groupId withContactId:(ABRecordID)contactId withName:(NSString *)name withNumber:(NSString *)number {
@@ -432,27 +395,7 @@ static sqlite3 *connection = NULL; // TODO
             ABRecordID personId = ABRecordGetRecordID(person);
 
             // determine the person's full name
-            NSString *personName = nil;
-            NSString *personFirstName = [(NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty) autorelease];
-            NSString *personLastName = [(NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty) autorelease];
-            if (personFirstName && personLastName) {
-                if (ABPersonGetCompositeNameFormat() == kABPersonCompositeNameFormatFirstNameFirst) {
-                    personName = [NSString stringWithFormat:@"%@ %@", personFirstName, personLastName];
-                }
-                else {
-                    personName = [NSString stringWithFormat:@"%@ %@", personLastName, personFirstName];
-                }
-            }
-            else if (personFirstName) {
-                personName = personFirstName;
-            }
-            else if (personLastName) {
-                personName = personLastName;
-            }
-            else {
-                personName = [(NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty) autorelease];
-            }
-            
+            NSString *personName = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
             if (personName) {
                 ABMultiValueRef phones = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonPhoneProperty);
                 if (phones) {
@@ -487,7 +430,7 @@ static sqlite3 *connection = NULL; // TODO
 }
 
 + (NSArray *)getDuplicateNameData {
-	NSMutableArray *data = [[NSMutableArray alloc] init];
+	NSMutableArray *data = [NSMutableArray array];
 	sqlite3 *db = [Database getConnection];
 	sqlite3_stmt *statement;
 	sqlite3_stmt *statement2;
@@ -515,11 +458,11 @@ static sqlite3 *connection = NULL; // TODO
         sqlite3_finalize(statement);
     }
 
-	return [data autorelease];
+	return data;
 }
 
 + (NSArray *)getDuplicateNumberData {
-	NSMutableArray *data = [[NSMutableArray alloc] init];
+	NSMutableArray *data = [NSMutableArray array];
 	sqlite3 *db = [Database getConnection];
 	sqlite3_stmt *statement;
 	sqlite3_stmt *statement2;
@@ -551,11 +494,11 @@ static sqlite3 *connection = NULL; // TODO
         sqlite3_finalize(statement);
     }
     
-	return [data autorelease];
+	return data;
 }
 
 + (NSArray *)getWithoutNumberData {
-	NSMutableArray *contacts = [[NSMutableArray alloc] init];
+	NSMutableArray *contacts = [NSMutableArray array];
 	sqlite3 *db = connection;
 	sqlite3_stmt *statement;
     
@@ -576,11 +519,11 @@ static sqlite3 *connection = NULL; // TODO
         sqlite3_finalize(statement);
 	}
 	
-	return [contacts autorelease];
+	return contacts;
 }
 
 + (NSArray *)getWithoutEmailData:(NSString *)filter {
-	NSMutableArray *contacts = [[NSMutableArray alloc] init];
+	NSMutableArray *contacts = [NSMutableArray array];
 	sqlite3 *db = connection;
 	sqlite3_stmt *statement;
     
@@ -606,11 +549,11 @@ static sqlite3 *connection = NULL; // TODO
         sqlite3_finalize(statement);
     }
 	
-	return [contacts autorelease];
+	return contacts;
 }
 
 + (NSArray *)getWithoutFotoData:(NSString *)filter {
-	NSMutableArray *contacts = [[NSMutableArray alloc] init];
+	NSMutableArray *contacts = [NSMutableArray array];
 	sqlite3 *db = connection;
 	sqlite3_stmt *statement;
     
@@ -636,7 +579,7 @@ static sqlite3 *connection = NULL; // TODO
         sqlite3_finalize(statement);
     }
 	
-	return [contacts autorelease];
+	return contacts;
 }
 
 + (void)deleteCleanUpContact:(int)contactId {

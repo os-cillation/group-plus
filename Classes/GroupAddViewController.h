@@ -10,18 +10,22 @@
 
 @protocol GroupAddViewControllerDelegate;
 
+@class DataController;
 
 @interface GroupAddViewController : UIViewController {
-	id <GroupAddViewControllerDelegate> delegate;
-	IBOutlet UITextField *textField;
-	IBOutlet UILabel *label;
-	Group *group;
+    DataController *_dataController;
+	id <GroupAddViewControllerDelegate> _delegate;
+	IBOutlet UITextField *_textField;
+	IBOutlet UILabel *_label;
+	Group *_group;
 }
 
+@property (nonatomic, retain) DataController *dataController;
 @property (nonatomic, assign) id <GroupAddViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UITextField *textField;
 @property (nonatomic, retain) IBOutlet UILabel *label;
 @property (nonatomic, retain) Group *group;
+
 - (IBAction)done;
 - (IBAction)addGroup;
 - (void)updateText;

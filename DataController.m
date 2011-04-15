@@ -14,9 +14,13 @@
 #import "SystemAddressBook.h"
 
 
+static DataController *sharedDataController = nil;
+
+
 @implementation DataController
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (self) {
         [Database getConnection]; //TODO
@@ -29,69 +33,93 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
+    if (sharedDataController == self)
+        sharedDataController = nil;
     [_systemAddressBook release];
     [super dealloc];
 }
 
-- (NSArray *)getGroups:(NSString *)filter {
++ (DataController *)dataController
+{
+    if (!sharedDataController)
+        sharedDataController = [[[DataController alloc] init] autorelease];
+    return sharedDataController;
+}
+
+- (NSArray *)getGroups:(NSString *)filter
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) { 
         return [_systemAddressBook getGroups:filter];
-    } else 
+    } 
+    else {
         return [Database getGroups:filter];
+    }
 }
 
-- (void)deleteGroup:(Group *)group {
+- (BOOL)deleteGroup:(Group *)group error:(NSError **)outError
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        [_systemAddressBook deleteGroup:[group getId]];
-    } else {
+        return [_systemAddressBook deleteGroup:[group getId] error:outError];
+    }
+    else {
         [Database deleteGroup:[group getId]];
+        return TRUE;
     }
 }
 
--(int)addGroup:(NSString *)name {
-    int groupId;
+-(int)addGroup:(NSString *)name error:(NSError **)outError
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        groupId = [_systemAddressBook addGroup:name];
-    } else {
-        groupId = [Database addGroup:name];
+        return [_systemAddressBook addGroup:name error:outError];
+    } 
+    else {
+        return [Database addGroup:name];
     }
-    return groupId;
 }
 
-- (void)renameGroup:(Group *)group withName:(NSString *)name {
+- (BOOL)renameGroup:(Group *)group withName:(NSString *)name error:(NSError **)outError
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        [_systemAddressBook renameGroup:[group getId] withName:name];
-    } else {
+        return [_systemAddressBook renameGroup:[group getId] withName:name error:outError];
+    } 
+    else {
         [Database renameGroup:[group getId] withName:name];
+        return TRUE;
     }
 }
 
--(NSArray *)getGroupContacts:(Group *)group withFilter:(NSString *)filter {
+-(NSArray *)getGroupContacts:(Group *)group withFilter:(NSString *)filter
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
         return [_systemAddressBook getGroupContacts:[group getId] withFilter:filter];
-    } else {
+    }
+    else {
         return [Database getGroupContacts:[group getId] withFilter:filter];
     }
 }
 
-- (Boolean) addGroupContact:(Group *)group withPerson:(ABRecordRef)person {
+- (BOOL)addGroupContact:(Group *)group withPerson:(ABRecordRef)person error:(NSError **)outError
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        return [_systemAddressBook addGroupContact:[group getId] withPerson:person];
-    } else {
+        return [_systemAddressBook addGroupContact:[group getId] withPersonId:ABRecordGetRecordID(person) error:outError];
+    } 
+    else {
         [Database addGroupContact:[group getId] withPerson:person];
+        return TRUE;
     }
-    return true;
 }
 
-- (void) deleteGroupContact:(Group *)group withPersonId:(ABRecordID)personId {
+- (BOOL)deleteGroupContact:(Group *)group withPersonId:(ABRecordID)personId error:(NSError **)outError
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        [_systemAddressBook deleteGroupContact:[group getId] withContactId:personId];
-    } else {
-        [Database deleteGroupContact:[group getId] withContactId:personId];
+        return [_systemAddressBook deleteGroupContact:[group getId] withPersonId:personId error:outError];
     }
-    
-    
+    else {
+        [Database deleteGroupContact:[group getId] withContactId:personId];
+        return TRUE;
+    }
 }
 
 // Accessor methods for list

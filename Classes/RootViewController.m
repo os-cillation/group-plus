@@ -15,25 +15,48 @@
 
 @implementation RootViewController
 
-@synthesize dataController, searchBar;
+@synthesize dataController = _dataController;
+@synthesize groups = _groups;
+@synthesize searchBar = _searchBar;
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)pSearchBar {
-	pSearchBar.text = @"";
-    [groups release];
-	groups = [[dataController getGroups:pSearchBar.text] retain];
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        self.dataController = [DataController dataController];
+        if (!self.dataController) {
+            [self release];
+            return nil;
+        }
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+	[_dataController release];
+    [_groups release];
+    [_searchBar release];
+    [super dealloc];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	searchBar.text = @"";
+    self.groups = [self.dataController getGroups:searchBar.text];
 	[searchBar resignFirstResponder];
 	[self.tableView reloadData];
 }
 
-- (void)searchBar:(UISearchBar *)pSearchBar textDidChange:(NSString *)searchText {
-    [groups release];
-	groups = [[dataController getGroups:searchText] retain];
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    self.groups = [self.dataController getGroups:searchText];
 	[self.tableView reloadData];
 }
 
-- (void) refreshData {
-    [groups release];
-    groups = [[dataController getGroups:searchBar.text] retain];
+- (void) refreshData
+{
+    self.groups = [self.dataController getGroups:self.searchBar.text];
 	[self.tableView reloadData];
 }
 
@@ -74,9 +97,9 @@
     
     // Push the detail view controller.
     [[self navigationController] pushViewController:detailViewController animated:YES];
-    //[detailViewController release];
 	GroupsAppDelegate *delegate = [GroupsAppDelegate sharedAppDelegate];
-	delegate.groupViewController= detailViewController;
+	delegate.groupViewController = detailViewController;
+    [detailViewController release];
 }
 
 - (void)showPreferences {
@@ -143,8 +166,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dataController = [[DataController alloc] init];
-	
 	self.title = NSLocalizedString (@"Groupmanager", @"");
 	
 	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] 
@@ -201,7 +222,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	switch (section) {
 		case 0:
-			return [dataController countOfList:searchBar.text];
+			return [self.dataController countOfList:self.searchBar.text];
 		case 1:
 			return 6;
 		default:
@@ -230,7 +251,7 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
 			// Get the object to display and set the value in the cell.
-			Group *groupAtIndex = [groups objectAtIndex:indexPath.row];
+			Group *groupAtIndex = [self.groups objectAtIndex:indexPath.row];
 			cellText = groupAtIndex.name;
 			
 			cell.textLabel.text = cellText;
@@ -311,7 +332,7 @@
 		return @"";
 	}
 	NSString *title = [NSString alloc];
-	int count = [groups count];
+	int count = [self.groups count];
 	if (count != 1) {
 		title = [[NSString alloc] initWithFormat:NSLocalizedString(@"GroupsCount", @""), count];
 	}
@@ -325,7 +346,7 @@
 	switch (indexPath.section) {
 		case 0:
 		{
-			Group *groupAtIndex = [groups objectAtIndex:indexPath.row];
+			Group *groupAtIndex = [self.groups objectAtIndex:indexPath.row];
 			[self viewGroupDetails:groupAtIndex];
 			break;
 		}
@@ -375,18 +396,18 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		Group *groupAtIndex = [dataController objectInListAtIndex:indexPath.row withFilter:searchBar.text];
-		[dataController deleteGroup:groupAtIndex];
-		[self refreshData];
-		[self.tableView reloadData];
+		Group *groupAtIndex = [self.dataController objectInListAtIndex:indexPath.row withFilter:self.searchBar.text];
+        NSError *error = nil;
+		if ([self.dataController deleteGroup:groupAtIndex error:&error]) {
+            [self refreshData];
+            [self.tableView reloadData];
+        }
+        else {
+            // TODO:UIAlertView
+            NSLog(@"Error deleting group %d: %@", [groupAtIndex getId], [error description]);
+            [error release];
+        }
     }   
-}
-
-- (void)dealloc {
-	[dataController release];
-    [groups release];
-    [searchBar release];
-    [super dealloc];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

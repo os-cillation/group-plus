@@ -17,12 +17,12 @@
 - (id)init;
 - (void)dealloc;
 
-- (int)addGroup:(NSString *)name;
-- (void)deleteGroup:(ABRecordID) groupId;
-- (void)renameGroup:(ABRecordID) groupId withName:(NSString *) name;
+- (int)addGroup:(NSString *)name error:(NSError **)outError;
+- (BOOL)deleteGroup:(ABRecordID)groupId error:(NSError **)outError;
+- (BOOL)renameGroup:(ABRecordID)groupId withName:(NSString *)name error:(NSError **)outError;
 - (NSArray *)getGroups:(NSString *)filter;
 - (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter;
-- (Boolean) addGroupContact:(ABRecordID)groupId withPerson:(ABRecordRef)person;
-- (void) deleteGroupContact:(ABRecordID)groupId withContactId:(ABRecordID)contactId;
+- (BOOL)addGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError;
+- (BOOL)deleteGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError;
 
 @end

@@ -13,17 +13,23 @@
 
 @synthesize name, count;
 
+- (void)dealloc
+{
+	[name release];
+	[super dealloc];
+}
+
 - (void)setId:(ABRecordID)pId{
 	groupId = pId;
 }
+
 - (ABRecordID)getId{
 	return groupId ;
 }
 
-
-- (void)dealloc {
-	[name release];
-	[super dealloc];
+- (NSComparisonResult)compareByName:(Group *)group
+{
+    return [self.name compare:group.name];
 }
 
 @end

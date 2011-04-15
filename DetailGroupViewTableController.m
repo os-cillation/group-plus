@@ -15,26 +15,59 @@
 
 @implementation DetailGroupViewTableController
 
-@synthesize delegate, searchBar, group;
+@synthesize dataController = _dataController;
+@synthesize delegate = _delegate;
+@synthesize group = _group;
+@synthesize groupContacts = _groupContacts;
+@synthesize searchBar = _searchBar;
+@synthesize addButton = _addButton;
+@synthesize editButton = _editButton;
+@synthesize doneButton = _doneButton;
+@synthesize backButton = _backButton;
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)pSearchBar {
-	pSearchBar.text = @"";
-    [groupContacts release];
-	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:pSearchBar.text] retain];
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.dataController = [DataController dataController];
+        if (!self.dataController) {
+            [self release];
+            return nil;
+        }
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_groupContacts release];
+    [_group release];
+    [_searchBar release];
+	[_backButton release];
+	[_editButton release];
+	[_doneButton release];
+	[_addButton release];
+    [super dealloc];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	searchBar.text = @"";
+    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:searchBar.text];
 	[self.tableView reloadData];
-	[pSearchBar resignFirstResponder];
+	[searchBar resignFirstResponder];
 	
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-	[groupContacts release];
-	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchText] retain];
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:searchText];
 	[self.tableView reloadData];
 	
 }
 
-- (void)addGroupViewControllerDidFinish:(GroupAddViewController *)controller {
-	//[self refreshData];
+- (void)addGroupViewControllerDidFinish:(GroupAddViewController *)controller
+{
 	if ([controller.textField.text length] > 0) {
 		self.title = controller.textField.text;
 		self.group.name = controller.textField.text;
@@ -42,30 +75,26 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)showDetails:(int)personId {
+- (void)showDetails:(int)personId
+{
 	PersonViewController *personViewController = [[PersonViewController alloc] init];
-	
-	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, personId);
-	
-	personViewController.personViewDelegate = self;
-	personViewController.displayedPerson = person;
-	personViewController.allowsEditing = FALSE;
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personViewController];
-
-	[self presentModalViewController:navController animated:YES];
-	
+	ABRecordRef person = ABAddressBookGetPersonWithRecordID(personViewController.addressBook, personId);
+    personViewController.personViewDelegate = self;
+    personViewController.displayedPerson = person;
+    personViewController.allowsEditing = FALSE;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personViewController];
+    [self presentModalViewController:navController animated:YES];
+    [navController release];
 	[personViewController release];
-	[navController release];
-	CFRelease(ab);
 }
 
-- (void)cancelContact:(id)sender {
+- (void)cancelContact:(id)sender
+{
 	[self dismissModalViewControllerAnimated:YES];	
 }
 
-- (void)handleRename {
+- (void)handleRename
+{
 	GroupAddViewController *controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
 
 	controller.delegate = self;
@@ -81,20 +110,16 @@
 	[navController release];
 }
 
-- (void)sendMail {
-	
+- (void)sendMail
+{
 	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
 	picker.mailComposeDelegate = self;
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
 	
 	// Set up recipients
-	NSMutableArray *toRecipients = [[NSMutableArray alloc] init]; 
-	NSEnumerator *e = [groupContacts objectEnumerator];
-	GroupContact *contact;
-
-	while ((contact = [e nextObject])) {
-		
+    NSMutableArray *toRecipients = [NSMutableArray array];
+    for (GroupContact *contact in self.groupContacts) {
 		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
 		ABMultiValueRef multi = ABRecordCopyValue(person, kABPersonEmailProperty);
 		CFIndex	count = ABMultiValueGetCount(multi);
@@ -102,12 +127,10 @@
 			CFRelease(multi);
 			continue;
 		}
-		NSString *address = (NSString*)ABMultiValueCopyValueAtIndex(multi, 0);
-		
+		NSString *address = [(NSString *)ABMultiValueCopyValueAtIndex(multi, 0) autorelease];
 		if ([address length] > 0) {
 			[toRecipients addObject:address];
 		}		
-		[address release];
 		CFRelease(multi);
 	} 
 	
@@ -115,18 +138,19 @@
 	
 	[self presentModalViewController:picker animated:YES];
 	[picker release];
-	[toRecipients release];
-	[contact release];
 	
 	CFRelease(ab);
 }
 
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {	
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{	
+    // TODO:UIAlertView
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)handleSendSMS {
+- (void)handleSendSMS
+{
 	if (![MessageViewController canSendText]) {
 		UIAlertView *alertView = [[UIAlertView alloc]
 								  initWithTitle:NSLocalizedString(@"Error",@"")
@@ -139,34 +163,32 @@
 		[self.tableView reloadData];		
 		return;
 	}
-	NSArray *contacts = groupContacts;
-
+    
+	NSArray *contacts = self.groupContacts;
 	
 	MessageViewController *controller = [[MessageViewController alloc] init];
 	controller.messageComposeDelegate = self;
-	controller.group = group;
+	controller.group = self.group;
 	
-	NSMutableArray *toRecipients = [[NSMutableArray alloc] init]; 
+	NSMutableArray *toRecipients = [NSMutableArray array];
 	
 	GroupContact *contact = [GroupContact alloc];
 	NSString *userLabel = (NSString *)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneLabel"];
 
+    ABAddressBookRef ab = ABAddressBookCreate();
 	for (int i = 0; i < [contacts count]; i++) {
 		BOOL found = FALSE;
 		contact = [contacts objectAtIndex:i];
 		//[toRecipients addObject:contact.number];
-		ABAddressBookRef ab = ABAddressBookCreate();
 		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
 		ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
 		CFIndex	count = ABMultiValueGetCount(phoneProperty);
 		
 		if([userLabel length] > 0) {
 			for (CFIndex i=0; i < count; i++) {
-				NSString *label = (NSString*) ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(phoneProperty, i));
-				
+				NSString *label = [(NSString*) ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(phoneProperty, i)) autorelease];
 				if ([label isEqualToString:userLabel]) {
-					
-					NSString *phoneNumber = (NSString *) ABMultiValueCopyValueAtIndex(phoneProperty, i);
+					NSString *phoneNumber = [(NSString *) ABMultiValueCopyValueAtIndex(phoneProperty, i) autorelease];
 					[toRecipients addObject:phoneNumber];
 					contact.number = phoneNumber;
 					found = TRUE;
@@ -177,15 +199,18 @@
 		if (!found) {
 			[toRecipients addObject:contact.number];
 		}
+        CFRelease(phoneProperty);
 	}
+    CFRelease(ab);
 	
 	controller.members = contacts;
 	[controller setRecipients:toRecipients];
 	[self presentModalViewController:controller animated:YES];
-	
+    [controller release];
 }
 
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -212,7 +237,7 @@
 
 -(void)launchMailAppOnDevice {
 	NSString *recipients = @"mailto:";
-	NSArray *contacts = groupContacts;
+	NSArray *contacts = self.groupContacts;
 	
 	ABAddressBookRef book = ABAddressBookCreate();
     if (book) {
@@ -248,9 +273,9 @@
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [groupContacts release];
-	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchBar.text] retain];;
+- (void)viewWillAppear:(BOOL)animated
+{
+	self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:self.searchBar.text];
 	
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
@@ -258,18 +283,20 @@
     [self.tableView reloadData];
 }
 
-- (void)startEdit {
+- (void)startEdit
+{
 	[self.tableView setEditing:YES animated:YES];
 
-    self.navigationItem.leftBarButtonItem = doneButton;
-    self.navigationItem.rightBarButtonItem = addButton;
+    self.navigationItem.leftBarButtonItem = self.doneButton;
+    self.navigationItem.rightBarButtonItem = self.addButton;
 }
 
-- (void)stopEdit {
+- (void)stopEdit
+{
 	[self.tableView setEditing:NO animated:YES];
 	
-    self.navigationItem.rightBarButtonItem = editButton;
-	self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = self.editButton;
+	self.navigationItem.leftBarButtonItem = self.backButton;
 }
 
 - (void)addMember {
@@ -293,7 +320,9 @@
 // Return NO to do nothing (the delegate is responsible for dismissing the peoplePicker).
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
     
-    if (![[[DataController alloc] init] addGroupContact:group withPerson:person]) {
+    NSError *error = nil;
+    if (![self.dataController addGroupContact:self.group withPerson:person error:&error]) {
+        // TODO:UIAlertView
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:NSLocalizedString(@"Error", @"")
                               message:NSLocalizedString(@"MemberNotAddedMessage", @"") 
@@ -302,13 +331,12 @@
                               otherButtonTitles:nil];
         [alert show];
         [alert release];
+        [error release];
     }
 	
 	[self.delegate detailViewControllerReload:self];
-    [groupContacts release];
-	groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchBar.text] retain];
+    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:self.searchBar.text];
 	[self.tableView reloadData];
-	
 	[self dismissModalViewControllerAnimated:YES];
 	return NO;
 }
@@ -324,35 +352,23 @@
 	return YES;
 }
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	backButton = self.navigationItem.leftBarButtonItem;
-	editButton = [[UIBarButtonItem alloc] 
-								   initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-								   target:self
-								   action:@selector(startEdit)];
-	doneButton = [[UIBarButtonItem alloc] 
-				 initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-				 target:self
-				 action:@selector(stopEdit)];
-	addButton = [[UIBarButtonItem alloc] 
-				  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-				  target:self
-				  action:@selector(addMember)];
-	self.title = group.name;
-	self.navigationItem.rightBarButtonItem = editButton;
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+	self.backButton = self.navigationItem.leftBarButtonItem;
+	self.editButton = [[UIBarButtonItem alloc] 
+                       initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                       target:self
+                       action:@selector(startEdit)];
+	self.doneButton = [[UIBarButtonItem alloc] 
+                       initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                       target:self
+                       action:@selector(stopEdit)];
+	self.addButton = [[UIBarButtonItem alloc] 
+                      initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                      target:self
+                      action:@selector(addMember)];
+	self.title = self.group.name;
+	self.navigationItem.rightBarButtonItem = self.editButton;
 }
 
 
@@ -360,7 +376,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	if ([searchBar.text length] > 0) {
+	if ([self.searchBar.text length] > 0) {
 		return 1;
 	}
     return 2;
@@ -368,8 +384,8 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if ([searchBar.text length] > 0) {
-		return [groupContacts count];
+	if ([self.searchBar.text length] > 0) {
+		return [self.groupContacts count];
 	}
 	switch (section) {
 		case 0:
@@ -383,7 +399,7 @@
 			}
 			
 		case 1:
-			return [groupContacts count];
+			return [self.groupContacts count];
 	}
 
 	return 0;
@@ -405,7 +421,7 @@
 	cell.textLabel.textColor = [UIColor blackColor];
 	NSString *cellText = [NSString alloc];
 
-	if ([searchBar.text length] == 0) {
+	if ([self.searchBar.text length] == 0) {
 		switch (indexPath.section) {
 			case 0:
 			{
@@ -432,8 +448,7 @@
 			}
 			case 1:
 			{
-				GroupContact *groupContact = [groupContacts objectAtIndex:indexPath.row];
-				
+				GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
 
 				if ([groupContact.name length] > 0) {
 					cellText = groupContact.name;
@@ -449,7 +464,7 @@
 		}
 	}
 	else {
-		GroupContact *groupContact = [groupContacts objectAtIndex:indexPath.row];
+		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
 		
 		if ([groupContact.name length] > 0) {
 			cellText = groupContact.name;
@@ -473,7 +488,7 @@
  HIG note: In this case, since the content of each section is obvious, there's probably no need to provide a title, but the code is useful for illustration.
  */
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	if ([searchBar.text length] > 0) {
+	if ([self.searchBar.text length] > 0) {
 		return NSLocalizedString(@"MembersTitle", @"");
 	}
     NSString *title = [NSString alloc];
@@ -494,11 +509,11 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-	if ( (section == 0) && ([searchBar.text length] == 0) ) {
+	if ( (section == 0) && ([self.searchBar.text length] == 0) ) {
 		return @"";
 	}
 	NSString *title = [NSString alloc];
-	int count = [groupContacts count];
+	int count = [self.groupContacts count];
 	if (count != 1) {
 		title = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
 	}
@@ -509,8 +524,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ([searchBar.text length] > 0) {
-		GroupContact *groupContact = [groupContacts objectAtIndex:indexPath.row];		
+	if ([self.searchBar.text length] > 0) {
+		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];		
 		[self showDetails:[groupContact getId]];	
 		return;
 	}
@@ -539,7 +554,7 @@
 		}
         case 1:
 		{
-			GroupContact *groupContact = [groupContacts objectAtIndex:indexPath.row];
+			GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
 			[self showDetails:[groupContact getId]];
             break;
 		}
@@ -551,7 +566,7 @@
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ([searchBar.text length] > 0) {
+	if ([self.searchBar.text length] > 0) {
 		return YES;
 	}
 	switch (indexPath.section) {
@@ -574,25 +589,19 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 	
-		GroupContact *groupContact = [groupContacts objectAtIndex:indexPath.row];
+		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
         
-        [[[DataController alloc] init] deleteGroupContact:group withPersonId:[groupContact getId]];
-		[groupContacts release];
-		groupContacts = [[[[DataController alloc] init] getGroupContacts:group withFilter:searchBar.text] retain];
-		[self.delegate detailViewControllerReload:self];
-		[self.tableView reloadData];
+        NSError *error = nil;
+        if (![self.dataController deleteGroupContact:self.group withPersonId:[groupContact getId] error:&error]) {
+            // TODO:UIAlertView
+            [error release];
+        }
+        else {
+            self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:self.searchBar.text];
+            [self.delegate detailViewControllerReload:self];
+            [self.tableView reloadData];
+        }
     }   
-}
-
-- (void)dealloc {
-    [groupContacts release];
-    [group release];
-    [searchBar release];
-	[backButton release];
-	[editButton release];
-	[doneButton release];
-	[addButton release];
-    [super dealloc];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

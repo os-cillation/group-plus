@@ -16,20 +16,18 @@
 @class DataController;
 
 @interface RootViewController : UITableViewController <GroupAddViewControllerDelegate, DetailGroupViewTableControllerDelegate, UISearchBarDelegate> {
-	DataController *dataController;
-	NSArray *groups;
-	IBOutlet UISearchBar *searchBar;
+	DataController *_dataController;
+	NSArray *_groups;
+	IBOutlet UISearchBar *_searchBar;
 }
 
+@property (nonatomic, retain) DataController *dataController;
+@property (nonatomic, retain) NSArray *groups;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
-
 
 - (void)refreshData;
 - (void)showPreferences;
 - (void)showInfo;
 - (void)cleanUp;
-
-
-@property (nonatomic, retain) DataController *dataController;
 
 @end

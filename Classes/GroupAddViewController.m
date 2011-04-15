@@ -13,55 +13,76 @@
 
 @implementation GroupAddViewController
 
-@synthesize delegate, textField, group, label;
+@synthesize dataController = _dataController;
+@synthesize delegate = _delegate;
+@synthesize textField = _textField;
+@synthesize group = _group;
+@synthesize label = _label;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.dataController = [DataController dataController];
+        if (!self.dataController) {
+            [self release];
+            return nil;
+        }
+        self.wantsFullScreenLayout = YES;
+    }
+    return self;
+}
+
+- (void)dealloc 
+{
+    [_dataController release];
+	[_textField release];
+	[_label release];
+	[_group release];
+	[super dealloc];
+}
 
 #pragma mark -
 #pragma mark === Action method ===
 #pragma mark -
 
 - (IBAction)done {
-	textField.text = group.name;
+	self.textField.text = self.group.name;
 	[self.delegate addGroupViewControllerDidFinish:self];	
 }
 
 - (IBAction)addGroup {
-	NSString *nameString = textField.text;
-	if ([nameString length] == 0){
+	NSString *name = self.textField.text;
+	if ([name length] == 0){
 		[self.delegate addGroupViewControllerDidFinish:self];
-		return;
 	}
 	else {
-        if (group == nil) {
-            [[[DataController alloc] init] addGroup:nameString];
-        } else {
-            [[[DataController alloc] init] renameGroup: group withName: nameString];
+        if (!self.group) {
+            NSError *error = nil;
+            if (![self.dataController addGroup:name error:&error]) {
+                // TODO:UIAlertView
+                [error release];
+            }
+        } 
+        else {
+            NSError *error = nil;
+            if (![self.dataController renameGroup:self.group withName:name error:&error]) {
+                // TODO:UIAlertView
+                [error release];
+            }
         }
         [self.delegate addGroupViewControllerDidFinish:self];
     }
 }
 
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
-	self = [super initWithNibName:nibName bundle:nibBundle];
-	if (self) {
-		self.wantsFullScreenLayout = YES;
-	}
-	return self;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
 	[self addGroup];
     return NO;
 }
 
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
 	[super viewDidLoad];
 	[self updateText];
 	
@@ -79,24 +100,16 @@
     self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];
 	
-	[textField becomeFirstResponder];
-	if (group) {
-		self.textField.text = group.name;
+	[self.textField becomeFirstResponder];
+	if (self.group) {
+		self.textField.text = self.group.name;
 	}
 }
 
-- (void)updateText {
+- (void)updateText
+{
 	self.label.text = NSLocalizedString(@"EnterGroupName", @"");
 }
-
-
-- (void)dealloc {
-	[textField release];
-	[label release];
-	[group release];
-	[super dealloc];
-}
-
 
 @end
 

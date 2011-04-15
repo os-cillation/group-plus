@@ -18,6 +18,7 @@
 
 - (void)setId:(ABRecordID)pId;
 - (ABRecordID)getId;
+- (NSComparisonResult)compareByName:(Group *)group;
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) int count;
