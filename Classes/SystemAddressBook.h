@@ -14,9 +14,6 @@
     ABAddressBookRef _addressBook;
 }
 
-- (id)init;
-- (void)dealloc;
-
 - (int)addGroup:(NSString *)name error:(NSError **)outError;
 - (BOOL)deleteGroup:(ABRecordID)groupId error:(NSError **)outError;
 - (BOOL)renameGroup:(ABRecordID)groupId withName:(NSString *)name error:(NSError **)outError;
