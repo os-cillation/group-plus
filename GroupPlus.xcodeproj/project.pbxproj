@@ -80,6 +80,7 @@
 		43E5FE2511AFF9C6007CC23A /* GroupAddViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE2411AFF9C6007CC23A /* GroupAddViewController-iPad.xib */; };
 		43E5FE3911AFFC54007CC23A /* ShareContactsViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE3811AFFC54007CC23A /* ShareContactsViewController-iPad.xib */; };
 		43FC48A111AE675300AE7629 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FC48A011AE675300AE7629 /* CustomCell.m */; };
+		C7A7F5BE135767E20026F71D /* SystemAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A7F5BD135767E20026F71D /* SystemAddressBook.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,7 +97,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* GroupsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* GroupsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* GroupPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Group+.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Group+.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* GroupPlus_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupPlus_Prefix.pch; sourceTree = "<group>"; };
@@ -179,6 +180,8 @@
 		43FC489F11AE675300AE7629 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		43FC48A011AE675300AE7629 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GroupPlus-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GroupPlus-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C7A7F5BC135767E20026F71D /* SystemAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemAddressBook.h; sourceTree = "<group>"; };
+		C7A7F5BD135767E20026F71D /* SystemAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAddressBook.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +206,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C7A7F5BC135767E20026F71D /* SystemAddressBook.h */,
+				C7A7F5BD135767E20026F71D /* SystemAddressBook.m */,
 				43253C4611C2361A00D59D6A /* MessageViewController.h */,
 				43253C4711C2361A00D59D6A /* MessageViewController.m */,
 				43253C4811C2361A00D59D6A /* SMSDetailViewTableController.h */,
@@ -257,7 +262,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* GroupPlus.app */,
+				1D6058910D05DD3D006BFB54 /* Group+.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -356,7 +361,7 @@
 			);
 			name = GroupPlus;
 			productName = Groups;
-			productReference = 1D6058910D05DD3D006BFB54 /* GroupPlus.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Group+.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -467,6 +472,7 @@
 				43253C4B11C2361A00D59D6A /* SMSDetailViewTableController.m in Sources */,
 				43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */,
 				43A5040F13129F1B00FE24D8 /* SendContactViewController.m in Sources */,
+				C7A7F5BE135767E20026F71D /* SystemAddressBook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
