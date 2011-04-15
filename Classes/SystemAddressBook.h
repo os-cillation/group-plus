@@ -11,16 +11,18 @@
 
 
 @interface SystemAddressBook : NSObject {
-    
-    
+    ABAddressBookRef _addressBook;
 }
 
-+ (int)addGroup:(NSString *)name;
-+ (void)deleteGroup:(ABRecordID) groupId;
-+ (void)renameGroup:(ABRecordID) groupId withName:(NSString *) name;
-+ (NSArray *)getGroups:(NSString *)filter;
-+ (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter;
-+ (Boolean) addGroupContact:(ABRecordID)groupId withPerson:(ABRecordRef)person;
-+ (void) deleteGroupContact:(ABRecordID)groupId withContactId:(ABRecordID)contactId;
+- (id)init;
+- (void)dealloc;
+
+- (int)addGroup:(NSString *)name;
+- (void)deleteGroup:(ABRecordID) groupId;
+- (void)renameGroup:(ABRecordID) groupId withName:(NSString *) name;
+- (NSArray *)getGroups:(NSString *)filter;
+- (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter;
+- (Boolean) addGroupContact:(ABRecordID)groupId withPerson:(ABRecordRef)person;
+- (void) deleteGroupContact:(ABRecordID)groupId withContactId:(ABRecordID)contactId;
 
 @end
