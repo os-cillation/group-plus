@@ -145,7 +145,7 @@
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {	
-    // TODO:UIAlertView
+    [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -322,15 +322,7 @@
     
     NSError *error = nil;
     if (![self.dataController addGroupContact:self.group withPerson:person error:&error]) {
-        // TODO:UIAlertView
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:NSLocalizedString(@"Error", @"")
-                              message:NSLocalizedString(@"MemberNotAddedMessage", @"") 
-                              delegate:nil
-                              cancelButtonTitle:NSLocalizedString(@"OK", @"")
-                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
+        [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
         [error release];
     }
 	
@@ -593,7 +585,7 @@
         
         NSError *error = nil;
         if (![self.dataController deleteGroupContact:self.group withPersonId:[groupContact getId] error:&error]) {
-            // TODO:UIAlertView
+            [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
             [error release];
         }
         else {

@@ -32,7 +32,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	scrollView.contentSize = CGSizeMake(320, 600);
+	scrollView.contentSize = CGSizeMake(320, 550);
 	self.title = NSLocalizedString(@"Preferences", @"");
 	
 	switchUseAddressbook.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"];

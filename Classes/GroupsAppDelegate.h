@@ -24,6 +24,8 @@
 @property (nonatomic, retain) UINavigationController *navController;
 
 + (GroupsAppDelegate *)sharedAppDelegate;
+
+- (void)showErrorMessage:(NSError *)error;
 - (void)handleRefreshFinished;
 
 @end

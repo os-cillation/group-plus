@@ -60,14 +60,14 @@
         if (!self.group) {
             NSError *error = nil;
             if (![self.dataController addGroup:name error:&error]) {
-                // TODO:UIAlertView
+                [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
                 [error release];
             }
         } 
         else {
             NSError *error = nil;
             if (![self.dataController renameGroup:self.group withName:name error:&error]) {
-                // TODO:UIAlertView
+                [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
                 [error release];
             }
         }

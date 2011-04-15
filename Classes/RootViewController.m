@@ -403,7 +403,7 @@
             [self.tableView reloadData];
         }
         else {
-            // TODO:UIAlertView
+            [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
             NSLog(@"Error deleting group %d: %@", [groupAtIndex getId], [error description]);
             [error release];
         }

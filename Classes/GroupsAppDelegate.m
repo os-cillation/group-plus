@@ -76,5 +76,17 @@
 //	NSLog(@"refresh finished");
 }
 
+- (void)showErrorMessage:(NSError *)error {
+    
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:NSLocalizedString(@"Error", @"")
+                          message:[error localizedDescription]
+                          delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK", @"")
+                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+}
+
 @end
 
