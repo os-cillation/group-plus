@@ -181,7 +181,9 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
 - (int64_t)addGroup:(NSString *)name error:(NSError **)outError
 {
     if ([self query:@"INSERT INTO groups (name, abGroup) VALUES (?, 0)" withError:outError andParameters:name, nil]) {
-        return sqlite3_last_insert_rowid(_db);
+        int64_t groupId = sqlite3_last_insert_rowid(_db);
+        [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
+        return groupId;
     }
     return -1;
 }
@@ -190,6 +192,7 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
 {
     NSNumber *groupIdAsNumber = [NSNumber numberWithLongLong:(long long)groupId];
     if ([self query:@"DELETE FROM groups WHERE id=?" withError:outError andParameters:groupIdAsNumber, nil] && [self query:@"DELETE FROM groupContacts WHERE groupId=?" withError:outError andParameters:groupIdAsNumber, nil]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
         return TRUE;
     }
     else {
@@ -201,6 +204,7 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
 {
     NSNumber *groupIdAsNumber = [NSNumber numberWithLongLong:(long long)groupId];
     if ([self query:@"UPDATE groups SET name=? WHERE id=?" withError:outError andParameters:name, groupIdAsNumber, nil]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
         return TRUE;
     }
     else {
@@ -287,6 +291,7 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     
     // insert the record into the database
     if ([self query:@"INSERT OR REPLACE INTO groupContacts (groupId, id, name, number, abGroup) VALUES (?, ?, ?, ?, 0)" withError:outError andParameters:[NSNumber numberWithLongLong:groupId], [NSNumber numberWithLongLong:personId], name, number, nil]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
         return TRUE;
     }
     else {
@@ -297,6 +302,7 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
 - (BOOL)deleteGroupContact:(int64_t)groupId withPersonId:(int64_t)personId error:(NSError **)outError
 {
     if ([self query:@"DELETE FROM groupContacts WHERE groupId=? AND id=?" withError:outError andParameters:[NSNumber numberWithLongLong:groupId], [NSNumber numberWithLongLong:personId], nil]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
         return TRUE;
     }
     else {
