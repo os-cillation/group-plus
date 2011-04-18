@@ -11,7 +11,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 
 @interface CleanUpDuplicatesNumberController : UITableViewController <ABPersonViewControllerDelegate>{
-	NSArray *data;
+	NSArray *_data;
 }
 
 @end
