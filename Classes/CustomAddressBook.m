@@ -94,6 +94,9 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     // synchronize with the system address book
     ABAddressBookRevert(_addressBook);
     [self synchronize];
+    
+    // notify all observers that the address book did change
+    [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
 }
 
 - (NSArray *)query:(NSString *)query withError:(NSError **)outError andParameters:(NSObject *)parameter, ...

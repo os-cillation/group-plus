@@ -57,11 +57,13 @@ static DataController *sharedDataController = nil;
 
 - (void)defaultsChanged
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        self.addressBook = [SystemAddressBook systemAddressBook];
-    }
-    else {
-        self.addressBook = [CustomAddressBook customAddressBook];
+    id<AddressBookProtocol> newAddressBook = [[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"] ? [SystemAddressBook systemAddressBook] : [CustomAddressBook customAddressBook];
+    if (self.addressBook != newAddressBook) {
+        // setup the new address book
+        self.addressBook = newAddressBook;
+        
+        // notify all observers that the address book did change
+        [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
     }
 }
 

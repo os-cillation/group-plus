@@ -11,12 +11,20 @@
 #import "GroupContact.h"
 
 
+@interface SystemAddressBook ()
+
+- (void)addressBookChanged:(ABAddressBookRef)addressBook;
+
+@end
+
+
 static SystemAddressBook *systemAddressBook = nil;
 
 
 static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDictionaryRef info, void *context)
 {
-    ABAddressBookRevert(addressBook);
+    SystemAddressBook *systemAddressBook = (SystemAddressBook *)context;
+    [systemAddressBook addressBookChanged:addressBook];
 }
 
 
@@ -45,6 +53,17 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
         CFRelease(_addressBook);
     }
     [super dealloc];
+}
+
+- (void)addressBookChanged:(ABAddressBookRef)addressBook
+{
+    assert(_addressBook == addressBook);
+    
+    // discard local changes
+    ABAddressBookRevert(_addressBook);
+    
+    // notify all observers that the address book did change
+    [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
 }
 
 + (SystemAddressBook *)systemAddressBook
