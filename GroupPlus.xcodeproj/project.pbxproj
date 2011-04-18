@@ -73,7 +73,6 @@
 		43E5FE1411AFF744007CC23A /* AboutViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE1311AFF744007CC23A /* AboutViewController-iPad.xib */; };
 		43E5FE2511AFF9C6007CC23A /* GroupAddViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE2411AFF9C6007CC23A /* GroupAddViewController-iPad.xib */; };
 		43E5FE3911AFFC54007CC23A /* ShareContactsViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE3811AFFC54007CC23A /* ShareContactsViewController-iPad.xib */; };
-		43FC48A111AE675300AE7629 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FC48A011AE675300AE7629 /* CustomCell.m */; };
 		C719D98F135C34D300300C81 /* AddressBookProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C719D98E135C34D200300C81 /* AddressBookProtocol.m */; };
 		C7A7F5BE135767E20026F71D /* SystemAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A7F5BD135767E20026F71D /* SystemAddressBook.m */; };
 /* End PBXBuildFile section */
@@ -163,8 +162,6 @@
 		43E5FE1311AFF744007CC23A /* AboutViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "AboutViewController-iPad.xib"; sourceTree = "<group>"; };
 		43E5FE2411AFF9C6007CC23A /* GroupAddViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "GroupAddViewController-iPad.xib"; sourceTree = "<group>"; };
 		43E5FE3811AFFC54007CC23A /* ShareContactsViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "ShareContactsViewController-iPad.xib"; sourceTree = "<group>"; };
-		43FC489F11AE675300AE7629 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
-		43FC48A011AE675300AE7629 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GroupPlus-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GroupPlus-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C719D98E135C34D200300C81 /* AddressBookProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressBookProtocol.m; sourceTree = "<group>"; };
 		C772524813586B2A00CBE8E3 /* AddressBookProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressBookProtocol.h; sourceTree = "<group>"; };
@@ -210,8 +207,6 @@
 				43253C4711C2361A00D59D6A /* MessageViewController.m */,
 				43253C4811C2361A00D59D6A /* SMSDetailViewTableController.h */,
 				43253C4911C2361A00D59D6A /* SMSDetailViewTableController.m */,
-				43FC489F11AE675300AE7629 /* CustomCell.h */,
-				43FC48A011AE675300AE7629 /* CustomCell.m */,
 				43B667DC1160C96C00413238 /* CleanUpDuplicatesNumberController.h */,
 				43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */,
 				43B61613115CBCD800BA2C43 /* AboutViewController.h */,
@@ -442,7 +437,6 @@
 				43B667D81160C95D00413238 /* CleanUpDuplicatesNameController.m in Sources */,
 				43B667DF1160C96C00413238 /* CleanUpDuplicatesNumberController.m in Sources */,
 				432B5D4D11AD2E1F00798F51 /* PersonViewController.m in Sources */,
-				43FC48A111AE675300AE7629 /* CustomCell.m in Sources */,
 				43253C4A11C2361A00D59D6A /* MessageViewController.m in Sources */,
 				43253C4B11C2361A00D59D6A /* SMSDetailViewTableController.m in Sources */,
 				43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */,
