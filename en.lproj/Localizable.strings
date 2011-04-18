@@ -7,6 +7,7 @@
  */
 
 
+"SearchPlaceholder" = "Search";
 "Groupmanager" = "Group+";
 "Groups" = "Groups";
 "GroupCount" = "%i group";

@@ -176,7 +176,8 @@
 	[self refreshData];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 	self.title = NSLocalizedString (@"Groupmanager", @"");
 	
@@ -193,6 +194,8 @@
 								   action:@selector(startEdit)];
     self.navigationItem.rightBarButtonItem = editButton;
     [editButton release];
+    
+    self.searchBar.placeholder = NSLocalizedString(@"SearchPlaceholder", @"");
 }
 
 - (void)startEdit {

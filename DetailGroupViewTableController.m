@@ -361,6 +361,7 @@
 	self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMember)] autorelease];
 	self.title = self.group.name;
 	self.navigationItem.rightBarButtonItem = self.editButton;
+    self.searchBar.placeholder = NSLocalizedString(@"SearchPlaceholder", @"");
 }
 
 
