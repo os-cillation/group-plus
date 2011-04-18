@@ -10,9 +10,6 @@
 #import "CustomAddressBook.h"
 #import "CleanUpDuplicatesNameController.h"
 #import "CleanUpDuplicatesNumberController.h"
-#import "CleanUpContactsWithoutNumber.h"
-#import "CleanUpContactsWithoutEmail.h"
-#import "CleanUpContactsWithoutFoto.h"
 
 @implementation CleanUpTableViewController
 
@@ -99,15 +96,6 @@
 		case 1:
 			cell.textLabel.text = NSLocalizedString(@"findDuplicatesByNumber", @"");
 			break;
-		/*case 2:
-			cell.textLabel.text = NSLocalizedString(@"contactsWithoutNumber", @"");
-			break;
-		case 3:
-			cell.textLabel.text = NSLocalizedString(@"contactsWithoutEmail", @"");
-			break;
-		case 4:
-			cell.textLabel.text = NSLocalizedString(@"contactsWithoutFoto", @"");
-			break;*/
 		default:
 			break;
 	}
@@ -136,33 +124,6 @@
 			[controller release];
 			break;
 		}
-		/*case 2:
-		{
-			CleanUpContactsWithoutNumber *controller = [[CleanUpContactsWithoutNumber alloc] initWithStyle:UITableViewStyleGrouped];
-			
-			// Push the view controller.
-			[[self navigationController] pushViewController:controller animated:YES];
-			[controller release];
-			break;
-		}
-		case 3:
-		{
-			CleanUpContactsWithoutEmail *controller = [[CleanUpContactsWithoutEmail alloc] initWithNibName:@"CleanUpContactsWithoutEmail" bundle:nil];
-			
-			// Push the view controller.
-			[[self navigationController] pushViewController:controller animated:YES];
-			[controller release];
-			break;
-		}
-		case 4:
-		{
-			CleanUpContactsWithoutFoto *controller = [[CleanUpContactsWithoutFoto alloc] initWithNibName:@"CleanUpContactsWithoutFoto" bundle:nil];
-			
-			// Push the view controller.
-			[[self navigationController] pushViewController:controller animated:YES];
-			[controller release];
-			break;
-		}*/
 		default:
 			break;
 	}

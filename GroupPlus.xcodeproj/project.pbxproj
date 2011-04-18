@@ -52,8 +52,6 @@
 		43B0C780113FBD5D0007B48E /* ShareContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */; };
 		43B0C7A4113FC17D0007B48E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B0C7A3113FC17D0007B48E /* GameKit.framework */; };
 		43B0C88A113FE64D0007B48E /* ABRecordSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B0C889113FE64D0007B48E /* ABRecordSerializer.m */; };
-		43B225AE116214310058E1ED /* CleanUpContactsWithoutNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B225AC116214310058E1ED /* CleanUpContactsWithoutNumber.m */; };
-		43B225AF116214310058E1ED /* CleanUpContactsWithoutNumber.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B225AD116214310058E1ED /* CleanUpContactsWithoutNumber.xib */; };
 		43B2266B11622E250058E1ED /* DetailGroupViewTableController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B2266A11622E250058E1ED /* DetailGroupViewTableController.xib */; };
 		43B61616115CBCD800BA2C43 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B61614115CBCD800BA2C43 /* AboutViewController.m */; };
 		43B61617115CBCD800BA2C43 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B61615115CBCD800BA2C43 /* AboutViewController.xib */; };
@@ -67,11 +65,7 @@
 		43B8C3D7115A126C005C8B58 /* CustomAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B8C3D6115A126C005C8B58 /* CustomAddressBook.m */; };
 		43B8C3E8115A154C005C8B58 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */; };
 		43B8C565115A3148005C8B58 /* GroupContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B8C564115A3148005C8B58 /* GroupContact.m */; };
-		43BF82BC116B340F00167833 /* CleanUpContactsWithoutFoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */; };
-		43BF82BD116B340F00167833 /* CleanUpContactsWithoutFoto.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BF82BB116B340F00167833 /* CleanUpContactsWithoutFoto.xib */; };
 		43BF837C116B664800167833 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 43BF837B116B664800167833 /* icon2.png */; };
-		43BF83B9116B6A1D00167833 /* CleanUpContactsWithoutEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */; };
-		43BF83BA116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */; };
 		43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CF273811C767F8008C85AA /* PreferencesViewController.m */; };
 		43CF273B11C767F8008C85AA /* PreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43CF273911C767F8008C85AA /* PreferencesViewController.xib */; };
 		43DF437C11C241F900B57EAA /* groupplus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DF437B11C241F900B57EAA /* groupplus-icon.png */; };
@@ -140,9 +134,6 @@
 		43B0C7A3113FC17D0007B48E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		43B0C888113FE64D0007B48E /* ABRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABRecordSerializer.h; sourceTree = "<group>"; };
 		43B0C889113FE64D0007B48E /* ABRecordSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABRecordSerializer.m; sourceTree = "<group>"; };
-		43B225AB116214310058E1ED /* CleanUpContactsWithoutNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CleanUpContactsWithoutNumber.h; path = ../CleanUpContactsWithoutNumber.h; sourceTree = "<group>"; };
-		43B225AC116214310058E1ED /* CleanUpContactsWithoutNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CleanUpContactsWithoutNumber.m; path = ../CleanUpContactsWithoutNumber.m; sourceTree = "<group>"; };
-		43B225AD116214310058E1ED /* CleanUpContactsWithoutNumber.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CleanUpContactsWithoutNumber.xib; sourceTree = "<group>"; };
 		43B2266A11622E250058E1ED /* DetailGroupViewTableController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailGroupViewTableController.xib; sourceTree = "<group>"; };
 		43B61613115CBCD800BA2C43 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		43B61614115CBCD800BA2C43 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
@@ -163,13 +154,7 @@
 		43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		43B8C563115A3148005C8B58 /* GroupContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupContact.h; sourceTree = "<group>"; };
 		43B8C564115A3148005C8B58 /* GroupContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupContact.m; sourceTree = "<group>"; };
-		43BF82B9116B340F00167833 /* CleanUpContactsWithoutFoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpContactsWithoutFoto.h; sourceTree = "<group>"; };
-		43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpContactsWithoutFoto.m; sourceTree = "<group>"; };
-		43BF82BB116B340F00167833 /* CleanUpContactsWithoutFoto.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpContactsWithoutFoto.xib; path = Classes/CleanUpContactsWithoutFoto.xib; sourceTree = "<group>"; };
 		43BF837B116B664800167833 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
-		43BF83B6116B6A1D00167833 /* CleanUpContactsWithoutEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpContactsWithoutEmail.h; sourceTree = "<group>"; };
-		43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpContactsWithoutEmail.m; sourceTree = "<group>"; };
-		43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpContactsWithoutEmail.xib; path = Classes/CleanUpContactsWithoutEmail.xib; sourceTree = "<group>"; };
 		43CF273711C767F8008C85AA /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
 		43CF273811C767F8008C85AA /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
 		43CF273911C767F8008C85AA /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PreferencesViewController.xib; path = Classes/PreferencesViewController.xib; sourceTree = "<group>"; };
@@ -227,8 +212,6 @@
 				43253C4911C2361A00D59D6A /* SMSDetailViewTableController.m */,
 				43FC489F11AE675300AE7629 /* CustomCell.h */,
 				43FC48A011AE675300AE7629 /* CustomCell.m */,
-				43B225AB116214310058E1ED /* CleanUpContactsWithoutNumber.h */,
-				43B225AC116214310058E1ED /* CleanUpContactsWithoutNumber.m */,
 				43B667DC1160C96C00413238 /* CleanUpDuplicatesNumberController.h */,
 				43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */,
 				43B61613115CBCD800BA2C43 /* AboutViewController.h */,
@@ -249,10 +232,6 @@
 				43B61799115CF34900BA2C43 /* CleanUpTableViewController.m */,
 				43B667D51160C95D00413238 /* CleanUpDuplicatesNameController.h */,
 				43B667D61160C95D00413238 /* CleanUpDuplicatesNameController.m */,
-				43BF82B9116B340F00167833 /* CleanUpContactsWithoutFoto.h */,
-				43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */,
-				43BF83B6116B6A1D00167833 /* CleanUpContactsWithoutEmail.h */,
-				43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */,
 				432B5D4B11AD2E1F00798F51 /* PersonViewController.h */,
 				432B5D4C11AD2E1F00798F51 /* PersonViewController.m */,
 				43CF273711C767F8008C85AA /* PreferencesViewController.h */,
@@ -303,12 +282,9 @@
 				43DF437B11C241F900B57EAA /* groupplus-icon.png */,
 				4372BB3311B3DF9800F68DF2 /* data.sqlite */,
 				432C9647118714FC00BDC5C8 /* Default.png */,
-				43BF82BB116B340F00167833 /* CleanUpContactsWithoutFoto.xib */,
-				43BF83B8116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib */,
 				43BF837B116B664800167833 /* icon2.png */,
 				43B2266A11622E250058E1ED /* DetailGroupViewTableController.xib */,
 				43B0C77E113FBD5D0007B48E /* ShareContactsViewController.xib */,
-				43B225AD116214310058E1ED /* CleanUpContactsWithoutNumber.xib */,
 				43784330113ED5C900198BE4 /* GroupAddViewController.xib */,
 				43B6179A115CF34900BA2C43 /* CleanUpTableViewController.xib */,
 				43B667D71160C95D00413238 /* CleanUpDuplicatesNameController.xib */,
@@ -411,11 +387,8 @@
 				43B6179C115CF34900BA2C43 /* CleanUpTableViewController.xib in Resources */,
 				43B667D91160C95D00413238 /* CleanUpDuplicatesNameController.xib in Resources */,
 				43B667E01160C96C00413238 /* CleanUpDuplicatesNumberController.xib in Resources */,
-				43B225AF116214310058E1ED /* CleanUpContactsWithoutNumber.xib in Resources */,
 				43B2266B11622E250058E1ED /* DetailGroupViewTableController.xib in Resources */,
-				43BF82BD116B340F00167833 /* CleanUpContactsWithoutFoto.xib in Resources */,
 				43BF837C116B664800167833 /* icon2.png in Resources */,
-				43BF83BA116B6A1D00167833 /* CleanUpContactsWithoutEmail.xib in Resources */,
 				432C9649118714FC00BDC5C8 /* Default.png in Resources */,
 				43E5FDB411AFF115007CC23A /* MainWindow-iPad.xib in Resources */,
 				43E5FE1411AFF744007CC23A /* AboutViewController-iPad.xib in Resources */,
@@ -468,9 +441,6 @@
 				43B6179B115CF34900BA2C43 /* CleanUpTableViewController.m in Sources */,
 				43B667D81160C95D00413238 /* CleanUpDuplicatesNameController.m in Sources */,
 				43B667DF1160C96C00413238 /* CleanUpDuplicatesNumberController.m in Sources */,
-				43B225AE116214310058E1ED /* CleanUpContactsWithoutNumber.m in Sources */,
-				43BF82BC116B340F00167833 /* CleanUpContactsWithoutFoto.m in Sources */,
-				43BF83B9116B6A1D00167833 /* CleanUpContactsWithoutEmail.m in Sources */,
 				432B5D4D11AD2E1F00798F51 /* PersonViewController.m in Sources */,
 				43FC48A111AE675300AE7629 /* CustomCell.m in Sources */,
 				43253C4A11C2361A00D59D6A /* MessageViewController.m in Sources */,
