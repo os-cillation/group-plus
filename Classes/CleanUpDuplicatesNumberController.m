@@ -39,7 +39,7 @@
                     groupContacts = [NSMutableArray array];
                 }
                 [groupContacts addObject:groupContact];
-                [groupContactsByNumber setValue:groupContacts forKey:groupContact.number];
+                [groupContactsByNumber setObject:groupContacts forKey:groupContact.number];
             }
         }
         NSMutableArray *data = [NSMutableArray array];
