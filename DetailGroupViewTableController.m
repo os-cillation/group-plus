@@ -17,6 +17,7 @@
 @interface DetailGroupViewTableController ()
 
 - (void)addressBookDidChange;
+- (void)refreshData;
 
 @end
 
@@ -27,6 +28,7 @@
 @synthesize delegate = _delegate;
 @synthesize group = _group;
 @synthesize groupContacts = _groupContacts;
+@synthesize filteredGroupContacts = _filteredGroupContacts;
 @synthesize searchBar = _searchBar;
 @synthesize addButton = _addButton;
 @synthesize editButton = _editButton;
@@ -50,6 +52,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self setFilteredGroupContacts:nil];
     [_groupContacts release];
     [_group release];
     [_searchBar release];
@@ -62,22 +65,32 @@
 
 - (void)addressBookDidChange
 {
-    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:self.searchBar.text];
-    [self.tableView reloadData];
+    [self refreshData];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void)refreshData
 {
-	searchBar.text = @"";
-    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:searchBar.text];
-	[self.tableView reloadData];
-	[searchBar resignFirstResponder];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:searchText];
-	[self.tableView reloadData];
+    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:nil];
+    NSMutableArray *filteredGroupContacts = [NSMutableArray array];
+    NSString *filter = self.searchDisplayController.searchBar.text;
+    if (filter) {
+        for (GroupContact *groupContact in self.groupContacts) {
+            NSRange range = [groupContact.name rangeOfString:filter options:NSCaseInsensitiveSearch];
+            if (range.location != NSNotFound) {
+                [filteredGroupContacts addObject:groupContact];
+            }
+        }
+    }
+    else {
+        filteredGroupContacts = [[self.groupContacts mutableCopy] autorelease];
+    }
+    self.filteredGroupContacts = filteredGroupContacts;
+    if (self.searchDisplayController.active) {
+        [self.searchDisplayController.searchResultsTableView reloadData];
+    }
+    else {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)addGroupViewControllerDidFinish:(GroupAddViewController *)controller
@@ -91,7 +104,7 @@
 
 - (void)showDetails:(int)personId
 {
-	PersonViewController *personViewController = [[ABPersonViewController alloc] init];
+	ABPersonViewController *personViewController = [[ABPersonViewController alloc] init];
     personViewController.personViewDelegate = self;
     personViewController.displayedPerson = ABAddressBookGetPersonWithRecordID(personViewController.addressBook, personId);
     personViewController.allowsEditing = YES;
@@ -286,8 +299,6 @@
 	
     // Update the view with current data before it is displayed.
     [super viewWillAppear:animated];
-    
-    [self.tableView reloadData];
 }
 
 - (void)startEdit
@@ -370,23 +381,28 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.searchBar.text length] ? 1 : 2;
+    return (tableView == self.tableView) ? 2 : 1;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self.searchBar.text length] || section == 1) {
-		return [self.groupContacts count];
-	}
-    else {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            // The device is an iPad running iPhone 3.2 or later.
-            return 3;
+    if (tableView == self.tableView) {
+        if (section == 1) {
+            return [self.groupContacts count];
         }
         else {
-            // The device is an iPhone or iPod touch.
-            return 4;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                // The device is an iPad running iPhone 3.2 or later.
+                return 3;
+            }
+            else {
+                // The device is an iPhone or iPod touch.
+                return 4;
+            }
         }
+    }
+    else {
+        return [self.filteredGroupContacts count];
     }
 }
 
@@ -406,7 +422,7 @@
 	cell.textLabel.textColor = [UIColor blackColor];
 	NSString *cellText = [NSString alloc];
 
-	if ([self.searchBar.text length] == 0) {
+	if (tableView == self.tableView) {
 		switch (indexPath.section) {
 			case 0: {
 				switch (indexPath.row) {
@@ -446,7 +462,7 @@
 		}
 	}
 	else {
-		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
+		GroupContact *groupContact = [self.filteredGroupContacts objectAtIndex:indexPath.row];
 		if ([groupContact.name length]) {
 			cellText = groupContact.name;
 		}
@@ -469,63 +485,79 @@
  HIG note: In this case, since the content of each section is obvious, there's probably no need to provide a title, but the code is useful for illustration.
  */
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	if ([self.searchBar.text length] || section == 1) {
-		return NSLocalizedString(@"MembersTitle", @"");
-	}
+    if (tableView == self.tableView) {
+        if (section == 1) {
+            return NSLocalizedString(@"MembersTitle", @"");
+        }
+        else {
+            return @"";
+        }
+    }
     else {
-        return @"";
+        return nil;
     }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    if ([self.searchBar.text length] || section == 1) {
-        if ([self.groupContacts count] != 1) {
-            return [NSString stringWithFormat:@"%i %@", [self.groupContacts count], NSLocalizedString(@"Members", @"")];
+    if (tableView == self.tableView) {
+        if (section == 1) {
+            if ([self.groupContacts count] != 1) {
+                return [NSString stringWithFormat:@"%i %@", [self.groupContacts count], NSLocalizedString(@"Members", @"")];
+            }
+            else {
+                return [NSString stringWithFormat:@"%i %@", [self.groupContacts count], NSLocalizedString(@"Member", @"")];
+            }
         }
         else {
-            return [NSString stringWithFormat:@"%i %@", [self.groupContacts count], NSLocalizedString(@"Member", @"")];
+            return @"";
         }
     }
     else {
-        return @"";
+        return nil;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.searchBar.text length] || indexPath.section == 1) {
-		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];		
-		[self showDetails:groupContact.uniqueId];	
+    if (tableView == self.tableView) {
+        if (indexPath.section == 1) {
+            GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];		
+            [self showDetails:groupContact.uniqueId];	
+        }
+        else {
+            switch (indexPath.row) {
+                case 0:
+                    [self handleRename];
+                    break;
+                case 1:
+                    [self addMember];
+                    break;
+                case 2:
+                    [self handleSendMail];
+                    break;
+                case 3:
+                    [self handleSendSMS];
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     else {
-        switch (indexPath.row) {
-            case 0:
-                [self handleRename];
-                break;
-            case 1:
-                [self addMember];
-                break;
-            case 2:
-                [self handleSendMail];
-                break;
-            case 3:
-                [self handleSendSMS];
-                break;
-            default:
-                break;
-        }
+        GroupContact *groupContact = [self.filteredGroupContacts objectAtIndex:indexPath.row];		
+        [self showDetails:groupContact.uniqueId];	
     }
 }
 
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return ([self.searchBar.text length] || indexPath.section == 1);
+    return (tableView == self.tableView && indexPath.section == 1);
 }
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (tableView == self.tableView && editingStyle == UITableViewCellEditingStyleDelete) {
 	
 		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
         
@@ -544,6 +576,20 @@
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
+}
+
+#pragma mark - UISearchViewDisplayController Delegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self refreshData];
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self refreshData];
+    return YES;
 }
 
 @end

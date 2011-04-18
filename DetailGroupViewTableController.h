@@ -18,10 +18,11 @@
 @class DataController;
 @class Group;
 
-@interface DetailGroupViewTableController : UITableViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, ABPeoplePickerNavigationControllerDelegate, ABPersonViewControllerDelegate, GroupAddViewControllerDelegate, UISearchBarDelegate> {
+@interface DetailGroupViewTableController : UITableViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, ABPeoplePickerNavigationControllerDelegate, ABPersonViewControllerDelegate, GroupAddViewControllerDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
 	id <DetailGroupViewTableControllerDelegate> _delegate;
     DataController *_dataController;
 	NSArray *_groupContacts;
+	NSArray *_filteredGroupContacts;
 	Group *_group;
 	IBOutlet UISearchBar *_searchBar;
 	UIBarButtonItem *_backButton;
@@ -34,6 +35,7 @@
 @property (nonatomic, assign) id <DetailGroupViewTableControllerDelegate> delegate;
 @property (nonatomic, retain) Group *group;
 @property (nonatomic, copy) NSArray *groupContacts;
+@property (nonatomic, copy) NSArray *filteredGroupContacts;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) UIBarButtonItem *backButton;
 @property (nonatomic, retain) UIBarButtonItem *editButton;

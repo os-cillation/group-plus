@@ -18,6 +18,7 @@
 
 @synthesize dataController = _dataController;
 @synthesize groups = _groups;
+@synthesize filteredGroups = _filteredGroups;
 @synthesize searchBar = _searchBar;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -39,28 +40,34 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setDataController:nil];
     [self setGroups:nil];
+    [self setFilteredGroups:nil];
     [self setSearchBar:nil];
     [super dealloc];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-	searchBar.text = @"";
-    self.groups = [self.dataController getGroups:searchBar.text];
-	[searchBar resignFirstResponder];
-	[self.tableView reloadData];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    self.groups = [self.dataController getGroups:searchText];
-	[self.tableView reloadData];
-}
-
 - (void)refreshData
 {
-    self.groups = [self.dataController getGroups:self.searchBar.text];
-	[self.tableView reloadData];
+    self.groups = [self.dataController getGroups:nil];
+    NSMutableArray *filteredGroups = [NSMutableArray array];
+    NSString *filter = self.searchDisplayController.searchBar.text;
+    if (filter) {
+        for (Group *group in self.groups) {
+            NSRange range = [group.name rangeOfString:filter options:NSCaseInsensitiveSearch];
+            if (range.location != NSNotFound) {
+                [filteredGroups addObject:group];
+            }
+        }
+    }
+    else {
+        filteredGroups = [[self.groups mutableCopy] autorelease];
+    }
+    self.filteredGroups = filteredGroups;
+    if (self.searchDisplayController.active) {
+        [self.searchDisplayController.searchResultsTableView reloadData];
+    }
+    else {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)addGroupViewControllerDidFinish:(GroupAddViewController *)controller
@@ -88,8 +95,6 @@
 - (void)cleanUp
 {
 	CleanUpTableViewController *detailViewController = [[CleanUpTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-
-    // Push the detail view controller.
     [[self navigationController] pushViewController:detailViewController animated:YES];
     [detailViewController release];
 }
@@ -97,11 +102,8 @@
 - (void)viewGroupDetails:(Group *)group
 {
 	DetailGroupViewTableController *detailViewController = [[DetailGroupViewTableController alloc] initWithNibName:@"DetailGroupViewTableController" bundle:nil];
-    
     detailViewController.delegate = self;
 	detailViewController.group = group;
-    
-    // Push the detail view controller.
     [[self navigationController] pushViewController:detailViewController animated:YES];
 	GroupsAppDelegate *delegate = [GroupsAppDelegate sharedAppDelegate];
 	delegate.groupViewController = detailViewController;
@@ -111,12 +113,9 @@
 - (void)showPreferences
 {
 	PreferencesViewController *controller = [[PreferencesViewController alloc] initWithNibName:@"PreferencesViewController" bundle:nil];
-	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-	
 	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	[self presentModalViewController:navController animated:YES];
-	
 	[controller release];
 	[navController release];
 }
@@ -124,12 +123,9 @@
 - (void)showInfo
 {
 	AboutViewController *controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-	
 	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	[self presentModalViewController:navController animated:YES];
-	
 	[controller release];
 	[navController release];
 }
@@ -137,10 +133,8 @@
 - (void)shareContacts
 {
 	ShareContactsViewController *controller = [[ShareContactsViewController alloc] initWithNibName:@"ShareContactsViewController" bundle:nil];
-	
 	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	[self presentModalViewController:controller animated:YES];
-	
 	[controller release];
 }
 
@@ -168,7 +162,7 @@
 
 - (void) detailViewControllerDidFinish:(DetailGroupViewTableController *)controller
 {
-	[[self navigationController] popViewControllerAnimated:YES];
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (void)detailViewControllerReload:(DetailGroupViewTableController *)controller
@@ -230,20 +224,17 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return (tableView == self.tableView) ? 2 : 1;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	switch (section) {
-		case 0:
-            return [self.groups count];
-		case 1:
-			return 5;
-		default:
-			break;
-	}
-	return 0;
+    if (tableView == self.tableView) {
+        return (section == 0) ? [self.groups count] : 5;
+    }
+    else {
+        return [self.filteredGroups count];
+    }
 	
 }
 
@@ -254,153 +245,170 @@
     static NSString *const CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
 	
-	NSString *cellText;
-	
-	switch (indexPath.section) {
-		case 0:
-		{
-
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-
-			// Get the object to display and set the value in the cell.
-			Group *groupAtIndex = [self.groups objectAtIndex:indexPath.row];
-			cellText = groupAtIndex.name;
-			
-			cell.textLabel.text = cellText;
-			int count = groupAtIndex.count;
-			if (count != 1) {
-				cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
-			}
-			else {
-				cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Member", @"")];
-			}
-			 
-			return cell;
-		}
-		case 1:
-
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			cell.accessoryType = UITableViewCellAccessoryNone;
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			cell.backgroundColor = [UIColor whiteColor];
-            cell.detailTextLabel.text = @"";
-
-			switch (indexPath.row) {
-				case 0:
-					cell.textLabel.text = NSLocalizedString(@"ShareContacts", @"");
-					break;
-				case 1:
-					cell.textLabel.text = NSLocalizedString(@"SendContactSMS", @"");
-					if (![MFMessageComposeViewController canSendText]) {
-						cell.backgroundColor = [UIColor lightGrayColor];
-					}
-					break;
-				case 2:
-					cell.textLabel.text = NSLocalizedString(@"CleanUp", @"");
-					break;
-				case 3:
-					cell.textLabel.text = NSLocalizedString(@"Preferences", @"");
-					break;
-				case 4:
-					cell.textLabel.text = NSLocalizedString(@"About", @"");
-					break;
-				default:
-					break;
-			}
-			
-			return cell;
-		default:
-			break;
-	}
+    if (tableView == self.tableView) {
+        switch (indexPath.section) {
+            case 0:
+            {
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                
+                // Get the object to display and set the value in the cell.
+                Group *groupAtIndex = [self.groups objectAtIndex:indexPath.row];
+                cell.textLabel.text = groupAtIndex.name;
+                int count = groupAtIndex.count;
+                if (count != 1) {
+                    cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
+                }
+                else {
+                    cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Member", @"")];
+                }
+                
+                return cell;
+            }
+            case 1:
+                
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.backgroundColor = [UIColor whiteColor];
+                cell.detailTextLabel.text = @"";
+                
+                switch (indexPath.row) {
+                    case 0:
+                        cell.textLabel.text = NSLocalizedString(@"ShareContacts", @"");
+                        break;
+                    case 1:
+                        cell.textLabel.text = NSLocalizedString(@"SendContactSMS", @"");
+                        if (![MFMessageComposeViewController canSendText]) {
+                            cell.backgroundColor = [UIColor lightGrayColor];
+                        }
+                        break;
+                    case 2:
+                        cell.textLabel.text = NSLocalizedString(@"CleanUp", @"");
+                        break;
+                    case 3:
+                        cell.textLabel.text = NSLocalizedString(@"Preferences", @"");
+                        break;
+                    case 4:
+                        cell.textLabel.text = NSLocalizedString(@"About", @"");
+                        break;
+                    default:
+                        break;
+                }
+            default:
+                break;
+        }
+    }
+    else {
+        Group *group = [self.filteredGroups objectAtIndex:indexPath.row];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.detailTextLabel.text = @"";
+        cell.textLabel.text = group.name;
+    }
 	return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	switch (section) {
-		case 0:
-			return NSLocalizedString (@"Groups", @"");
-		case 1:
-			return NSLocalizedString (@"Other", @"");
-	}
+    if (tableView == self.tableView) {
+        switch (section) {
+            case 0:
+                return NSLocalizedString (@"Groups", @"");
+            case 1:
+                return NSLocalizedString (@"Other", @"");
+        }
+    }
     return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    switch (section) {
-        case 0:
-            if ([self.groups count] != 1) {
-                return [NSString stringWithFormat:NSLocalizedString(@"GroupsCount", @""), [self.groups count]];
-            }
-            else {
-                return [NSString stringWithFormat:NSLocalizedString(@"GroupCount", @""), [self.groups count]];
-            }
-        case 1:
-            return @"";
+    if (tableView == self.tableView) {
+        switch (section) {
+            case 0:
+                if ([self.groups count] != 1) {
+                    return [NSString stringWithFormat:NSLocalizedString(@"GroupsCount", @""), [self.groups count]];
+                }
+                else {
+                    return [NSString stringWithFormat:NSLocalizedString(@"GroupCount", @""), [self.groups count]];
+                }
+            case 1:
+                return @"";
+        }
     }
     return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	switch (indexPath.section) {
-		case 0: {
-			Group *groupAtIndex = [self.groups objectAtIndex:indexPath.row];
-			[self viewGroupDetails:groupAtIndex];
-			break;
-		}
-		case 1:
-			switch (indexPath.row) {
-				case 0:
-					[self shareContacts];
-					break;
-				case 1:
-					[self sendContactSMS];
-					break;
-				case 2:
-					[self cleanUp];
-					break;
-				case 3:
-					[self showPreferences];
-					break;
-				case 4:
-					[self showInfo];
-					break;
-				default:
-					break;
-			}
-			break;
-		default:
-			break;
-	}	
+    if (tableView == self.searchDisplayController.searchResultsTableView || indexPath.section == 0) {
+        Group *group = [((tableView == self.tableView) ? self.groups : self.filteredGroups) objectAtIndex:indexPath.row];
+        [self viewGroupDetails:group];
+    }
+    else {
+        switch (indexPath.row) {
+            case 0:
+                [self shareContacts];
+                break;
+            case 1:
+                [self sendContactSMS];
+                break;
+            case 2:
+                [self cleanUp];
+                break;
+            case 3:
+                [self showPreferences];
+                break;
+            case 4:
+                [self showInfo];
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.section == 0);
+    return (tableView == self.tableView && indexPath.section == 0);
 }
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Group *group = [self.groups objectAtIndex:indexPath.row];
-        NSError *error = nil;
-		if ([self.dataController deleteGroup:group error:&error]) {
-            [self refreshData];
-        }
-        else {
-            [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
-            NSLog(@"Error deleting group %d: %@", [group getId], [error description]);
-            [error release];
+    if (tableView == self.tableView) {
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            Group *group = [self.groups objectAtIndex:indexPath.row];
+            NSError *error = nil;
+            if ([self.dataController deleteGroup:group error:&error]) {
+                [self refreshData];
+            }
+            else {
+                [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
+                NSLog(@"Error deleting group %d: %@", [group getId], [error description]);
+                [error release];
+            }
         }
     }   
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
+}
+
+#pragma mark - UISearchViewDisplayController Delegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self refreshData];
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self refreshData];
+    return YES;
 }
 
 @end
