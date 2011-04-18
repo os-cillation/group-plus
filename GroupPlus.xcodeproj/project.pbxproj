@@ -80,6 +80,7 @@
 		43E5FE2511AFF9C6007CC23A /* GroupAddViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE2411AFF9C6007CC23A /* GroupAddViewController-iPad.xib */; };
 		43E5FE3911AFFC54007CC23A /* ShareContactsViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E5FE3811AFFC54007CC23A /* ShareContactsViewController-iPad.xib */; };
 		43FC48A111AE675300AE7629 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FC48A011AE675300AE7629 /* CustomCell.m */; };
+		C719D98F135C34D300300C81 /* AddressBookProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = C719D98E135C34D200300C81 /* AddressBookProtocol.m */; };
 		C7A7F5BE135767E20026F71D /* SystemAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = C7A7F5BD135767E20026F71D /* SystemAddressBook.m */; };
 /* End PBXBuildFile section */
 
@@ -180,6 +181,7 @@
 		43FC489F11AE675300AE7629 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		43FC48A011AE675300AE7629 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GroupPlus-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GroupPlus-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C719D98E135C34D200300C81 /* AddressBookProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressBookProtocol.m; sourceTree = "<group>"; };
 		C772524813586B2A00CBE8E3 /* AddressBookProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressBookProtocol.h; sourceTree = "<group>"; };
 		C7A7F5BC135767E20026F71D /* SystemAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemAddressBook.h; sourceTree = "<group>"; };
 		C7A7F5BD135767E20026F71D /* SystemAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAddressBook.m; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				C772524813586B2A00CBE8E3 /* AddressBookProtocol.h */,
+				C719D98E135C34D200300C81 /* AddressBookProtocol.m */,
 				C7A7F5BC135767E20026F71D /* SystemAddressBook.h */,
 				C7A7F5BD135767E20026F71D /* SystemAddressBook.m */,
 				43253C4611C2361A00D59D6A /* MessageViewController.h */,
@@ -475,6 +478,7 @@
 				43CF273A11C767F8008C85AA /* PreferencesViewController.m in Sources */,
 				43A5040F13129F1B00FE24D8 /* SendContactViewController.m in Sources */,
 				C7A7F5BE135767E20026F71D /* SystemAddressBook.m in Sources */,
+				C719D98F135C34D300300C81 /* AddressBookProtocol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

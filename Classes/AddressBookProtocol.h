@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const AddressBookDidChangeNotification;
+
 @protocol AddressBookProtocol <NSObject>
 
 - (int64_t)addGroup:(NSString *)name error:(NSError **)outError;
