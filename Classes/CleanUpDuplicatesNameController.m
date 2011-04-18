@@ -7,53 +7,86 @@
 //
 
 #import "CleanUpDuplicatesNameController.h"
-#import "CustomAddressBook.h"
+#import "AddressBookProtocol.h"
 #import "GroupContact.h"
+#import "DataController.h"
 #import "PersonViewController.h"
+
+@interface CleanUpDuplicatesNameController ()
+
+@property (nonatomic, retain) NSArray *data;
+
+- (void)reloadData;
+
+@end
+
 
 @implementation CleanUpDuplicatesNameController
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-    }
-    return self;
-}
-*/
+@synthesize data = _data;
 
+- (void)reloadData
+{
+    ABAddressBookRef addressBook = ABAddressBookCreate();
+    if (addressBook) {
+        NSArray *persons = [(NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook) autorelease];
+        NSMutableDictionary *groupContactsByName = [NSMutableDictionary dictionary];
+        for (CFIndex i = 0; i < [persons count]; ++i) {
+            GroupContact *groupContact = [GroupContact groupContactFromPerson:[persons objectAtIndex:i]];
+            if (groupContact) {
+                NSMutableArray *groupContacts = [groupContactsByName objectForKey:groupContact.name];
+                if (!groupContacts) {
+                    groupContacts = [NSMutableArray array];
+                }
+                [groupContacts addObject:groupContact];
+                [groupContactsByName setValue:groupContacts forKey:groupContact.name];
+            }
+        }
+        NSMutableArray *data = [NSMutableArray array];
+        for (NSString *groupContactName in groupContactsByName) {
+            NSArray *groupContacts = [groupContactsByName objectForKey:groupContactName];
+            if ([groupContacts count] > 1) {
+                [data addObject:groupContacts];
+            }
+        }
+        self.data = data;
+        [self.tableView reloadData];
+        CFRelease(addressBook);
+    }
+}
+
+- (void)dealloc {
+    self.data = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"DuplicatesByNameTitle", @"");
-    // TODO:OSBMI
-    //[data release];
-    //data = [[CustomAddressBook getDuplicateNameData] retain];
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:AddressBookDidChangeNotification object:nil];
+    [self reloadData];
 }
 
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+    self.data = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewDidUnload];
 }
 
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [data count];
+    return [self.data count];
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-     return [[data objectAtIndex:section] count];
+     return [[self.data objectAtIndex:section] count];
 }
 
 
@@ -67,8 +100,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    
-	GroupContact *contact = [[data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	GroupContact *contact = [[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
 	cell.textLabel.textColor = [UIColor blackColor];
 	
@@ -85,7 +117,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	GroupContact *groupContact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
+	GroupContact *groupContact = [[self.data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
 
     PersonViewController *personViewController = [[PersonViewController alloc] init];
 	
@@ -121,23 +153,22 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // TODO:OSBMI
-        //GroupContact *groupContact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
-		//ABAddressBookRef ab = ABAddressBookCreate();
-		//ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		//ABAddressBookRemoveRecord(ab, person, nil);
-		//ABAddressBookSave(ab, nil);
-		//[CustomAddressBook deleteCleanUpContact:[contact getId]];
-        //[data release];
-		//data = [[CustomAddressBook getDuplicateNameData] retain];
-		//[self.tableView reloadData];
+        GroupContact *groupContact = [[self.data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
+        ABAddressBookRef addressBook = ABAddressBookCreate();
+        if (addressBook) {
+            ABRecordRef person = ABAddressBookGetPersonWithRecordID(addressBook, groupContact.uniqueId);
+            if (person) {
+                NSError *error = nil;
+                if (!ABAddressBookRemoveRecord(addressBook, person, (CFErrorRef *)&error) || !ABAddressBookSave(addressBook, (CFErrorRef *)&error)) {
+                    [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
+                    [error release];
+                }
+            }
+            CFRelease(addressBook);
+        }
     }   
 }
 
-
-- (void)dealloc {
-    [super dealloc];
-}
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;

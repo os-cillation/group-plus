@@ -12,7 +12,7 @@
 
 
 @interface CleanUpDuplicatesNameController : UITableViewController <ABPersonViewControllerDelegate>{
-	NSArray *data;
+	NSArray *_data;
 }
 
 @end

@@ -15,6 +15,8 @@
 
 + (GroupContact *)groupContactFromPerson:(ABRecordRef)person;
 
+- (NSComparisonResult)compareByName:(GroupContact *)groupContact;
+
 @property (nonatomic, assign) int64_t uniqueId;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *number;

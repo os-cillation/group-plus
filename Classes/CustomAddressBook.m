@@ -257,6 +257,7 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
         NSLog(@"Failed to query group contacts (%@)", [error localizedDescription]);
         [error release];
     }
+    [groupContacts sortUsingSelector:@selector(compareByName:)];
     return groupContacts;
 }
 

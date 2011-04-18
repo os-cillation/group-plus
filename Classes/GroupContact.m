@@ -51,4 +51,9 @@
 	[super dealloc];
 }
 
+- (NSComparisonResult)compareByName:(GroupContact *)groupContact
+{
+    return [self.name compare:groupContact.name];
+}
+
 @end
