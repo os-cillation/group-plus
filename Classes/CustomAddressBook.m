@@ -171,7 +171,7 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     [self query:@"COMMIT" withError:NULL andParameters:nil];
 }
 
-+ (CustomAddressBook *)customAddressBook
++ (id)customAddressBook
 {
     if (customAddressBook == nil)
         customAddressBook = [[[CustomAddressBook alloc] init] autorelease];

@@ -22,7 +22,7 @@
 }
 
 @property (nonatomic, retain) DataController *dataController;
-@property (nonatomic, retain) NSArray *groups;
+@property (nonatomic, copy) NSArray *groups;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 
 - (void)refreshData;

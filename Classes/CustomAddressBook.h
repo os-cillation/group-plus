@@ -17,6 +17,6 @@ extern NSString *const CustomAddressBookErrorDomain;
     sqlite3 *_db;
 }
 
-+ (CustomAddressBook *)customAddressBook;
++ (id)customAddressBook;
 
 @end

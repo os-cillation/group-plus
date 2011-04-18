@@ -6,11 +6,19 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import "AddressBookProtocol.h"
 #import "DetailGroupViewTableController.h"
 #import "Group.h"
 #import "GroupContact.h"
 #import "DataController.h"
 #import "PersonViewController.h"
+
+
+@interface DetailGroupViewTableController ()
+
+- (void)addressBookDidChange;
+
+@end
 
 
 @implementation DetailGroupViewTableController
@@ -34,12 +42,14 @@
             [self release];
             return nil;
         }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressBookDidChange) name:AddressBookDidChangeNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_groupContacts release];
     [_group release];
     [_searchBar release];
@@ -50,13 +60,18 @@
     [super dealloc];
 }
 
+- (void)addressBookDidChange
+{
+    self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:self.searchBar.text];
+    [self.tableView reloadData];
+}
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
 	searchBar.text = @"";
     self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:searchBar.text];
 	[self.tableView reloadData];
 	[searchBar resignFirstResponder];
-	
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -78,10 +93,9 @@
 - (void)showDetails:(int)personId
 {
 	PersonViewController *personViewController = [[PersonViewController alloc] init];
-	ABRecordRef person = ABAddressBookGetPersonWithRecordID(personViewController.addressBook, personId);
     personViewController.personViewDelegate = self;
-    personViewController.displayedPerson = person;
-    personViewController.allowsEditing = FALSE;
+    personViewController.displayedPerson = ABAddressBookGetPersonWithRecordID(personViewController.addressBook, personId);
+    personViewController.allowsEditing = YES;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personViewController];
     [self presentModalViewController:navController animated:YES];
     [navController release];
@@ -145,7 +159,9 @@
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {	
-    [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
+    if (error) {
+        [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
+    }
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -292,7 +308,8 @@
 	self.navigationItem.leftBarButtonItem = self.backButton;
 }
 
-- (void)addMember {
+- (void)addMember
+{
 	ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
 	picker.peoplePickerDelegate = self;
 	
@@ -434,7 +451,6 @@
 			case 1:
 			{
 				GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
-
 				if ([groupContact.name length] > 0) {
 					cellText = groupContact.name;
 				}
@@ -450,7 +466,6 @@
 	}
 	else {
 		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
-		
 		if ([groupContact.name length] > 0) {
 			cellText = groupContact.name;
 		}
@@ -476,7 +491,7 @@
 	if ([self.searchBar.text length] > 0) {
 		return NSLocalizedString(@"MembersTitle", @"");
 	}
-    NSString *title = [NSString alloc];
+    NSString *title;
 	switch (section) {
 		case 0:
 		{
@@ -497,13 +512,13 @@
 	if ( (section == 0) && ([self.searchBar.text length] == 0) ) {
 		return @"";
 	}
-	NSString *title = [NSString alloc];
+	NSString *title;
 	int count = [self.groupContacts count];
 	if (count != 1) {
-		title = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
+		title = [NSString stringWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
 	}
 	else {
-		title = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Member", @"")];
+		title = [NSString stringWithFormat:@"%i %@", count, NSLocalizedString(@"Member", @"")];
 	}
     return title;
 }

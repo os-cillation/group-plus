@@ -13,6 +13,6 @@
     ABAddressBookRef _addressBook;
 }
 
-+ (SystemAddressBook *)systemAddressBook;
++ (id)systemAddressBook;
 
 @end

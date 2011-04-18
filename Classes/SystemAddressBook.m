@@ -66,7 +66,7 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     [[NSNotificationCenter defaultCenter] postNotificationName:AddressBookDidChangeNotification object:nil];
 }
 
-+ (SystemAddressBook *)systemAddressBook
++ (id)systemAddressBook
 {
     if (systemAddressBook == nil)
         systemAddressBook = [[[SystemAddressBook alloc] init] autorelease];

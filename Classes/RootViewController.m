@@ -11,6 +11,7 @@
 #import "PreferencesViewController.h"
 #import "CleanUpTableViewController.h"
 #import "GroupsAppDelegate.h"
+#import "AddressBookProtocol.h"
 #import <MessageUI/MFMessageComposeViewController.h>
 
 @implementation RootViewController
@@ -28,15 +29,17 @@
             [self release];
             return nil;
         }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:AddressBookDidChangeNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc
 {
-	[_dataController release];
-    [_groups release];
-    [_searchBar release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self setDataController:nil];
+    [self setGroups:nil];
+    [self setSearchBar:nil];
     [super dealloc];
 }
 
@@ -54,19 +57,20 @@
 	[self.tableView reloadData];
 }
 
-- (void) refreshData
+- (void)refreshData
 {
     self.groups = [self.dataController getGroups:self.searchBar.text];
 	[self.tableView reloadData];
 }
 
-- (void)addGroupViewControllerDidFinish:(GroupAddViewController *)controller {
+- (void)addGroupViewControllerDidFinish:(GroupAddViewController *)controller
+{
 	[self refreshData];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-
-- (void)addGroup {
+- (void)addGroup
+{
 	GroupAddViewController *controller = [[GroupAddViewController alloc] initWithNibName:@"GroupAddViewController" bundle:nil];
 	
 	controller.delegate = self;
@@ -81,7 +85,8 @@
 	[navController release];
 }
 
-- (void)cleanUp {
+- (void)cleanUp
+{
 	CleanUpTableViewController *detailViewController = [[CleanUpTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 
     // Push the detail view controller.
@@ -102,7 +107,8 @@
     [detailViewController release];
 }
 
-- (void)showPreferences {
+- (void)showPreferences
+{
 	PreferencesViewController *controller = [[PreferencesViewController alloc] initWithNibName:@"PreferencesViewController" bundle:nil];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -114,7 +120,8 @@
 	[navController release];
 }
 
-- (void)showInfo {
+- (void)showInfo
+{
 	AboutViewController *controller = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -126,7 +133,8 @@
 	[navController release];
 }
 
-- (void)shareContacts {
+- (void)shareContacts
+{
 	ShareContactsViewController *controller = [[ShareContactsViewController alloc] initWithNibName:@"ShareContactsViewController" bundle:nil];
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -135,7 +143,8 @@
 	[controller release];
 }
 
-- (void)sendContactSMS {
+- (void)sendContactSMS
+{
 	if ([MFMessageComposeViewController canSendText]) {
 		SendContactViewController *controller = [[SendContactViewController alloc] initWithNibName:@"SendContactViewController" bundle:nil];
 		controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -156,11 +165,13 @@
 	}
 }
 
-- (void) detailViewControllerDidFinish:(DetailGroupViewTableController *)controller {
+- (void) detailViewControllerDidFinish:(DetailGroupViewTableController *)controller
+{
 	[[self navigationController] popViewControllerAnimated:YES];
 }
 
-- (void)detailViewControllerReload:(DetailGroupViewTableController *)controller  {
+- (void)detailViewControllerReload:(DetailGroupViewTableController *)controller
+{
 	[self refreshData];
 }
 
@@ -312,7 +323,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	NSString *title = [NSString alloc];
+	NSString *title;
 	switch (section) {
 		case 0:
 			title = NSLocalizedString (@"Groups", @"");
@@ -331,13 +342,13 @@
 	if ( section == 1) {
 		return @"";
 	}
-	NSString *title = [NSString alloc];
+	NSString *title;
 	int count = [self.groups count];
 	if (count != 1) {
-		title = [[NSString alloc] initWithFormat:NSLocalizedString(@"GroupsCount", @""), count];
+		title = [NSString stringWithFormat:NSLocalizedString(@"GroupsCount", @""), count];
 	}
 	else {
-		title = [[NSString alloc] initWithFormat:NSLocalizedString(@"GroupCount", @""), count];
+		title = [NSString stringWithFormat:NSLocalizedString(@"GroupCount", @""), count];
 	}
     return title;
 }
@@ -400,7 +411,6 @@
         NSError *error = nil;
 		if ([self.dataController deleteGroup:groupAtIndex error:&error]) {
             [self refreshData];
-            [self.tableView reloadData];
         }
         else {
             [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];

@@ -33,7 +33,7 @@
 @property (nonatomic, retain) DataController *dataController;
 @property (nonatomic, assign) id <DetailGroupViewTableControllerDelegate> delegate;
 @property (nonatomic, retain) Group *group;
-@property (nonatomic, retain) NSArray *groupContacts;
+@property (nonatomic, copy) NSArray *groupContacts;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) UIBarButtonItem *backButton;
 @property (nonatomic, retain) UIBarButtonItem *editButton;
