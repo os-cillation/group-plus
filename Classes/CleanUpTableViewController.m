@@ -7,7 +7,7 @@
 //
 
 #import "CleanUpTableViewController.h"
-#import "Database.h"
+#import "CustomAddressBook.h"
 #import "CleanUpDuplicatesNameController.h"
 #import "CleanUpDuplicatesNumberController.h"
 #import "CleanUpContactsWithoutNumber.h"
@@ -26,7 +26,8 @@
 */
 
 - (void)prepareData {
-	[Database prepareDuplicateInfo];
+    // TODO:OSBMI
+    //[CustomAddressBook prepareDuplicateInfo];
 }
 
 

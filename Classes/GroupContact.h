@@ -11,17 +11,13 @@
 
 
 @interface GroupContact : NSObject {
-	ABRecordID contactId;
-	NSString *name;
-	NSString *number;
-	UIImage *image;
 }
 
-- (void)setId:(ABRecordID)pId;
-- (ABRecordID)getId;
++ (GroupContact *)groupContactFromPerson:(ABRecordRef)person;
 
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *number;
+@property (nonatomic, assign) int64_t uniqueId;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *number;
 @property (nonatomic, retain) UIImage *image;
 
 @end

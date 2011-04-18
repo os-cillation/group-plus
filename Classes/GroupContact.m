@@ -11,20 +11,43 @@
 
 @implementation GroupContact
 
-@synthesize name, number, image;
+@synthesize uniqueId;
+@synthesize name;
+@synthesize number;
+@synthesize image;
 
-- (void)setId:(ABRecordID)pId{
-	contactId = pId;
++ (GroupContact *)groupContactFromPerson:(ABRecordRef)person
+{
+    if (person) {
+        // setup the group contact
+        GroupContact *groupContact = [[[GroupContact alloc] init] autorelease];
+        groupContact.uniqueId = ABRecordGetRecordID(person);
+        groupContact.name = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
+        
+        // figure out the phone number for the contact
+        ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
+        if (phones) {
+            for (CFIndex i = 0; i < ABMultiValueGetCount(phones); ++i) {
+                NSString *label = [(NSString *)ABMultiValueCopyLabelAtIndex(phones, i) autorelease];
+                if ([label isEqualToString:(NSString *)kABPersonPhoneMobileLabel]) {
+                    groupContact.number = [(NSString *)ABMultiValueCopyValueAtIndex(phones, i) autorelease];
+                    break;
+                }
+            }
+            CFRelease(phones);
+        }
+        
+        return groupContact;
+    }
+    else {
+        return nil;
+    }
 }
-- (ABRecordID)getId{
-	return contactId ;
-}
-
 
 - (void)dealloc {
-	[name release];
-    [number release];
-    [image release];
+    [self setNumber:nil];
+    [self setImage:nil];
+    [self setName:nil];
 	[super dealloc];
 }
 

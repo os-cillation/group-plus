@@ -6,12 +6,20 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "DataController.h"
 #import <AddressBook/AddressBook.h>
-
+#import "DataController.h"
 #import "Group.h"
-#import "Database.h"
+#import "CustomAddressBook.h"
 #import "SystemAddressBook.h"
+
+
+@interface DataController ()
+
+@property (nonatomic, retain) id<AddressBookProtocol> addressBook;
+
+- (void)defaultsChanged;
+
+@end
 
 
 static DataController *sharedDataController = nil;
@@ -19,16 +27,21 @@ static DataController *sharedDataController = nil;
 
 @implementation DataController
 
+@synthesize addressBook;
+
 - (id)init
 {
     self = [super init];
     if (self) {
-        [Database getConnection]; //TODO
-        _systemAddressBook = [[SystemAddressBook alloc] init];
-        if (!_systemAddressBook) {
+        // setup the backing address book
+        [self defaultsChanged];
+        if (!self.addressBook) {
             [self release];
             return nil;
         }
+        
+        // register to get notified of changes to the user defaults
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsChanged) name:NSUserDefaultsDidChangeNotification object:nil];
     }
     return self;
 }
@@ -37,8 +50,19 @@ static DataController *sharedDataController = nil;
 {
     if (sharedDataController == self)
         sharedDataController = nil;
-    [_systemAddressBook release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self setAddressBook:nil];
     [super dealloc];
+}
+
+- (void)defaultsChanged
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
+        self.addressBook = [SystemAddressBook systemAddressBook];
+    }
+    else {
+        self.addressBook = [CustomAddressBook customAddressBook];
+    }
 }
 
 + (DataController *)dataController
@@ -50,97 +74,46 @@ static DataController *sharedDataController = nil;
 
 - (NSArray *)getGroups:(NSString *)filter
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) { 
-        return [_systemAddressBook getGroups:filter];
-    } 
-    else {
-        return [Database getGroups:filter];
-    }
+    return [self.addressBook getGroups:filter];
 }
 
 - (BOOL)deleteGroup:(Group *)group error:(NSError **)outError
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        return [_systemAddressBook deleteGroup:[group getId] error:outError];
-    }
-    else {
-        [Database deleteGroup:[group getId]];
-        return TRUE;
-    }
+    return [self.addressBook deleteGroup:[group getId] error:outError];
 }
 
 -(int)addGroup:(NSString *)name error:(NSError **)outError
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        return [_systemAddressBook addGroup:name error:outError];
-    } 
-    else {
-        return [Database addGroup:name];
-    }
+    return [self.addressBook addGroup:name error:outError];
 }
 
 - (BOOL)renameGroup:(Group *)group withName:(NSString *)name error:(NSError **)outError
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        return [_systemAddressBook renameGroup:[group getId] withName:name error:outError];
-    } 
-    else {
-        [Database renameGroup:[group getId] withName:name];
-        return TRUE;
-    }
+    return [self.addressBook renameGroup:[group getId] withName:name error:outError];
 }
 
 -(NSArray *)getGroupContacts:(Group *)group withFilter:(NSString *)filter
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        return [_systemAddressBook getGroupContacts:[group getId] withFilter:filter];
-    }
-    else {
-        return [Database getGroupContacts:[group getId] withFilter:filter];
-    }
+    return [self.addressBook getGroupContacts:[group getId] withFilter:filter];
 }
 
 - (BOOL)addGroupContact:(Group *)group withPerson:(ABRecordRef)person error:(NSError **)outError
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        return [_systemAddressBook addGroupContact:[group getId] withPersonId:ABRecordGetRecordID(person) error:outError];
-    } 
-    else {
-        [Database addGroupContact:[group getId] withPerson:person];
-        return TRUE;
-    }
+    return [self.addressBook addGroupContact:[group getId] withPersonId:ABRecordGetRecordID(person) error:outError];
 }
 
 - (BOOL)deleteGroupContact:(Group *)group withPersonId:(ABRecordID)personId error:(NSError **)outError
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        return [_systemAddressBook deleteGroupContact:[group getId] withPersonId:personId error:outError];
-    }
-    else {
-        [Database deleteGroupContact:[group getId] withContactId:personId];
-        return TRUE;
-    }
+    return [self.addressBook deleteGroupContact:[group getId] withPersonId:personId error:outError];
 }
 
 // Accessor methods for list
 - (unsigned)countOfList:(NSString *)filter {
-    int count;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        count = [[_systemAddressBook getGroups:filter]count];
-    } else {
-        count = [[Database getGroups:filter]count];
-    }
-    return count;
+    return [[self.addressBook getGroups:filter] count];
 }
 
 - (Group *)objectInListAtIndex:(unsigned)theIndex withFilter:(NSString *)filter {
-    Group *group;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UseAddressbook"]) {
-        group = [[_systemAddressBook getGroups:filter]objectAtIndex:theIndex];
-    } else {
-        group = [[Database getGroups:filter]objectAtIndex:theIndex];
-    }
-	return group;
+    return [[self.addressBook getGroups:filter] objectAtIndex:theIndex];
 }
 
 @end

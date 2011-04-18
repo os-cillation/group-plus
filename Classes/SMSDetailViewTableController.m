@@ -7,7 +7,6 @@
 //
 
 #import "SMSDetailViewTableController.h"
-#import "Database.h"
 #import "Group.h"
 #import "GroupContact.h"
 

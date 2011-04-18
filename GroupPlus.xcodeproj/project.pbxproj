@@ -64,7 +64,7 @@
 		43B667D91160C95D00413238 /* CleanUpDuplicatesNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B667D71160C95D00413238 /* CleanUpDuplicatesNameController.xib */; };
 		43B667DF1160C96C00413238 /* CleanUpDuplicatesNumberController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */; };
 		43B667E01160C96C00413238 /* CleanUpDuplicatesNumberController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B667DE1160C96C00413238 /* CleanUpDuplicatesNumberController.xib */; };
-		43B8C3D7115A126C005C8B58 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B8C3D6115A126C005C8B58 /* Database.m */; };
+		43B8C3D7115A126C005C8B58 /* CustomAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B8C3D6115A126C005C8B58 /* CustomAddressBook.m */; };
 		43B8C3E8115A154C005C8B58 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */; };
 		43B8C565115A3148005C8B58 /* GroupContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B8C564115A3148005C8B58 /* GroupContact.m */; };
 		43BF82BC116B340F00167833 /* CleanUpContactsWithoutFoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */; };
@@ -157,8 +157,8 @@
 		43B667DC1160C96C00413238 /* CleanUpDuplicatesNumberController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CleanUpDuplicatesNumberController.h; sourceTree = "<group>"; };
 		43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CleanUpDuplicatesNumberController.m; sourceTree = "<group>"; };
 		43B667DE1160C96C00413238 /* CleanUpDuplicatesNumberController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CleanUpDuplicatesNumberController.xib; path = Classes/CleanUpDuplicatesNumberController.xib; sourceTree = "<group>"; };
-		43B8C3D5115A126C005C8B58 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
-		43B8C3D6115A126C005C8B58 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		43B8C3D5115A126C005C8B58 /* CustomAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAddressBook.h; sourceTree = "<group>"; };
+		43B8C3D6115A126C005C8B58 /* CustomAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAddressBook.m; sourceTree = "<group>"; };
 		43B8C3E7115A154C005C8B58 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		43B8C563115A3148005C8B58 /* GroupContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupContact.h; sourceTree = "<group>"; };
 		43B8C564115A3148005C8B58 /* GroupContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupContact.m; sourceTree = "<group>"; };
@@ -180,6 +180,7 @@
 		43FC489F11AE675300AE7629 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		43FC48A011AE675300AE7629 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GroupPlus-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GroupPlus-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		C772524813586B2A00CBE8E3 /* AddressBookProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressBookProtocol.h; sourceTree = "<group>"; };
 		C7A7F5BC135767E20026F71D /* SystemAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemAddressBook.h; sourceTree = "<group>"; };
 		C7A7F5BD135767E20026F71D /* SystemAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAddressBook.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +207,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C772524813586B2A00CBE8E3 /* AddressBookProtocol.h */,
 				C7A7F5BC135767E20026F71D /* SystemAddressBook.h */,
 				C7A7F5BD135767E20026F71D /* SystemAddressBook.m */,
 				43253C4611C2361A00D59D6A /* MessageViewController.h */,
@@ -220,8 +222,8 @@
 				43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */,
 				43B61613115CBCD800BA2C43 /* AboutViewController.h */,
 				43B61614115CBCD800BA2C43 /* AboutViewController.m */,
-				43B8C3D5115A126C005C8B58 /* Database.h */,
-				43B8C3D6115A126C005C8B58 /* Database.m */,
+				43B8C3D5115A126C005C8B58 /* CustomAddressBook.h */,
+				43B8C3D6115A126C005C8B58 /* CustomAddressBook.m */,
 				43B0C888113FE64D0007B48E /* ABRecordSerializer.h */,
 				43B0C889113FE64D0007B48E /* ABRecordSerializer.m */,
 				437842C1113ECDC400198BE4 /* DetailGroupViewTableController.h */,
@@ -457,7 +459,7 @@
 				43784331113ED5C900198BE4 /* GroupAddViewController.m in Sources */,
 				43B0C77F113FBD5D0007B48E /* ShareContactsViewController.m in Sources */,
 				43B0C88A113FE64D0007B48E /* ABRecordSerializer.m in Sources */,
-				43B8C3D7115A126C005C8B58 /* Database.m in Sources */,
+				43B8C3D7115A126C005C8B58 /* CustomAddressBook.m in Sources */,
 				43B8C565115A3148005C8B58 /* GroupContact.m in Sources */,
 				43B61616115CBCD800BA2C43 /* AboutViewController.m in Sources */,
 				43B6179B115CF34900BA2C43 /* CleanUpTableViewController.m in Sources */,

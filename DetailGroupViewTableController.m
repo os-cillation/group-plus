@@ -116,30 +116,30 @@
 	picker.mailComposeDelegate = self;
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
-	
-	// Set up recipients
-    NSMutableArray *toRecipients = [NSMutableArray array];
-    for (GroupContact *contact in self.groupContacts) {
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		ABMultiValueRef multi = ABRecordCopyValue(person, kABPersonEmailProperty);
-		CFIndex	count = ABMultiValueGetCount(multi);
-		if (multi == NULL || multi == nil || count == 0) {
-			CFRelease(multi);
-			continue;
-		}
-		NSString *address = [(NSString *)ABMultiValueCopyValueAtIndex(multi, 0) autorelease];
-		if ([address length] > 0) {
-			[toRecipients addObject:address];
-		}		
-		CFRelease(multi);
-	} 
-	
-	[picker setToRecipients:toRecipients];
-	
-	[self presentModalViewController:picker animated:YES];
-	[picker release];
-	
-	CFRelease(ab);
+    if (ab) {
+        // Set up recipients
+        NSMutableArray *toRecipients = [NSMutableArray array];
+        for (GroupContact *groupContact in self.groupContacts) {
+            ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
+            ABMultiValueRef multi = ABRecordCopyValue(person, kABPersonEmailProperty);
+            CFIndex	count = ABMultiValueGetCount(multi);
+            if (multi == NULL || multi == nil || count == 0) {
+                CFRelease(multi);
+                continue;
+            }
+            NSString *address = [(NSString *)ABMultiValueCopyValueAtIndex(multi, 0) autorelease];
+            if ([address length] > 0) {
+                [toRecipients addObject:address];
+            }		
+            CFRelease(multi);
+        } 
+        
+        [picker setToRecipients:toRecipients];
+        [self presentModalViewController:picker animated:YES];
+        [picker release];
+        
+        CFRelease(ab);
+    }
 }
 
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
@@ -164,46 +164,41 @@
 		return;
 	}
     
-	NSArray *contacts = self.groupContacts;
-	
 	MessageViewController *controller = [[MessageViewController alloc] init];
 	controller.messageComposeDelegate = self;
 	controller.group = self.group;
 	
 	NSMutableArray *toRecipients = [NSMutableArray array];
 	
-	GroupContact *contact = [GroupContact alloc];
 	NSString *userLabel = (NSString *)[[NSUserDefaults standardUserDefaults] valueForKey:@"phoneLabel"];
 
     ABAddressBookRef ab = ABAddressBookCreate();
-	for (int i = 0; i < [contacts count]; i++) {
+    for (GroupContact *groupContact in self.groupContacts) {
 		BOOL found = FALSE;
-		contact = [contacts objectAtIndex:i];
-		//[toRecipients addObject:contact.number];
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
-		CFIndex	count = ABMultiValueGetCount(phoneProperty);
-		
-		if([userLabel length] > 0) {
-			for (CFIndex i=0; i < count; i++) {
-				NSString *label = [(NSString*) ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(phoneProperty, i)) autorelease];
-				if ([label isEqualToString:userLabel]) {
-					NSString *phoneNumber = [(NSString *) ABMultiValueCopyValueAtIndex(phoneProperty, i) autorelease];
-					[toRecipients addObject:phoneNumber];
-					contact.number = phoneNumber;
-					found = TRUE;
-					break;
-				}
-			}
-		}
-		if (!found) {
-			[toRecipients addObject:contact.number];
-		}
-        CFRelease(phoneProperty);
+		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
+		ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
+        if (phones) {
+            if([userLabel length] > 0) {
+                for (CFIndex i=0; i < ABMultiValueGetCount(phones); i++) {
+                    NSString *label = [(NSString*) ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(phones, i)) autorelease];
+                    if ([label isEqualToString:userLabel]) {
+                        NSString *phoneNumber = [(NSString *) ABMultiValueCopyValueAtIndex(phones, i) autorelease];
+                        [toRecipients addObject:phoneNumber];
+                        groupContact.number = phoneNumber;
+                        found = TRUE;
+                        break;
+                    }
+                }
+            }
+            if (!found && groupContact.number) {
+                [toRecipients addObject:groupContact.number];
+            }
+            CFRelease(phones);
+        }
 	}
     CFRelease(ab);
 	
-	controller.members = contacts;
+	controller.members = self.groupContacts;
 	[controller setRecipients:toRecipients];
 	[self presentModalViewController:controller animated:YES];
     [controller release];
@@ -237,20 +232,18 @@
 
 -(void)launchMailAppOnDevice {
 	NSString *recipients = @"mailto:";
-	NSArray *contacts = self.groupContacts;
 	
 	ABAddressBookRef book = ABAddressBookCreate();
     if (book) {
-        for (int i = 0; i < [contacts count]; i++) {
-            GroupContact *contact = [contacts objectAtIndex:i];
-            ABRecordRef person = ABAddressBookGetPersonWithRecordID(book, [contact getId]);
+        for (GroupContact *groupContact in self.groupContacts) {
+            ABRecordRef person = ABAddressBookGetPersonWithRecordID(book, groupContact.uniqueId);
             if (person) {
                 ABMultiValueRef emails = ABRecordCopyValue(person, kABPersonEmailProperty);
                 if (emails) {
                     if (ABMultiValueGetCount(emails) > 0) {
                         NSString *address = [(NSString *)ABMultiValueCopyValueAtIndex(emails, 0) autorelease];
                         if (address && [address length]) {
-                            if (i == 0){
+                            if ([recipients isEqualToString:@"mailto:"]) {
                                 recipients = [recipients stringByAppendingString:address];
                             }
                             else {
@@ -518,7 +511,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if ([self.searchBar.text length] > 0) {
 		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];		
-		[self showDetails:[groupContact getId]];	
+		[self showDetails:groupContact.uniqueId];	
 		return;
 	}
 	
@@ -547,7 +540,7 @@
         case 1:
 		{
 			GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
-			[self showDetails:[groupContact getId]];
+			[self showDetails:groupContact.uniqueId];
             break;
 		}
         default:
@@ -584,7 +577,7 @@
 		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
         
         NSError *error = nil;
-        if (![self.dataController deleteGroupContact:self.group withPersonId:[groupContact getId] error:&error]) {
+        if (![self.dataController deleteGroupContact:self.group withPersonId:groupContact.uniqueId error:&error]) {
             [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
             [error release];
         }

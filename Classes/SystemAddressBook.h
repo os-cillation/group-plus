@@ -6,20 +6,13 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <AddressBook/AddressBook.h>
+#import "AddressBookProtocol.h"
 
-
-@interface SystemAddressBook : NSObject {
+@interface SystemAddressBook : NSObject <AddressBookProtocol> {
     ABAddressBookRef _addressBook;
 }
 
-- (int)addGroup:(NSString *)name error:(NSError **)outError;
-- (BOOL)deleteGroup:(ABRecordID)groupId error:(NSError **)outError;
-- (BOOL)renameGroup:(ABRecordID)groupId withName:(NSString *)name error:(NSError **)outError;
-- (NSArray *)getGroups:(NSString *)filter;
-- (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter;
-- (BOOL)addGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError;
-- (BOOL)deleteGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError;
++ (SystemAddressBook *)systemAddressBook;
 
 @end

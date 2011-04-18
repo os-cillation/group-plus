@@ -8,7 +8,7 @@
 
 #import "PreferencesViewController.h"
 #import <AddressBook/AddressBook.h>
-#import "Database.h"
+#import "CustomAddressBook.h"
 
 
 @implementation PreferencesViewController
@@ -24,8 +24,6 @@
 	[[NSUserDefaults standardUserDefaults] setBool:switchUseAddressbook.on forKey:@"UseAddressbook"];
 	[[NSUserDefaults standardUserDefaults] setObject:labelText.text forKey:@"phoneLabel"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
-	[Database prepareGroupInfo];
-	[Database prepareContactInfo];
 	[self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 

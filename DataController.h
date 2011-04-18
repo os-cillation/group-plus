@@ -9,11 +9,9 @@
 #import <AddressBook/AddressBook.h>
 
 @class Group;
-@class SystemAddressBook;
-
 
 @interface DataController : NSObject {
-    SystemAddressBook *_systemAddressBook;
+
 }
 
 + (DataController *)dataController;

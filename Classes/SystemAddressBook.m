@@ -11,6 +11,9 @@
 #import "GroupContact.h"
 
 
+static SystemAddressBook *systemAddressBook = nil;
+
+
 static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDictionaryRef info, void *context)
 {
     ABAddressBookRevert(addressBook);
@@ -35,9 +38,20 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
 
 - (void)dealloc
 {
-    ABAddressBookUnregisterExternalChangeCallback(_addressBook, &SystemAddressBookChangeCallback, self);
-    CFRelease(_addressBook);
+    if (systemAddressBook == self)
+        systemAddressBook = nil;
+    if (_addressBook) {
+        ABAddressBookUnregisterExternalChangeCallback(_addressBook, &SystemAddressBookChangeCallback, self);
+        CFRelease(_addressBook);
+    }
     [super dealloc];
+}
+
++ (SystemAddressBook *)systemAddressBook
+{
+    if (systemAddressBook == nil)
+        systemAddressBook = [[[SystemAddressBook alloc] init] autorelease];
+    return systemAddressBook;
 }
 
 - (NSArray *)getGroups:(NSString *)filter {
@@ -70,7 +84,7 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     return groups;
 }
  
-- (int)addGroup:(NSString *)name error:(NSError **)outError {
+- (int64_t)addGroup:(NSString *)name error:(NSError **)outError {
     ABRecordRef group = ABGroupCreate();
     if (!group) {
         if (outError)
@@ -93,7 +107,7 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     return groupId;
 }
 
-- (BOOL)deleteGroup:(ABRecordID)groupId error:(NSError **)outError {
+- (BOOL)deleteGroup:(int64_t)groupId error:(NSError **)outError {
     ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
     if (group && ABAddressBookRemoveRecord(_addressBook, group, NULL)) {
         if (!ABAddressBookSave(_addressBook, (CFErrorRef *)outError)) {
@@ -104,7 +118,7 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     return TRUE;
 }
 
-- (BOOL)renameGroup:(ABRecordID)groupId withName:(NSString *)name error:(NSError **)outError {
+- (BOOL)renameGroup:(int64_t)groupId withName:(NSString *)name error:(NSError **)outError {
     ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
     if (!group) {
         if (outError)
@@ -121,50 +135,29 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     return TRUE;
 }
 
-- (NSArray *)getGroupContacts:(ABRecordID)groupId withFilter:(NSString *)filter {
-    NSMutableArray *contacts = [NSMutableArray array];
+- (NSArray *)getGroupContacts:(int64_t)groupId withFilter:(NSString *)filter {
+    NSMutableArray *groupContacts = [NSMutableArray array];
     ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
     if (group) {
         NSArray *persons = [(NSArray *)ABGroupCopyArrayOfAllMembersWithSortOrdering(group, kABPersonSortByLastName) autorelease];
         for (CFIndex i = 0; i < [persons count]; ++i) {
-            ABRecordRef person = (ABRecordRef) [persons objectAtIndex:i];
-            if (person) {
-                ABRecordID contactId = ABRecordGetRecordID(person);
-                NSString *fullName = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
-                
-                NSString *phoneNumber = [NSString alloc];
-                phoneNumber = @"";
-                ABMultiValueRef phoneProperty = ABRecordCopyValue(person, kABPersonPhoneProperty);
-                CFIndex	count = ABMultiValueGetCount(phoneProperty);
-                for (CFIndex i=0; i < count; i++) {
-                    NSString *label = (NSString*)ABMultiValueCopyLabelAtIndex(phoneProperty, i);
-                    
-                    if(([label isEqualToString:(NSString*)kABPersonPhoneMobileLabel]) /*|| ([label isEqualToString:kABPersonPhoneIPhoneLabel])*/) {
-                        phoneNumber = (NSString*)ABMultiValueCopyValueAtIndex(phoneProperty, i);
-                        break;
+            GroupContact *groupContact = [GroupContact groupContactFromPerson:[persons objectAtIndex:i]];
+            if (groupContact) {
+                if ([filter length]) {
+                    NSRange textRange = [[groupContact.name lowercaseString] rangeOfString:[filter lowercaseString]];
+                    if (textRange.location == NSNotFound) {
+                        continue;
                     }
                 }
-                // Namen mit Filter prüfen
-                NSRange textRange;
-                if (filter && [filter length]) {
-                    textRange = [[fullName lowercaseString] rangeOfString:[filter lowercaseString]];
-                }
-                if (textRange.location != NSNotFound) {
-                    GroupContact *contact = [[GroupContact alloc] init];
-                    [contact setId:contactId];
-                    [contact setName:fullName];
-                    [contact setNumber:phoneNumber];
-                    [contacts addObject:contact];
-                    [contact release];
-                }
+                [groupContacts addObject:groupContact];
             }
         }
     }
     
-    return contacts;
+    return groupContacts;
 }
 
-- (BOOL)addGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError
+- (BOOL)addGroupContact:(int64_t)groupId withPersonId:(int64_t)personId error:(NSError **)outError
 {
     ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
     if (!group) {
@@ -192,7 +185,7 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
     return TRUE;
 }
 
-- (BOOL)deleteGroupContact:(ABRecordID)groupId withPersonId:(ABRecordID)personId error:(NSError **)outError
+- (BOOL)deleteGroupContact:(int64_t)groupId withPersonId:(int64_t)personId error:(NSError **)outError
 {
     ABRecordRef group = ABAddressBookGetGroupWithRecordID(_addressBook, groupId);
     if (!group) {

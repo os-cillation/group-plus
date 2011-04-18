@@ -7,7 +7,7 @@
 //
 
 #import "CleanUpDuplicatesNameController.h"
-#import "Database.h"
+#import "CustomAddressBook.h"
 #import "GroupContact.h"
 #import "PersonViewController.h"
 
@@ -26,8 +26,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"DuplicatesByNameTitle", @"");
-    [data release];
-    data = [[Database getDuplicateNameData] retain];
+    // TODO:OSBMI
+    //[data release];
+    //data = [[CustomAddressBook getDuplicateNameData] retain];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,12 +85,12 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	GroupContact *contact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
+	GroupContact *groupContact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
 
     PersonViewController *personViewController = [[PersonViewController alloc] init];
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
 	
 	personViewController.personViewDelegate = self;
 	personViewController.displayedPerson = person;
@@ -120,15 +121,16 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		GroupContact *contact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
-		ABAddressBookRef ab = ABAddressBookCreate();
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		ABAddressBookRemoveRecord(ab, person, nil);
-		ABAddressBookSave(ab, nil);
-		[Database deleteCleanUpContact:[contact getId]];
-        [data release];
-		data = [[Database getDuplicateNameData] retain];
-		[self.tableView reloadData];
+        // TODO:OSBMI
+        //GroupContact *groupContact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
+		//ABAddressBookRef ab = ABAddressBookCreate();
+		//ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+		//ABAddressBookRemoveRecord(ab, person, nil);
+		//ABAddressBookSave(ab, nil);
+		//[CustomAddressBook deleteCleanUpContact:[contact getId]];
+        //[data release];
+		//data = [[CustomAddressBook getDuplicateNameData] retain];
+		//[self.tableView reloadData];
     }   
 }
 

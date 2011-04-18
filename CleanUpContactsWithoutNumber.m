@@ -7,7 +7,6 @@
 //
 
 #import "CleanUpContactsWithoutNumber.h"
-#import "Database.h"
 #import "GroupContact.h"
 
 
@@ -16,8 +15,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"contactsWithoutNumberTitle", @"");
-    [data release];
-    data = [[Database getWithoutNumberData] retain];
+    // TODO:OSBMI
+    //[data release];
+    //data = [[Database getWithoutNumberData] retain];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,12 +64,12 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	GroupContact *contact = [data objectAtIndex:indexPath.row];
+	GroupContact *groupContact = [data objectAtIndex:indexPath.row];
 	
     ABPersonViewController *personViewController = [[ABPersonViewController alloc] init];
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
 	
 	personViewController.personViewDelegate = self;
 	personViewController.displayedPerson = person;
@@ -105,15 +105,16 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		GroupContact *contact = [data objectAtIndex: indexPath.row];
-		ABAddressBookRef ab = ABAddressBookCreate();
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		ABAddressBookRemoveRecord(ab, person, nil);
-		ABAddressBookSave(ab, nil);
-		[Database deleteCleanUpContact:[contact getId]];
-        [data release];
-		data = [[Database getWithoutNumberData] retain];
-		[self.tableView reloadData];
+        // TODO:OSBMI
+		//GroupContact *contact = [data objectAtIndex: indexPath.row];
+		//ABAddressBookRef ab = ABAddressBookCreate();
+		//ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+		//ABAddressBookRemoveRecord(ab, person, nil);
+		//ABAddressBookSave(ab, nil);
+		//[Database deleteCleanUpContact:[contact getId]];
+        //[data release];
+		//data = [[Database getWithoutNumberData] retain];
+		//[self.tableView reloadData];
     }   
 }
 

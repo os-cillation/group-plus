@@ -8,7 +8,7 @@
 
 #import "GroupsAppDelegate.h"
 #import "RootViewController.h"
-#import "Database.h"
+#import "CustomAddressBook.h"
 
 #import "AboutViewController.h"
 
@@ -32,8 +32,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { 
 	viewController = nil;
 	groupViewController = nil;
-	[Database createEditableCopyOfDatabaseIfNeeded];
-    [Database getConnection];
     // Override point for customization after app launch    
 	
 	[window addSubview:[navigationController view]];
@@ -59,7 +57,6 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-	[Database refreshData];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

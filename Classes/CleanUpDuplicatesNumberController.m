@@ -7,7 +7,7 @@
 //
 
 #import "CleanUpDuplicatesNumberController.h"
-#import "Database.h"
+#import "CustomAddressBook.h"
 #import "GroupContact.h"
 #import "PersonViewController.h"
 
@@ -27,8 +27,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"DuplicatesByNumberTitle", @"");
-    [data release];
-	data = [[Database getDuplicateNumberData] retain];
+    // TODO:OSBMI
+    //[data release];
+	//data = [[CustomAddressBook getDuplicateNumberData] retain];
 }
 
 
@@ -94,12 +95,12 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-	GroupContact *contact = [[data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	GroupContact *groupContact = [[data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
 	cell.textLabel.textColor = [UIColor blackColor];
 	
-	if ([contact.name length] > 0) {
-	cell.textLabel.text = contact.name;
+	if ([groupContact.name length] > 0) {
+        cell.textLabel.text = groupContact.name;
 	}
 	else {
 		cell.textLabel.textColor = [UIColor grayColor];
@@ -114,19 +115,19 @@
 	if ([data count] == 0) {
 		return @"";
 	}
-	GroupContact *contact = [[data objectAtIndex:section] objectAtIndex:0];
+	GroupContact *groupContact = [[data objectAtIndex:section] objectAtIndex:0];
 	
-    return contact.number;
+    return groupContact.number;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	GroupContact *contact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
+	GroupContact *groupContact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
 	
     PersonViewController *personViewController = [[PersonViewController alloc] init];
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
 	
 	personViewController.personViewDelegate = self;
 	personViewController.displayedPerson = person;
@@ -157,15 +158,16 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		GroupContact *contact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
-		ABAddressBookRef ab = ABAddressBookCreate();
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		ABAddressBookRemoveRecord(ab, person, nil);
-		ABAddressBookSave(ab, nil);
-		[Database deleteCleanUpContact:[contact getId]];
-        [data release];
-		data = [[Database getDuplicateNumberData] retain];
-		[self.tableView reloadData];
+        // TODO:OSBMI
+		//GroupContact *contact = [[data objectAtIndex:indexPath.section] objectAtIndex: indexPath.row];
+		//ABAddressBookRef ab = ABAddressBookCreate();
+		//ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+		//ABAddressBookRemoveRecord(ab, person, nil);
+		//ABAddressBookSave(ab, nil);
+		//[CustomAddressBook deleteCleanUpContact:[contact getId]];
+        //[data release];
+		//data = [[CustomAddressBook getDuplicateNumberData] retain];
+		//[self.tableView reloadData];
     }   
 }
 

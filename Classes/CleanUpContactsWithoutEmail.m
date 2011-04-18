@@ -7,7 +7,7 @@
 //
 
 #import "CleanUpContactsWithoutEmail.h"
-#import "Database.h"
+#import "CustomAddressBook.h"
 #import "GroupContact.h"
 
 @implementation CleanUpContactsWithoutEmail
@@ -19,16 +19,18 @@
 }
 
 - (void)searchBar:(UISearchBar *)pSearchBar textDidChange:(NSString *)searchText {
-    [data release];
-    data = [[Database getWithoutEmailData:pSearchBar.text] retain];
-	[self.tableView reloadData];
+    // TODO:OSBMI
+    //[data release];
+    //data = [[CustomAddressBook getWithoutEmailData:pSearchBar.text] retain];
+	//[self.tableView reloadData];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = NSLocalizedString(@"contactsWithoutEmailTitle", @"");
-    [data release];
-    data = [[Database getWithoutEmailData:searchBar.text] retain];
+    // TODO:OSBMI
+    //[data release];
+    //data = [[CustomAddressBook getWithoutEmailData:searchBar.text] retain];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,12 +77,12 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	GroupContact *contact = [data objectAtIndex:indexPath.row];
+	GroupContact *groupContact = [data objectAtIndex:indexPath.row];
 	
     ABPersonViewController *personViewController = [[ABPersonViewController alloc] init];
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
 	
 	personViewController.personViewDelegate = self;
 	personViewController.displayedPerson = person;
@@ -116,15 +118,16 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		GroupContact *contact = [data objectAtIndex: indexPath.row];
-		ABAddressBookRef ab = ABAddressBookCreate();
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
-		ABAddressBookRemoveRecord(ab, person, nil);
-		ABAddressBookSave(ab, nil);
-		[Database deleteCleanUpContact:[contact getId]];
-        [data release];
-		data = [[Database getWithoutNumberData] retain];
-		[self.tableView reloadData];
+        // TODO:OSBMI
+		//GroupContact *groupContact = [data objectAtIndex: indexPath.row];
+		//ABAddressBookRef ab = ABAddressBookCreate();
+		//ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, [contact getId]);
+		//ABAddressBookRemoveRecord(ab, person, nil);
+		//ABAddressBookSave(ab, nil);
+		//[CustomAddressBook deleteCleanUpContact:[contact getId]];
+        //[data release];
+		//data = [[CustomAddressBook getWithoutNumberData] retain];
+		//[self.tableView reloadData];
     }   
 }
 

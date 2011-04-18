@@ -17,6 +17,6 @@
 }
 
 @property (nonatomic, retain) Group *group;
-@property (nonatomic, retain) NSArray *members;
+@property (nonatomic, copy) NSArray *members;
 
 @end
