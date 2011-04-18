@@ -94,7 +94,8 @@
     [detailViewController release];
 }
 
-- (void)viewGroupDetails:(Group *)group {
+- (void)viewGroupDetails:(Group *)group
+{
 	DetailGroupViewTableController *detailViewController = [[DetailGroupViewTableController alloc] initWithNibName:@"DetailGroupViewTableController" bundle:nil];
     
     detailViewController.delegate = self;
@@ -179,6 +180,13 @@
     [super viewDidLoad];
 	self.title = NSLocalizedString (@"Groupmanager", @"");
 	
+	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] 
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                  target:self
+                                  action:@selector(addGroup)];
+    self.navigationItem.leftBarButtonItem = addButton;
+	[addButton release];
+	
 	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] 
 								   initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
 								   target:self
@@ -193,18 +201,12 @@
 								   initWithBarButtonSystemItem:UIBarButtonSystemItemDone
 								   target:self
 								   action:@selector(stopEdit)];
-    self.navigationItem.leftBarButtonItem = doneButton;
+    self.navigationItem.rightBarButtonItem = doneButton;
 	[doneButton release];
-	
-	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] 
-								   initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-								   target:self
-								   action:@selector(addGroup)];
-    self.navigationItem.rightBarButtonItem = addButton;
-	[addButton release];
 }
 
-- (void)stopEdit {
+- (void)stopEdit
+{
 	[self.tableView setEditing:NO animated:YES];
 	
 	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] 
@@ -213,7 +215,6 @@
 								   action:@selector(startEdit)];
     self.navigationItem.rightBarButtonItem = editButton;
     [editButton release];
-	self.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -233,9 +234,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	switch (section) {
 		case 0:
-			return [self.dataController countOfList:self.searchBar.text];
+            return [self.groups count];
 		case 1:
-			return 6;
+			return 5;
 		default:
 			break;
 	}
@@ -247,7 +248,7 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *const CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
@@ -282,34 +283,26 @@
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			cell.backgroundColor = [UIColor whiteColor];
+            cell.detailTextLabel.text = @"";
 
 			switch (indexPath.row) {
 				case 0:
-					cell.textLabel.text = NSLocalizedString(@"AddGroup", @"");
-					cell.detailTextLabel.text = @"";
+					cell.textLabel.text = NSLocalizedString(@"ShareContacts", @"");
 					break;
 				case 1:
-					cell.textLabel.text = NSLocalizedString(@"ShareContacts", @"");
-					cell.detailTextLabel.text = @"";
-					break;
-				case 2:
 					cell.textLabel.text = NSLocalizedString(@"SendContactSMS", @"");
 					if (![MFMessageComposeViewController canSendText]) {
 						cell.backgroundColor = [UIColor lightGrayColor];
 					}
-					cell.detailTextLabel.text = @"";
+					break;
+				case 2:
+					cell.textLabel.text = NSLocalizedString(@"CleanUp", @"");
 					break;
 				case 3:
-					cell.textLabel.text = NSLocalizedString(@"CleanUp", @"");
-					cell.detailTextLabel.text = @"";
+					cell.textLabel.text = NSLocalizedString(@"Preferences", @"");
 					break;
 				case 4:
-					cell.textLabel.text = NSLocalizedString(@"Preferences", @"");
-					cell.detailTextLabel.text = @"";
-					break;
-				case 5:
 					cell.textLabel.text = NSLocalizedString(@"About", @"");
-					cell.detailTextLabel.text = @"";
 					break;
 				default:
 					break;
@@ -322,41 +315,35 @@
 	return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	NSString *title;
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
 	switch (section) {
 		case 0:
-			title = NSLocalizedString (@"Groups", @"");
-			break;
+			return NSLocalizedString (@"Groups", @"");
 		case 1:
-			title = NSLocalizedString (@"Other", @"");
-			break;
-		default:
-			break;
-	}	
-	
-    return title;
+			return NSLocalizedString (@"Other", @"");
+	}
+    return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-	if ( section == 1) {
-		return @"";
-	}
-	NSString *title;
-	int count = [self.groups count];
-	if (count != 1) {
-		title = [NSString stringWithFormat:NSLocalizedString(@"GroupsCount", @""), count];
-	}
-	else {
-		title = [NSString stringWithFormat:NSLocalizedString(@"GroupCount", @""), count];
-	}
-    return title;
+    switch (section) {
+        case 0:
+            if ([self.groups count] != 1) {
+                return [NSString stringWithFormat:NSLocalizedString(@"GroupsCount", @""), [self.groups count]];
+            }
+            else {
+                return [NSString stringWithFormat:NSLocalizedString(@"GroupCount", @""), [self.groups count]];
+            }
+        case 1:
+            return @"";
+    }
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch (indexPath.section) {
-		case 0:
-		{
+		case 0: {
 			Group *groupAtIndex = [self.groups objectAtIndex:indexPath.row];
 			[self viewGroupDetails:groupAtIndex];
 			break;
@@ -364,21 +351,18 @@
 		case 1:
 			switch (indexPath.row) {
 				case 0:
-					[self addGroup];
-					break;
-				case 1:
 					[self shareContacts];
 					break;
-				case 2:
+				case 1:
 					[self sendContactSMS];
 					break;
-				case 3:
+				case 2:
 					[self cleanUp];
 					break;
-				case 4:
+				case 3:
 					[self showPreferences];
 					break;
-				case 5:
+				case 4:
 					[self showInfo];
 					break;
 				default:
@@ -392,29 +376,21 @@
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	switch (indexPath.section) {
-		case 0:
-			return YES;
-		case 1:
-			return NO;
-		default:
-			break;
-	}	
-	return NO;
+    return (indexPath.section == 0);
 }
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		Group *groupAtIndex = [self.dataController objectInListAtIndex:indexPath.row withFilter:self.searchBar.text];
+        Group *group = [self.groups objectAtIndex:indexPath.row];
         NSError *error = nil;
-		if ([self.dataController deleteGroup:groupAtIndex error:&error]) {
+		if ([self.dataController deleteGroup:group error:&error]) {
             [self refreshData];
         }
         else {
             [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
-            NSLog(@"Error deleting group %d: %@", [groupAtIndex getId], [error description]);
+            NSLog(@"Error deleting group %d: %@", [group getId], [error description]);
             [error release];
         }
     }   

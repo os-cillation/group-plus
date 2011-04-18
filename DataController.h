@@ -17,8 +17,6 @@
 + (DataController *)dataController;
 
 - (NSArray *)getGroups:(NSString *)filter;
-- (unsigned)countOfList:(NSString *)filter;
-- (Group *)objectInListAtIndex:(unsigned)theIndex withFilter:(NSString *)filter;
 - (BOOL)deleteGroup:(Group *)group error:(NSError **)outError;
 - (int)addGroup:(NSString *)name error:(NSError **)outError;
 - (BOOL)renameGroup:(Group *)group withName:(NSString *)name error:(NSError **)outError;

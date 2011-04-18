@@ -78,7 +78,6 @@
 {
     self.groupContacts = [self.dataController getGroupContacts:self.group withFilter:searchText];
 	[self.tableView reloadData];
-	
 }
 
 - (void)addGroupViewControllerDidFinish:(GroupAddViewController *)controller
@@ -92,13 +91,12 @@
 
 - (void)showDetails:(int)personId
 {
-	PersonViewController *personViewController = [[PersonViewController alloc] init];
+	PersonViewController *personViewController = [[ABPersonViewController alloc] init];
     personViewController.personViewDelegate = self;
     personViewController.displayedPerson = ABAddressBookGetPersonWithRecordID(personViewController.addressBook, personId);
     personViewController.allowsEditing = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personViewController];
-    [self presentModalViewController:navController animated:YES];
-    [navController release];
+    personViewController.navigationItem.title = NSLocalizedString(@"contactDetails", @"");
+    [self.navigationController pushViewController:personViewController animated:YES];
 	[personViewController release];
 }
 
@@ -296,8 +294,8 @@
 {
 	[self.tableView setEditing:YES animated:YES];
 
-    self.navigationItem.leftBarButtonItem = self.doneButton;
-    self.navigationItem.rightBarButtonItem = self.addButton;
+    self.navigationItem.rightBarButtonItem = self.doneButton;
+    self.navigationItem.leftBarButtonItem = self.addButton;
 }
 
 - (void)stopEdit
@@ -312,7 +310,6 @@
 {
 	ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
 	picker.peoplePickerDelegate = self;
-	
 	[self presentModalViewController:picker animated:YES];
 	[picker release];
 }
@@ -321,15 +318,16 @@
 
 // Called after the user has pressed cancel
 // The delegate is responsible for dismissing the peoplePicker
-- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
+{
 	[self dismissModalViewControllerAnimated:YES];
 }
 
 // Called after a value has been selected by the user.
 // Return YES if you want default action to be performed.
 // Return NO to do nothing (the delegate is responsible for dismissing the peoplePicker).
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
-    
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
+{
     NSError *error = nil;
     if (![self.dataController addGroupContact:self.group withPerson:person error:&error]) {
         [[GroupsAppDelegate sharedAppDelegate] showErrorMessage:error];
@@ -354,21 +352,13 @@
 	return YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
 	[super viewDidLoad];
 	self.backButton = self.navigationItem.leftBarButtonItem;
-	self.editButton = [[UIBarButtonItem alloc] 
-                       initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-                       target:self
-                       action:@selector(startEdit)];
-	self.doneButton = [[UIBarButtonItem alloc] 
-                       initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                       target:self
-                       action:@selector(stopEdit)];
-	self.addButton = [[UIBarButtonItem alloc] 
-                      initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                      target:self
-                      action:@selector(addMember)];
+	self.editButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(startEdit)] autorelease];
+	self.doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(stopEdit)] autorelease];
+	self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMember)] autorelease];
 	self.title = self.group.name;
 	self.navigationItem.rightBarButtonItem = self.editButton;
 }
@@ -377,34 +367,26 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	if ([self.searchBar.text length] > 0) {
-		return 1;
-	}
-    return 2;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [self.searchBar.text length] ? 1 : 2;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if ([self.searchBar.text length] > 0) {
+    if ([self.searchBar.text length] || section == 1) {
 		return [self.groupContacts count];
 	}
-	switch (section) {
-		case 0:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				// The device is an iPad running iPhone 3.2 or later.
-				return 3;
-			}
-			else {
-				// The device is an iPhone or iPod touch.
-				return 4;
-			}
-			
-		case 1:
-			return [self.groupContacts count];
-	}
-
-	return 0;
+    else {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            // The device is an iPad running iPhone 3.2 or later.
+            return 3;
+        }
+        else {
+            // The device is an iPhone or iPod touch.
+            return 4;
+        }
+    }
 }
 
 
@@ -425,8 +407,7 @@
 
 	if ([self.searchBar.text length] == 0) {
 		switch (indexPath.section) {
-			case 0:
-			{
+			case 0: {
 				switch (indexPath.row) {
 					case 0:
 						cellText = NSLocalizedString(@"RenameGroup", @"");
@@ -448,8 +429,7 @@
 				}
 				break;
 			}
-			case 1:
-			{
+			case 1: {
 				GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
 				if ([groupContact.name length] > 0) {
 					cellText = groupContact.name;
@@ -466,7 +446,7 @@
 	}
 	else {
 		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
-		if ([groupContact.name length] > 0) {
+		if ([groupContact.name length]) {
 			cellText = groupContact.name;
 		}
 		else {
@@ -488,100 +468,57 @@
  HIG note: In this case, since the content of each section is obvious, there's probably no need to provide a title, but the code is useful for illustration.
  */
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	if ([self.searchBar.text length] > 0) {
+	if ([self.searchBar.text length] || section == 1) {
 		return NSLocalizedString(@"MembersTitle", @"");
 	}
-    NSString *title;
-	switch (section) {
-		case 0:
-		{
-			title = @"";
-			break;
-		}
-		case 1:
-		{
-			title = NSLocalizedString(@"MembersTitle", @"");
-			break;
-		}
-	}
-	
-    return title;
+    else {
+        return @"";
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-	if ( (section == 0) && ([self.searchBar.text length] == 0) ) {
-		return @"";
-	}
-	NSString *title;
-	int count = [self.groupContacts count];
-	if (count != 1) {
-		title = [NSString stringWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
-	}
-	else {
-		title = [NSString stringWithFormat:@"%i %@", count, NSLocalizedString(@"Member", @"")];
-	}
-    return title;
+    if ([self.searchBar.text length] || section == 1) {
+        if ([self.groupContacts count] != 1) {
+            return [NSString stringWithFormat:@"%i %@", [self.groupContacts count], NSLocalizedString(@"Members", @"")];
+        }
+        else {
+            return [NSString stringWithFormat:@"%i %@", [self.groupContacts count], NSLocalizedString(@"Member", @"")];
+        }
+    }
+    else {
+        return @"";
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ([self.searchBar.text length] > 0) {
+    if ([self.searchBar.text length] || indexPath.section == 1) {
 		GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];		
 		[self showDetails:groupContact.uniqueId];	
-		return;
-	}
-	
-	switch (indexPath.section) {
-        case 0:
-		{
-			switch (indexPath.row) {
-				case 0:
-					[self handleRename];
-					break;
-				case 1:
-					[self addMember];
-					break;
-				case 2:
-					[self handleSendMail];
-					break;
-				case 3:
-					[self handleSendSMS];
-					break;
-				default:
-					break;
-			}
-            
-            break;
-		}
-        case 1:
-		{
-			GroupContact *groupContact = [self.groupContacts objectAtIndex:indexPath.row];
-			[self showDetails:groupContact.uniqueId];
-            break;
-		}
-        default:
-            break;
+    }
+    else {
+        switch (indexPath.row) {
+            case 0:
+                [self handleRename];
+                break;
+            case 1:
+                [self addMember];
+                break;
+            case 2:
+                [self handleSendMail];
+                break;
+            case 3:
+                [self handleSendSMS];
+                break;
+            default:
+                break;
+        }
     }
 }
 
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ([self.searchBar.text length] > 0) {
-		return YES;
-	}
-	switch (indexPath.section) {
-        case 0:
-		{
-            return NO;
-		}
-        case 1:
-		{
-			return YES;
-		}
-        default:
-            break;
-    }    
-	return YES;
+    return ([self.searchBar.text length] || indexPath.section == 1);
 }
 
 // Override to support editing the table view.

@@ -109,13 +109,4 @@ static DataController *sharedDataController = nil;
     return [self.addressBook deleteGroupContact:[group getId] withPersonId:personId error:outError];
 }
 
-// Accessor methods for list
-- (unsigned)countOfList:(NSString *)filter {
-    return [[self.addressBook getGroups:filter] count];
-}
-
-- (Group *)objectInListAtIndex:(unsigned)theIndex withFilter:(NSString *)filter {
-    return [[self.addressBook getGroups:filter] objectAtIndex:theIndex];
-}
-
 @end
