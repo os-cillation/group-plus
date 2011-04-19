@@ -34,12 +34,16 @@
         for (CFIndex i = 0; i < [persons count]; ++i) {
             GroupContact *groupContact = [GroupContact groupContactFromPerson:[persons objectAtIndex:i]];
             if (groupContact) {
-                NSMutableArray *groupContacts = [groupContactsByName objectForKey:groupContact.name];
+                NSString *groupContactName = groupContact.name;
+                if (!groupContactName) {
+                    groupContactName = @"";
+                }
+                NSMutableArray *groupContacts = [groupContactsByName objectForKey:groupContactName];
                 if (!groupContacts) {
                     groupContacts = [NSMutableArray array];
                 }
                 [groupContacts addObject:groupContact];
-                [groupContactsByName setObject:groupContacts forKey:groupContact.name];
+                [groupContactsByName setObject:groupContacts forKey:groupContactName];
             }
         }
         NSMutableArray *data = [NSMutableArray array];
