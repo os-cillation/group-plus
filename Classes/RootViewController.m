@@ -246,7 +246,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 	
     if (tableView == self.tableView) {
@@ -261,10 +261,10 @@
                 cell.textLabel.text = groupAtIndex.name;
                 int count = groupAtIndex.count;
                 if (count != 1) {
-                    cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%i %@", count, NSLocalizedString(@"Members", @"")];
                 }
                 else {
-                    cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%i %@", count, NSLocalizedString(@"Member", @"")];
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%i %@", count, NSLocalizedString(@"Member", @"")];
                 }
                 
                 return cell;

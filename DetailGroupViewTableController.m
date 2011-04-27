@@ -424,7 +424,7 @@
     }
 	cell.backgroundColor = [UIColor whiteColor];
 	cell.textLabel.textColor = [UIColor blackColor];
-	NSString *cellText = [[NSString alloc] autorelease];
+	NSString *cellText = @"";
 
 	if (tableView == self.tableView) {
 		switch (indexPath.section) {

@@ -104,7 +104,7 @@
 #pragma mark Section header titles
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *title = [[NSString alloc] autorelease];
+    NSString *title = @"";
 	switch (section) {
 		case 0:
 		{

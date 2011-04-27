@@ -135,9 +135,8 @@ static void CustomAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
             }
             NSMutableArray *row = [[NSMutableArray alloc] init];
             for (int i = 0; i < sqlite3_column_count(statement); ++i) {
-                NSString *cell = [[NSString alloc] initWithUTF8String:(const char *)sqlite3_column_text(statement, i)];
+                NSString *cell = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, i)];
                 [row addObject:cell];
-                [cell release];
             }
             [rows addObject:row];
             [row release];

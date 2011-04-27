@@ -105,7 +105,7 @@
 	newPerson = [ABRecordSerializer createPersonFromData:data];
 	
 	NSString *contactLabel = (NSString*)ABRecordCopyCompositeName(newPerson);
-	NSString *messageTxt = [[NSString alloc] initWithFormat:NSLocalizedString(@"contactReceivedMessage", @""), contactLabel];
+	NSString *messageTxt = [NSString stringWithFormat:NSLocalizedString(@"contactReceivedMessage", @""), contactLabel];
 	
     [self closeCurrentPopup];
 	
@@ -114,7 +114,6 @@
 												 delegate:self
 										cancelButtonTitle:NSLocalizedString(@"no", @"")
 										otherButtonTitles:NSLocalizedString(@"yes", @""), nil];
-	[messageTxt release];
 	[contactLabel release];
 	
 	[currentPopUpView show];   
