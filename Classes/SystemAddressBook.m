@@ -81,23 +81,22 @@ static void SystemAddressBookChangeCallback(ABAddressBookRef addressBook, CFDict
         ABRecordRef abGroup = (ABRecordRef)[abGroups objectAtIndex:i];
         NSString *groupName = [(NSString *)ABRecordCopyValue(abGroup, kABGroupNameProperty) autorelease];
         // Namen mit Filter prüfen
-        NSRange textRange;
-        if (filter && [filter length]) {
-            textRange = [[groupName lowercaseString] rangeOfString:[filter lowercaseString]];
+        if ([filter length]) {
+            NSRange textRang = [[groupName lowercaseString] rangeOfString:[filter lowercaseString]];
+            if (textRang.location == NSNotFound) {
+                continue;
+            }
         }
-        if (textRange.location != NSNotFound) {
-            ABRecordID groupId = ABRecordGetRecordID(abGroup);
-            NSArray *persons = [(NSArray *)ABGroupCopyArrayOfAllMembers(abGroup) autorelease];
-            int groupCount = [persons count];
-            
-            Group *group = [[Group alloc] init];
-            [group setId:groupId];
-            [group setCount:groupCount];
-            [group setName:groupName];
-            [groups addObject:group];
-            [group release];
-        }
+        ABRecordID groupId = ABRecordGetRecordID(abGroup);
+        NSArray *persons = [(NSArray *)ABGroupCopyArrayOfAllMembers(abGroup) autorelease];
+        int groupCount = [persons count];
         
+        Group *group = [[Group alloc] init];
+        [group setId:groupId];
+        [group setCount:groupCount];
+        [group setName:groupName];
+        [groups addObject:group];
+        [group release];
     }
     [groups sortUsingSelector:@selector(compareByName:)];
     return groups;

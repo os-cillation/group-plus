@@ -126,12 +126,14 @@
     PersonViewController *personViewController = [[PersonViewController alloc] init];
 	
 	ABAddressBookRef ab = ABAddressBookCreate();
-	ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
-	
-	personViewController.personViewDelegate = self;
-	personViewController.displayedPerson = person;
-	personViewController.allowsEditing = NO;
-	
+    if (ab) {
+        ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
+        
+        personViewController.personViewDelegate = self;
+        personViewController.displayedPerson = person;
+        personViewController.allowsEditing = NO;
+        CFRelease(ab);
+	}
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personViewController];
 	
 	[self presentModalViewController:navController animated:YES];

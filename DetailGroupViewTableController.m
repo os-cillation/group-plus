@@ -147,24 +147,26 @@
         for (GroupContact *groupContact in self.groupContacts) {
             ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab, groupContact.uniqueId);
             ABMultiValueRef multi = ABRecordCopyValue(person, kABPersonEmailProperty);
-            CFIndex	count = ABMultiValueGetCount(multi);
-            if (multi == NULL || multi == nil || count == 0) {
+            if (multi) {
+                CFIndex	count = ABMultiValueGetCount(multi);
+                if (count == 0) {
+                    CFRelease(multi);
+                    continue;
+                }
+                NSString *address = [(NSString *)ABMultiValueCopyValueAtIndex(multi, 0) autorelease];
+                if ([address length] > 0) {
+                    [toRecipients addObject:address];
+                }		
                 CFRelease(multi);
-                continue;
             }
-            NSString *address = [(NSString *)ABMultiValueCopyValueAtIndex(multi, 0) autorelease];
-            if ([address length] > 0) {
-                [toRecipients addObject:address];
-            }		
-            CFRelease(multi);
         } 
         
         [picker setToRecipients:toRecipients];
         [self presentModalViewController:picker animated:YES];
-        [picker release];
         
         CFRelease(ab);
     }
+    [picker release];
 }
 
 // Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
@@ -207,7 +209,9 @@
         if (phones) {
             if([userLabel length] > 0) {
                 for (CFIndex i=0; i < ABMultiValueGetCount(phones); i++) {
-                    NSString *label = [(NSString*) ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(phones, i)) autorelease];
+                    CFTypeRef labelRef = ABMultiValueCopyValueAtIndex(phones, i);
+                    NSString *label = [(NSString*) ABAddressBookCopyLocalizedLabel(labelRef) autorelease];
+                    CFRelease(labelRef);
                     if ([label isEqualToString:userLabel]) {
                         NSString *phoneNumber = [(NSString *) ABMultiValueCopyValueAtIndex(phones, i) autorelease];
                         [toRecipients addObject:phoneNumber];
@@ -420,7 +424,7 @@
     }
 	cell.backgroundColor = [UIColor whiteColor];
 	cell.textLabel.textColor = [UIColor blackColor];
-	NSString *cellText = [NSString alloc];
+	NSString *cellText = [[NSString alloc] autorelease];
 
 	if (tableView == self.tableView) {
 		switch (indexPath.section) {
