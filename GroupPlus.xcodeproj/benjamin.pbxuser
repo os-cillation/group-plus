@@ -1,104 +1,27 @@
 // !$*UTF8*$!
 {
-	1D3623240D0F684500981E51 /* GroupsAppDelegate.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 390}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 607}";
-		};
-	};
-	1D3623250D0F684500981E51 /* GroupsAppDelegate.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1154, 1053}}";
-			sepNavSelRange = "{1460, 0}";
-			sepNavVisRange = "{615, 1240}";
-			sepNavWindowFrame = "{{50, 12}, {1213, 766}}";
-		};
-	};
 	1D6058900D05DD3D006BFB54 /* GroupPlus */ = {
 		activeExec = 0;
 		executables = (
-			437841B0113EBE7500198BE4 /* GroupPlus */,
+			43F4F3CA136A9E8B00F6A78A /* GroupPlus */,
 		);
-	};
-	28C286DF0D94DF7D0034E888 /* RootViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1055, 481}}";
-			sepNavSelRange = "{433, 0}";
-			sepNavVisRange = "{0, 798}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
-	};
-	28C286E00D94DF7D0034E888 /* RootViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1139, 5213}}";
-			sepNavSelRange = "{4235, 314}";
-			sepNavVisRange = "{3823, 987}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeArchitecturePreference = armv6;
-		activeBuildConfigurationName = Release;
-		activeExecutable = 437841B0113EBE7500198BE4 /* GroupPlus */;
-		activeSDKPreference = iphonesimulator4.2;
+		activeBuildConfigurationName = Distribution;
+		activeExecutable = 43F4F3CA136A9E8B00F6A78A /* GroupPlus */;
+		activeSDKPreference = iphoneos4.2;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* GroupPlus */;
-		addToTargets = (
-			1D6058900D05DD3D006BFB54 /* GroupPlus */,
-		);
-		breakpoints = (
-			43B8387613014D37001DD7B5 /* PersonViewController.m:33 */,
-			43A504291312A0EC00FE24D8 /* SendContactViewController.m:28 */,
-		);
-		codeSenseManager = 437841C7113EBE8200198BE4 /* Code sense */;
+		codeSenseManager = 43F4F3F4136A9EC500F6A78A /* Code sense */;
 		executables = (
-			437841B0113EBE7500198BE4 /* GroupPlus */,
+			43F4F3CA136A9E8B00F6A78A /* GroupPlus */,
 		);
 		perUserDictionary = {
-			"PBXConfiguration.PBXBreakpointsDataSource.v1:1CA1AED706398EBD00589147" = {
-				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
-				PBXFileTableDataSourceColumnSortingKey = PBXBreakpointsDataSource_BreakpointID;
-				PBXFileTableDataSourceColumnWidthsKey = (
-					20,
-					20,
-					198,
-					20,
-					99,
-					99,
-					29,
-					20,
-				);
-				PBXFileTableDataSourceColumnsKey = (
-					PBXBreakpointsDataSource_ActionID,
-					PBXBreakpointsDataSource_TypeID,
-					PBXBreakpointsDataSource_BreakpointID,
-					PBXBreakpointsDataSource_UseID,
-					PBXBreakpointsDataSource_LocationID,
-					PBXBreakpointsDataSource_ConditionID,
-					PBXBreakpointsDataSource_IgnoreCountID,
-					PBXBreakpointsDataSource_ContinueID,
-				);
-			};
-			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
-				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
-				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
-				PBXFileTableDataSourceColumnWidthsKey = (
-					22,
-					300,
-					622,
-				);
-				PBXFileTableDataSourceColumnsKey = (
-					PBXExecutablesDataSource_ActiveFlagID,
-					PBXExecutablesDataSource_NameID,
-					PBXExecutablesDataSource_CommentsID,
-				);
-			};
 			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					731,
+					829,
 					20,
 					48,
 					43,
@@ -115,101 +38,33 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXSymbolsDataSource = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
-				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnSortingKey = PBXSymbolsDataSource_SymbolNameID;
 				PBXFileTableDataSourceColumnWidthsKey = (
+					16,
 					200,
-					748.20849609375,
+					50,
+					769,
 				);
 				PBXFileTableDataSourceColumnsKey = (
-					PBXFindDataSource_MessageID,
-					PBXFindDataSource_LocationID,
+					PBXSymbolsDataSource_SymbolTypeIconID,
+					PBXSymbolsDataSource_SymbolNameID,
+					PBXSymbolsDataSource_SymbolTypeID,
+					PBXSymbolsDataSource_ReferenceNameID,
 				);
 			};
-			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
-				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
-				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
-				PBXFileTableDataSourceColumnWidthsKey = (
-					20,
-					691,
-					60,
-					20,
-					48,
-					43,
-					43,
-				);
-				PBXFileTableDataSourceColumnsKey = (
-					PBXFileDataSource_FiletypeID,
-					PBXFileDataSource_Filename_ColumnID,
-					PBXTargetDataSource_PrimaryAttribute,
-					PBXFileDataSource_Built_ColumnID,
-					PBXFileDataSource_ObjectSize_ColumnID,
-					PBXFileDataSource_Errors_ColumnID,
-					PBXFileDataSource_Warnings_ColumnID,
-				);
-			};
-			PBXPerProjectTemplateStateSaveDate = 320076025;
-			PBXWorkspaceStateSaveDate = 320076025;
+			PBXPerProjectTemplateStateSaveDate = 325754507;
+			PBXWorkspaceStateSaveDate = 325754507;
 		};
-		perUserProjectItems = {
-			43AD68C31313F13500871B47 = 43AD68C31313F13500871B47 /* PlistBookmark */;
-			43AD68C41313F13500871B47 = 43AD68C41313F13500871B47 /* PBXBookmark */;
-			43AD68C61313F13500871B47 = 43AD68C61313F13500871B47 /* PBXTextBookmark */;
-			43AD69321313F44E00871B47 = 43AD69321313F44E00871B47 /* PBXTextBookmark */;
-		};
-		sourceControlManager = 437841C6113EBE8200198BE4 /* Source Control */;
+		sourceControlManager = 43F4F3F3136A9EC500F6A78A /* Source Control */;
 		userBuildSettings = {
 		};
 	};
-	43253C4611C2361A00D59D6A /* MessageViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {691, 407}}";
-			sepNavSelRange = "{176, 52}";
-			sepNavVisRange = "{0, 490}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
+	43E0C36A12ABC82B002707BB /* IPA */ = {
+		activeExec = 0;
 	};
-	43253C4711C2361A00D59D6A /* MessageViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {691, 988}}";
-			sepNavSelRange = "{229, 38}";
-			sepNavVisRange = "{0, 923}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
-	};
-	43253C4811C2361A00D59D6A /* SMSDetailViewTableController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1216, 646}}";
-			sepNavSelRange = "{469, 0}";
-			sepNavVisRange = "{0, 478}";
-			sepNavWindowFrame = "{{5, 4}, {1275, 774}}";
-		};
-	};
-	43253C4911C2361A00D59D6A /* SMSDetailViewTableController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1131, 1833}}";
-			sepNavSelRange = "{1105, 45}";
-			sepNavVisRange = "{642, 1450}";
-			sepNavWindowFrame = "{{50, 4}, {1190, 774}}";
-		};
-	};
-	432B5D4B11AD2E1F00798F51 /* PersonViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 265}}";
-			sepNavSelRange = "{247, 0}";
-			sepNavVisRange = "{0, 317}";
-		};
-	};
-	432B5D4C11AD2E1F00798F51 /* PersonViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1146, 1040}}";
-			sepNavSelRange = "{664, 0}";
-			sepNavVisRange = "{0, 941}";
-			sepNavWindowFrame = "{{50, 67}, {1090, 711}}";
-		};
-	};
-	437841B0113EBE7500198BE4 /* GroupPlus */ = {
+	43F4F3CA136A9E8B00F6A78A /* GroupPlus */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -225,7 +80,6 @@
 		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
-		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
@@ -233,15 +87,11 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = GroupPlus;
-		savedGlobals = {
-		};
 		showTypeColumn = 0;
 		sourceDirectories = (
 		);
-		variableFormatDictionary = {
-		};
 	};
-	437841C6113EBE8200198BE4 /* Source Control */ = {
+	43F4F3F3136A9EC500F6A78A /* Source Control */ = {
 		isa = PBXSourceControlManager;
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
@@ -251,378 +101,8 @@
 			};
 		};
 	};
-	437841C7113EBE8200198BE4 /* Code sense */ = {
+	43F4F3F4136A9EC500F6A78A /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
-	};
-	43784204113EC1C400198BE4 /* DataController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 325}}";
-			sepNavSelRange = "{283, 0}";
-			sepNavVisRange = "{0, 447}";
-			sepNavWindowFrame = "{{15, 4}, {1230, 773}}";
-		};
-	};
-	43784205113EC1C400198BE4 /* DataController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1114, 884}}";
-			sepNavSelRange = "{734, 110}";
-			sepNavVisRange = "{477, 603}";
-			sepNavWindowFrame = "{{15, 4}, {1230, 773}}";
-		};
-	};
-	43784207113EC1DE00198BE4 /* Group.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 351}}";
-			sepNavSelRange = "{175, 35}";
-			sepNavVisRange = "{0, 349}";
-			sepNavWindowFrame = "{{15, 4}, {1230, 773}}";
-		};
-	};
-	43784208113EC1DE00198BE4 /* Group.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1171, 559}}";
-			sepNavSelRange = "{161, 22}";
-			sepNavVisRange = "{0, 363}";
-			sepNavWindowFrame = "{{15, 91}, {1230, 687}}";
-		};
-	};
-	437842C1113ECDC400198BE4 /* DetailGroupViewTableController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1930, 598}}";
-			sepNavSelRange = "{252, 75}";
-			sepNavVisRange = "{40, 1188}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
-	};
-	437842C2113ECDC400198BE4 /* DetailGroupViewTableController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1034, 8463}}";
-			sepNavSelRange = "{4300, 0}";
-			sepNavVisRange = "{3520, 1053}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
-	};
-	4378432E113ED5C900198BE4 /* GroupAddViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1154, 638}}";
-			sepNavSelRange = "{692, 0}";
-			sepNavVisRange = "{0, 825}";
-			sepNavWindowFrame = "{{15, 87}, {1097, 686}}";
-		};
-	};
-	4378432F113ED5C900198BE4 /* GroupAddViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {909, 1612}}";
-			sepNavSelRange = "{1990, 0}";
-			sepNavVisRange = "{1590, 788}";
-			sepNavWindowFrame = "{{50, 12}, {1213, 766}}";
-		};
-	};
-	43784413113EE3B900198BE4 /* os.png */ = {
-		uiCtxt = {
-			sepNavWindowFrame = "{{15, 4}, {1219, 773}}";
-		};
-	};
-	43A5040C13129F1B00FE24D8 /* SendContactViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1132, 427}}";
-			sepNavSelRange = "{577, 0}";
-			sepNavVisRange = "{0, 577}";
-		};
-	};
-	43A5040D13129F1B00FE24D8 /* SendContactViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1510, 1378}}";
-			sepNavSelRange = "{440, 0}";
-			sepNavVisRange = "{323, 2359}";
-			sepNavWindowFrame = "{{4, 0}, {1276, 778}}";
-		};
-	};
-	43A504291312A0EC00FE24D8 /* SendContactViewController.m:28 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = 43A5040D13129F1B00FE24D8 /* SendContactViewController.m */;
-		functionName = "-peoplePickerNavigationControllerDidCancel:";
-		hitCount = 1;
-		ignoreCount = 0;
-		lineNumber = 28;
-		location = GroupPlus;
-		modificationTime = 319987966.373998;
-		originalNumberOfMultipleMatches = 1;
-		state = 1;
-	};
-	43AD68C31313F13500871B47 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 8D1107310486CEB800E47090 /* GroupPlus-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = "/Users/benjamin/dev/os/GroupPlus/GroupPlus-Info.plist";
-		rLen = 0;
-		rLoc = 9223372036854775808;
-	};
-	43AD68C41313F13500871B47 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 43AD686E1313EADB00871B47 /* lentmanager-icon.png */;
-	};
-	43AD68C61313F13500871B47 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 43B61614115CBCD800BA2C43 /* AboutViewController.m */;
-		name = "AboutViewController.m: 30";
-		rLen = 199;
-		rLoc = 615;
-		rType = 0;
-		vrLen = 1072;
-		vrLoc = 256;
-	};
-	43AD69321313F44E00871B47 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 43B61614115CBCD800BA2C43 /* AboutViewController.m */;
-		name = "AboutViewController.m: 25";
-		rLen = 0;
-		rLoc = 412;
-		rType = 0;
-		vrLen = 1008;
-		vrLoc = 256;
-	};
-	43B0C77C113FBD5D0007B48E /* ShareContactsViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1370, 598}}";
-			sepNavSelRange = "{1043, 0}";
-			sepNavVisRange = "{487, 625}";
-		};
-	};
-	43B0C77D113FBD5D0007B48E /* ShareContactsViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {971, 2951}}";
-			sepNavSelRange = "{5171, 0}";
-			sepNavVisRange = "{4690, 1054}";
-			sepNavWindowFrame = "{{15, 36}, {956, 742}}";
-		};
-	};
-	43B0C888113FE64D0007B48E /* ABRecordSerializer.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 780}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1116}";
-		};
-	};
-	43B0C889113FE64D0007B48E /* ABRecordSerializer.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 2847}}";
-			sepNavSelRange = "{5092, 19}";
-			sepNavVisRange = "{5112, 725}";
-		};
-	};
-	43B225AB116214310058E1ED /* CleanUpContactsWithoutNumber.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 265}}";
-			sepNavSelRange = "{181, 75}";
-			sepNavVisRange = "{0, 388}";
-		};
-	};
-	43B225AC116214310058E1ED /* CleanUpContactsWithoutNumber.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1545, 1599}}";
-			sepNavSelRange = "{3737, 17}";
-			sepNavVisRange = "{3234, 706}";
-		};
-	};
-	43B61613115CBCD800BA2C43 /* AboutViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1206, 615}}";
-			sepNavSelRange = "{303, 0}";
-			sepNavVisRange = "{0, 519}";
-			sepNavWindowFrame = "{{15, 30}, {1265, 743}}";
-		};
-	};
-	43B61614115CBCD800BA2C43 /* AboutViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1202, 1001}}";
-			sepNavSelRange = "{412, 0}";
-			sepNavVisRange = "{256, 951}";
-			sepNavWindowFrame = "{{15, 30}, {1265, 743}}";
-		};
-	};
-	43B616A1115CCFD000BA2C43 /* de */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1188, 1001}}";
-			sepNavSelRange = "{2743, 0}";
-			sepNavVisRange = "{1377, 1545}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
-	};
-	43B616A5115CCFE700BA2C43 /* en */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1034, 1001}}";
-			sepNavSelRange = "{2521, 0}";
-			sepNavVisRange = "{1348, 1353}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
-	};
-	43B61798115CF34900BA2C43 /* CleanUpTableViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 265}}";
-			sepNavSelRange = "{192, 26}";
-			sepNavVisRange = "{0, 254}";
-		};
-	};
-	43B61799115CF34900BA2C43 /* CleanUpTableViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1069, 2886}}";
-			sepNavSelRange = "{779, 20}";
-			sepNavVisRange = "{0, 828}";
-			sepNavWindowFrame = "{{15, 67}, {581, 706}}";
-		};
-	};
-	43B667D51160C95D00413238 /* CleanUpDuplicatesNameController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 265}}";
-			sepNavSelRange = "{131, 0}";
-			sepNavVisRange = "{0, 394}";
-		};
-	};
-	43B667D61160C95D00413238 /* CleanUpDuplicatesNameController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1545, 1794}}";
-			sepNavSelRange = "{2899, 0}";
-			sepNavVisRange = "{2013, 1710}";
-			sepNavWindowFrame = "{{50, 19}, {1094, 759}}";
-		};
-	};
-	43B667DC1160C96C00413238 /* CleanUpDuplicatesNumberController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 265}}";
-			sepNavSelRange = "{331, 57}";
-			sepNavVisRange = "{0, 397}";
-		};
-	};
-	43B667DD1160C96C00413238 /* CleanUpDuplicatesNumberController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1545, 2301}}";
-			sepNavSelRange = "{3133, 0}";
-			sepNavVisRange = "{1902, 1528}";
-			sepNavWindowFrame = "{{38, 8}, {1197, 744}}";
-		};
-	};
-	43B8387613014D37001DD7B5 /* PersonViewController.m:33 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = 432B5D4C11AD2E1F00798F51 /* PersonViewController.m */;
-		functionName = "-viewDidLoad";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 33;
-		location = GroupPlus;
-		modificationTime = 319987954.186775;
-		originalNumberOfMultipleMatches = 1;
-		state = 0;
-	};
-	43B8C3D5115A126C005C8B58 /* Database.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1154, 615}}";
-			sepNavSelRange = "{956, 0}";
-			sepNavVisRange = "{0, 1285}";
-			sepNavWindowFrame = "{{50, 12}, {1213, 766}}";
-		};
-	};
-	43B8C3D6115A126C005C8B58 /* Database.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1034, 11089}}";
-			sepNavSelRange = "{1891, 5}";
-			sepNavVisRange = "{10622, 1042}";
-			sepNavWindowFrame = "{{50, 12}, {1213, 766}}";
-		};
-	};
-	43B8C563115A3148005C8B58 /* GroupContact.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 351}}";
-			sepNavSelRange = "{521, 0}";
-			sepNavVisRange = "{36, 486}";
-			sepNavWindowFrame = "{{61, 25}, {581, 706}}";
-		};
-	};
-	43B8C564115A3148005C8B58 /* GroupContact.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 377}}";
-			sepNavSelRange = "{229, 0}";
-			sepNavVisRange = "{0, 327}";
-			sepNavWindowFrame = "{{15, 4}, {1230, 773}}";
-		};
-	};
-	43BF82B9116B340F00167833 /* CleanUpContactsWithoutFoto.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 273}}";
-			sepNavSelRange = "{317, 34}";
-			sepNavVisRange = "{0, 481}";
-		};
-	};
-	43BF82BA116B340F00167833 /* CleanUpContactsWithoutFoto.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1545, 1768}}";
-			sepNavSelRange = "{4043, 17}";
-			sepNavVisRange = "{3739, 511}";
-		};
-	};
-	43BF83B6116B6A1D00167833 /* CleanUpContactsWithoutEmail.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 273}}";
-			sepNavSelRange = "{353, 0}";
-			sepNavVisRange = "{0, 488}";
-		};
-	};
-	43BF83B7116B6A1D00167833 /* CleanUpContactsWithoutEmail.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1545, 1690}}";
-			sepNavSelRange = "{4049, 17}";
-			sepNavVisRange = "{3091, 1169}";
-		};
-	};
-	43CF273711C767F8008C85AA /* PreferencesViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {909, 427}}";
-			sepNavSelRange = "{406, 0}";
-			sepNavVisRange = "{0, 763}";
-			sepNavWindowFrame = "{{0, 77}, {1280, 687}}";
-		};
-	};
-	43CF273811C767F8008C85AA /* PreferencesViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {909, 1261}}";
-			sepNavSelRange = "{699, 0}";
-			sepNavVisRange = "{252, 1217}";
-			sepNavWindowFrame = "{{50, 12}, {1213, 766}}";
-		};
-	};
-	43E0C36A12ABC82B002707BB /* IPA */ = {
-		activeExec = 0;
-	};
-	43FC48A011AE675300AE7629 /* CustomCell.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {912, 1066}}";
-			sepNavSelRange = "{1915, 0}";
-			sepNavVisRange = "{1625, 414}";
-			sepNavWindowFrame = "{{0, 4}, {1280, 774}}";
-		};
-	};
-	8D1107310486CEB800E47090 /* GroupPlus-Info.plist */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {932, 462}}";
-			sepNavSelRange = "{878, 17}";
-			sepNavVisRect = "{{0, 113}, {932, 337}}";
-			sepNavWindowFrame = "{{50, 220}, {750, 558}}";
-		};
 	};
 }
