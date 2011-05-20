@@ -209,7 +209,7 @@
         if (phones) {
             if([userLabel length] > 0) {
                 for (CFIndex i=0; i < ABMultiValueGetCount(phones); i++) {
-                    CFTypeRef labelRef = ABMultiValueCopyValueAtIndex(phones, i);
+                    CFTypeRef labelRef = ABMultiValueCopyLabelAtIndex(phones, i);
                     NSString *label = [(NSString*) ABAddressBookCopyLocalizedLabel(labelRef) autorelease];
                     CFRelease(labelRef);
                     if ([label isEqualToString:userLabel]) {
