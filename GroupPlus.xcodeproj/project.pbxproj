@@ -91,7 +91,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* GroupsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* GroupsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* GroupPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroupPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Group+.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Group+.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* GroupPlus_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupPlus_Prefix.pch; sourceTree = "<group>"; };
@@ -241,7 +241,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* GroupPlus.app */,
+				1D6058910D05DD3D006BFB54 /* Group+.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -337,7 +337,7 @@
 			);
 			name = GroupPlus;
 			productName = Groups;
-			productReference = 1D6058910D05DD3D006BFB54 /* GroupPlus.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Group+.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -482,7 +482,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -502,7 +501,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
@@ -516,49 +514,20 @@
 			};
 			name = Release;
 		};
-		43AACBBB11B00F01008B8CCC /* Release 4.0 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PREBINDING = NO;
-				SDKROOT = iphoneos;
-			};
-			name = "Release 4.0";
-		};
-		43AACBBC11B00F01008B8CCC /* Release 4.0 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = GroupPlus_Prefix.pch;
-				INFOPLIST_FILE = "GroupPlus-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PRODUCT_NAME = "Group+";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = NO;
-				WARNING_CFLAGS = "-Wno-deprecated-declarations";
-			};
-			name = "Release 4.0";
-		};
 		43B0716E1198227E00CD50CA /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: os-cillation e.K.";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				CODE_SIGN_IDENTITY = "iPhone Distribution: os-cillation GmbH";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "7546DC9A-CF7B-4D02-93CC-4A64076A63BB";
+				PROVISIONING_PROFILE = "3BA484B2-D2DA-4300-BDBD-0CE355A7BE36";
 				SDKROOT = iphoneos;
 			};
 			name = Distribution;
@@ -567,7 +536,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -606,13 +574,6 @@
 			};
 			name = Release;
 		};
-		43E0C36D12ABC82C002707BB /* Release 4.0 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = IPA;
-			};
-			name = "Release 4.0";
-		};
 		43E0C36E12ABC82C002707BB /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -623,7 +584,10 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -637,7 +601,10 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -656,7 +623,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-				43AACBBC11B00F01008B8CCC /* Release 4.0 */,
 				43B0716F1198227E00CD50CA /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -667,7 +633,6 @@
 			buildConfigurations = (
 				43E0C36B12ABC82C002707BB /* Debug */,
 				43E0C36C12ABC82C002707BB /* Release */,
-				43E0C36D12ABC82C002707BB /* Release 4.0 */,
 				43E0C36E12ABC82C002707BB /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -678,7 +643,6 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
-				43AACBBB11B00F01008B8CCC /* Release 4.0 */,
 				43B0716E1198227E00CD50CA /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;

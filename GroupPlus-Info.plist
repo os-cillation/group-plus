@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string>groupplus-icon.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.os-cillation.GroupPlus</string>
+	<string>de.os-cillation.osc.GroupPlus</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
